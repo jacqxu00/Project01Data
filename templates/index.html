@@ -2,21 +2,31 @@
 <html>
 <head>
   <title></title>
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/foundation.css') }}">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/foundation.min.css') }}">
 </head>
 <body align="center">
   <form>
-    <select id="x">
-      <option value="bmi" selected>BMI</option>
-      <option value="height">Height</option>
-      <option value="weight">Weight</option>
-    </select>
-    <select id="y">
-      <option value="offense" selected>Points</option>
-      <option value="assists">Assists</option>
-      <option value="rebounds">Rebounds</option>
-      <option value="blocks">Blocks</option>
-      <option value="steals">Steals</option>
-    </select>
+    <div class="row">
+    <div class="large-6 columns">
+      X-AXIS:
+      <select id="x">
+        <option value="bmi" selected>BMI</option>
+        <option value="height">Height</option>
+        <option value="weight">Weight</option>
+      </select>
+    </div>
+    <div class="large-6 columns">
+      Y-AXIS:
+      <select id="y">
+        <option value="offense" selected>Points</option>
+        <option value="assists">Assists</option>
+        <option value="rebounds">Rebounds</option>
+        <option value="blocks">Blocks</option>
+        <option value="steals">Steals</option>
+      </select>
+    </div>
+    </div>
   </form>
 </body>
 </html>
