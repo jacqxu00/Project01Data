@@ -1,19 +1,25 @@
 # Team tacocat
 ## Jackie Xu, Andrew Wong, Bermet Kalmakova, Gordon Lei
-**DATA PROJECT: College Basketball Statistics**
+**DATA PROJECT: NBA Statistics**
 ## Source + Description of Data Sets
-We will be using data from two different sets: 
-* [CBS Sports](https://www.cbssports.com/collegebasketball/roster-analysis)
-    * Has data of college players' physical aspects (such as height and weight) and their positions for every college basketball team. Also contains data such as percentage chance of a player making a shot in. 
-    * Has average height / weight / age calculated too. 
-* [NCAA Male Basketball](https://www.ncaa.com/stats/basketball-men/d1/current/team/145)
-    * Has statistics of teams such as fewest fouls made, total points team has ever scored, average points per game.
-    * Gives match history + players in the team's roster (and some physical stats like height and weight)
+We will be using data from these data sets: 
+* [My Sports Feed](https://www.mysportsfeeds.com/)
+    * API that can return JSON of team data (their standings, active players, roster, etc.)
 ## But Why? - Relevance/significance
 * This project could be used to aid in creating your brackets and help you predict which team will win. 
 ## Explanation, in broad strokes if necessary, of how you aim to make this data come alive.
 * The data will follow and a graph similar to the [NYTimes graph](https://www.nytimes.com/interactive/2016/04/29/upshot/money-race-and-success-how-your-school-district-compares.html)
-* There will be 2 graphs at a time, one for data based on the whole team and another that depicts player's personal data based on their positions. 
+    * Basically this an adjusted scatter plot. 
+* There will be 2 graphs at a time, one for data based on the whole team and another that depicts player's personal data based on their positions.
+    * The position graph will basically split the team data into the individual player statistics. 
+    * Data points will be separated by whatever characteristics you choose for the axises. However, data point that represent people with the same positions will have the same colors.
+
+<object data="https://github.com/jacqxu00/Project01Data/blob/master/DIAGRAM.pdf" type="application/pdf" width="750px" height="750px">
+    <embed src="https://github.com/jacqxu00/Project01Data/blob/master/DIAGRAM.pdf" type="application/pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://github.com/jacqxu00/Project01Data/blob/master/DIAGRAM.pdf">Download PDF</a>.</p>
+    </embed>
+</object> 
+
 ## What will be shown, absent user interaction?
 * Graphs will follow the format of the NYTimes graph.
 * X axis will be some measure of their body type (height, weight, bmi, etc.)
