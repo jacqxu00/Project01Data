@@ -34,7 +34,7 @@ def teamData(stat, team):
     data = c.execute("SELECT '%s' FROM nba WHERE team = '%s';" %(stat, team)) # CHANGE
     num = 0
     for each in data:
-        num += each
+        num += each[0]
     den = len (data)
     avg = 1.0 * num / den
     ans.append(avg)
@@ -52,11 +52,45 @@ def positionData(stat, team, position):
     data = c.execute("SELECT '%s' FROM nba WHERE team = '%s' AND position = '%s';" %(stat, team, position)) # CHANGE
     num = 0
     for each in data:
-        num += each
+        num += each[0]
     den = len (data)
     avg = 1.0 * num / den
     ans.append(avg)
     ans.append(den)
+    db.commit()
+    db.close()
+    return ans
+
+def completeInfo(xstat, ystat, team):
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    ans = []
+    ans.append(team)                                #team name
+    ans.append(teamData(xstat, team)[0])            #team x stat avg
+    ans.append(teamData(ystat, team)[0])            #team y stat avg
+    ans.append(teamData(ystat, team)[1])            #team size
+    ans.append(positionData(xstat, team, "C")[0])   #center x stat avg
+    ans.append(positionData(ystat, team, "C")[0])   #center y stat avg
+    ans.append(positionData(ystat, team, "C")[1])   #center size
+    ans.append(positionData(xstat, team, "F")[0])   #forward x stat avg
+    ans.append(positionData(ystat, team, "F")[0])   #forward y stat avg
+    ans.append(positionData(ystat, team, "F")[1])   #forward size
+    ans.append(positionData(xstat, team, "G")[0])   #guard x stat avg
+    ans.append(positionData(ystat, team, "G")[0])   #guard y stat avg
+    ans.append(positionData(ystat, team, "G")[1])   #guard size
+    db.commit()
+    db.close()
+    return ans
+
+def getTeams():
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    ans = []
+    data = c.execute("SELECT team FROM nbateams") # CHANGE
+    for each in data:
+        ans.append(each[0])
     db.commit()
     db.close()
     return ans

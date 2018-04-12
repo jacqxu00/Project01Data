@@ -7,3 +7,6 @@ xuJ -- 2018-04-03
 xuJ -- 2018-04-12 00:02:39
 	methods for position/team data data and bmi
 
+xuJ -- 2018-04-12 14:49:34
+	backend transferring database info to template
+

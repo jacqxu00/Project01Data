@@ -8,7 +8,13 @@ app = Flask(__name__)
 
 @app.route('/')
 def root():
-    return render_template("index.html")
+    xstat = "bmi"
+    ystat = "Fg3PtAtt"
+    info = [][]
+    teams = getTeams()
+    for each in teams:
+        info.append(completeInfo(xstat, ystat, each))
+    return render_template("index.html", data = info)
 
 if __name__ == '__main__':
     app.debug = True
