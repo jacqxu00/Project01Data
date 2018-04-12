@@ -4,3 +4,6 @@ leiG -- 2018-03-28 23:58:07
 xuJ -- 2018-04-03
 	added basic files + started frontend index.html
 
+xuJ -- 2018-04-12 00:02:39
+	methods for position/team data data and bmi
+
