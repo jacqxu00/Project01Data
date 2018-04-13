@@ -13,6 +13,17 @@ c = db.cursor()
 #c.execute('CREATE TABLE IF NOT EXISTS nba(team TEXT, player TEXT, position TEXT, height INTEGER, weight INTEGER, bmi FLOAT);')
 db.close()
 
+# convert height in "ft, in" to inches
+def convertHeight():
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    height = "6'2\"" # needs code from api pull, wip
+    height = height.replace('"', "'").split("'")
+    db.commit()
+    db.close()
+    return 12 * int(height[0]) + int(height[1])
+    
 # calculate player's bmi
 def getBMI(player):
     f = "sports.db"
