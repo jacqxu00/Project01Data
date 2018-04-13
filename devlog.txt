@@ -17,6 +17,8 @@ leiG -- 2018-04-13 00:32:30
 	updated tables + team stats + debugging
 
 wongA -- 2018-04-13 00:35:16
-    added players stats, functions to convert data, commentsxuJ -- 2018-04-13 12:19:20
-	make lines
+    	added players stats, functions to convert data, comments
+
+xuJ -- 2018-04-13 12:19:20
+	make lines between dots
 
