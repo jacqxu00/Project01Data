@@ -8,6 +8,7 @@ app.secret_key = os.urandom(64)
 
 @app.route('/')
 def root():
+    db.createTables()
     xstat = "bmi"
     ystat = "Fg3PtAtt"
     info = []

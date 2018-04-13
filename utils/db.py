@@ -4,6 +4,7 @@ import base64
 import requests
 import json
 from flask import session
+import account
 
 def send_request():
     # Request
@@ -16,30 +17,50 @@ def send_request():
                 "playerstats": "2PA,2PM,3PA,3PM,FTA,FTM"
             },
             headers={
-                "Authorization": "Basic " + base64.b64encode('{}:{}'.format('awong21','tacocat').encode('utf-8')).decode('ascii')
+                "Authorization": "Basic " + base64.b64encode('{}:{}'.format(account.username,account.password).encode('utf-8')).decode('ascii')
             }
         )
-        print('Response HTTP Status Code: {status_code}'.format(
-            status_code=response.status_code))
-        print('Response HTTP Response Body: {content}'.format(
-            content=response.content))
+        #print('Response HTTP Status Code: {status_code}'.format(
+        #    status_code=response.status_code))
+        #print('Response HTTP Response Body: {content}'.format(
+        #    content=response.content))
         return response.json()
     except requests.exceptions.RequestException:
         print('HTTP Request failed')
 playerData = send_request()
 
-print json.dumps(playerData)
+#print json.dumps(playerData)
 
-f = "sports.db"
-db = sqlite3.connect(f)
-c = db.cursor()
+def send_team_request():
+    # Request
+
+    try:
+        response = requests.get(
+            url="https://api.mysportsfeeds.com/v1.2/pull/nba/2017-2018-regular/overall_team_standings.json?teamstats=W,L,PTS,PTSA",
+            params={
+                "fordate": "20180411",
+            },
+            headers={
+                "Authorization": "Basic " + base64.b64encode('{}:{}'.format(account.username,account.password).encode('utf-8')).decode('ascii')
+            }
+        )
+        
+        #print('Response HTTP Status Code: {status_code}'.format(
+        #    status_code=response.status_code))
+        #print('Response HTTP Response Body: {content}'.format(
+        #    content=response.content))
+        return response.json()
+    except requests.exceptions.RequestException:
+        print('HTTP Request failed')
+
+
+#teamData = send_team_request()
+#print json.dumps(teamData)
+
 
 # if a item has 0 the user is not using the item. If it is 1 they user is using
 #c.execute('CREATE TABLE IF NOT EXISTS items (user TEXT, item TEXT, playing INTEGER);')
-
-
-#c.execute('CREATE TABLE IF NOT EXISTS nba(team TEXT, player TEXT, position TEXT, height INTEGER, weight INTEGER, bmi FLOAT);')
-db.close()
+    
 
 # convert height in "ft, in" to inches
 def convertHeight():
@@ -70,7 +91,8 @@ def teamData(stat, team):
     db = sqlite3.connect(f)
     c = db.cursor()
     ans = []
-    data = c.execute("SELECT '%s' FROM nba WHERE team = '%s';" %(stat, team)) # CHANGE
+    c.execute("SELECT '%s' FROM nba WHERE team = '%s';" %(stat, team)) # CHANGE
+    data = c.fetchall()
     num = 0
     for each in data:
         num += each[0]
@@ -88,7 +110,8 @@ def positionData(stat, team, position):
     db = sqlite3.connect(f)
     c = db.cursor()
     ans = []
-    data = c.execute("SELECT '%s' FROM nba WHERE team = '%s' AND position = '%s';" %(stat, team, position)) # CHANGE
+    c.execute("SELECT '%s' FROM nba WHERE team = '%s' AND position = '%s';" %(stat, team, position)) # CHANGE
+    data = c.fetchall[0][0]
     num = 0
     for each in data:
         num += each[0]
@@ -127,9 +150,38 @@ def getTeams():
     db = sqlite3.connect(f)
     c = db.cursor()
     ans = []
-    data = c.execute("SELECT team FROM nbateams") # CHANGE
+    c.execute("SELECT team FROM nbaTeams") # CHANGE
+    data = c.fetchall()[0][0]
     for each in data:
         ans.append(each[0])
     db.commit()
     db.close()
     return ans
+
+def createTables():
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+
+    c.execute('CREATE TABLE IF NOT EXISTS nba(team TEXT, player TEXT, position TEXT, height INTEGER, weight INTEGER, bmi FLOAT);')
+    c.execute('CREATE TABLE IF NOT EXISTS nbaTeams(team TEXT, games INTEGER, win INTEGER, lose INTEGER, points INTEGER, UNIQUE(team));')
+    c.execute('SELECT count(*) from nbaTeams;')
+    size = c.fetchall()[0][0]
+    print size
+    if size == 0:
+        counter = 0
+        teamData = send_team_request()
+        while counter < 30:
+            losses = teamData["overallteamstandings"]["teamstandingsentry"][counter]["stats"]["Losses"]["#text"]
+            wins = teamData["overallteamstandings"]["teamstandingsentry"][counter]["stats"]["Wins"]["#text"]
+            games = teamData["overallteamstandings"]["teamstandingsentry"][counter]["stats"]["GamesPlayed"]["#text"]
+            points = teamData["overallteamstandings"]["teamstandingsentry"][counter]["stats"]["Pts"]["#text"]
+            city = teamData["overallteamstandings"]["teamstandingsentry"][counter]["team"]["City"]
+            teamName = teamData["overallteamstandings"]["teamstandingsentry"][counter]["team"]["Name"]
+            print "INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points))
+            c.execute("INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points)))
+            counter = counter + 1
+    db.commit()
+    db.close()
+
+createTables()
