@@ -88,18 +88,18 @@ var draw2 = function(){
 
        var lineFC = document.createElementNS("http://www.w3.org/2000/svg","line");
        lineFC.setAttribute("stroke", "black");
-       lineFC.setAttribute("x1", fxcor[i]);
-       lineFC.setAttribute("y1", fycor[i]);
-       lineFC.setAttribute("x2", cxcor[i]);
-       lineFC.setAttribute("y2", cycor[i]);
+       lineFC.setAttribute("x1", (fxcor[i]-findminx)/(findmaxx-findminx)*450+70);
+       lineFC.setAttribute("y1", (fycor[i]-findminy)/(findmaxy-findminy)*450+80);
+       lineFC.setAttribute("x2", (cxcor[i]-findminx)/(findmaxx-findminx)*450+70);
+       lineFC.setAttribute("y2", (cycor[i]-findminy)/(findmaxy-findminy)*450+80);
        canvas2.appendChild(lineFC);
-       
+
        var lineGC = document.createElementNS("http://www.w3.org/2000/svg","line");
        lineGC.setAttribute("stroke", "black");
-       lineGC.setAttribute("x1", gxcor[i]);
-       lineGC.setAttribute("y1", gycor[i]);
-       lineGC.setAttribute("x2", cxcor[i]);
-       lineGC.setAttribute("y2", cycor[i]);
+       lineGC.setAttribute("x1", (gxcor[i]-findminx)/(findmaxx-findminx)*450+70);
+       lineGC.setAttribute("y1", (gycor[i]-findminy)/(findmaxy-findminy)*450+80);
+       lineGC.setAttribute("x2", (cxcor[i]-findminx)/(findmaxx-findminx)*450+70);
+       lineGC.setAttribute("y2", (cycor[i]-findminy)/(findmaxy-findminy)*450+80);
        canvas2.appendChild(lineGC);
     };
 
@@ -109,7 +109,7 @@ var draw2 = function(){
     ccoords.data(cycor);
     ccoords.attr("cy", function(d){return ((d-findminy)/(findmaxy-findminy)*450+80)});
     ccoords.data(csize);
-    ccoords.attr("r", function(d){return  (d)});var i ;
+    ccoords.attr("r", function(d){return (d)});
 
     var fcoords = d3.selectAll(".forward");
     fcoords.data(fxcor);
@@ -117,7 +117,7 @@ var draw2 = function(){
     fcoords.data(fycor);
     fcoords.attr("cy", function(d){return ((d-findminy)/(findmaxy-findminy)*450+80)});
     fcoords.data(fsize);
-    fcoords.attr("r", function(d){return  (d) * 10});
+    fcoords.attr("r", function(d){return (d)});
 
     var gcoords = d3.selectAll(".guard");
     gcoords.data(gxcor);
@@ -125,7 +125,7 @@ var draw2 = function(){
     gcoords.data(gycor);
     gcoords.attr("cy", function(d){return ((d-findminy)/(findmaxy-findminy)*450+80)});
     gcoords.data(gsize);
-    gcoords.attr("r", function(d){return (d) * 10});
+    gcoords.attr("r", function(d){return (d)});
 
 };
 
