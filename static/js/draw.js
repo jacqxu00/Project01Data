@@ -38,6 +38,7 @@ var findmax = function(a,b,c){
 var findmaxx = findmax(cxcor,fxcor,gxcor);
 
 var findmaxy = findmax(cycor,fycor,gycor);
+
 /*
 $.ajax({
     type: "POST",
@@ -98,7 +99,7 @@ var draw2 = function(){
     fcoords.data(fycor);
     fcoords.attr("cy", function(d){return ((d-findminy)/(findmaxy-findminy)*450+80)});
     fcoords.data(fsize);
-    fcoords.attr("r", function(d){return  (d) * 10});
+    fcoords.attr("r", function(d){return  (d)});
 
     for (i = 0; i < gxcor.length; i++){
 	var gcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
@@ -112,7 +113,7 @@ var draw2 = function(){
     gcoords.data(gycor);
     gcoords.attr("cy", function(d){return ((d-findminy)/(findmaxy-findminy)*450+80)});
     gcoords.data(gsize);
-    gcoords.attr("r", function(d){return  (d) * 10});
+    gcoords.attr("r", function(d){return  (d)});
 };
 
 draw2()

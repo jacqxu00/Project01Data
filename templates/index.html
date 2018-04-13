@@ -3,8 +3,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>{{title}}</title>
-    <link rel="stylesheet" href="./index_files/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-    <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/app.css') }}">
+    
+    <!--
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/foundation.css') }}">
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/foundation.min.css') }}">
+	-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/app.css') }}">
   </head>
   <body align="center">
     <form>
@@ -44,11 +49,10 @@
       <line x1="40" y1="550" x2="560" y2="550" style="stroke:black;stroke-width:2" />
       <line x1="60" y1="560" x2="60" y2="40" style="stroke:black;stroke-width:2" />
     </svg>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script type="text/javascript" src="draw.js"></script>
+    <script src = "https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src = "static/js/draw.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
   </body>
 </html>

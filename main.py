@@ -9,19 +9,18 @@ app.secret_key = os.urandom(64)
 @app.route('/')
 def root():
     db.createTables()
-    '''
     xstat = "bmi"
     ystat = "Fg3PtAtt"
-    info = []
-    teams = db.getTeams()
-    for each in teams:
-        info.append([])
-        for eachLine in teams:
-            info.append(db.completeInfo(xstat, ystat, each))
-
-    return render_template("index.html", data = info)
-    '''
-    return render_template("index.html")
+    
+    #info = []
+    #teams = db.getTeams()
+    #print teams
+    #for each in teams:
+    #    info.append([])
+    #    for eachLine in teams:
+    #        info.append(db.completeInfo(xstat, ystat, each))
+    #*/
+    return render_template("index.html")#, data = info)
 
 if __name__ == '__main__':
     app.debug = True
