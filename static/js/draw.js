@@ -15,8 +15,6 @@ var csize = [5,8,9];
 var fsize = [7,3,7];
 var gsize = [9,12,8];
 
-
-
 var lowx = Math.min(...xcoords);
 var highx = Math.max(...xcoords);
 var lowy = Math.min(...ycoords);
@@ -38,12 +36,11 @@ var findmax = function(a,b,c){
 var findmaxx = findmax(cxcor,fxcor,gxcor);
 
 var findmaxy = findmax(cycor,fycor,gycor);
-
 /*
 $.ajax({
     type: "POST",
     url: '/',
-    data: jQuery.param({ newWPM: wpm, 
+    data: jQuery.param({ newWPM: wpm,
         current : "" + document.getElementById('user').innerHTML}) ,
         success: function(data){
             console.log("success");
@@ -56,10 +53,10 @@ $.ajax({
 var draw = function(){
     var i ;
     for (i = 0; i < xcoords.length; i++){
-	var coord = document.createElementNS("http://www.w3.org/2000/svg","circle");
-	coord.setAttribute("fill", "blue");
-	coord.setAttribute("class", "allPositions");
-	canvas.appendChild(coord);
+	     var coord = document.createElementNS("http://www.w3.org/2000/svg","circle");
+	     coord.setAttribute("fill", "blue");
+	     coord.setAttribute("class", "allPositions");
+	     canvas.appendChild(coord);
     }
     var coords = d3.selectAll(".allPositions");
     coords.data(xcoords);
@@ -70,15 +67,42 @@ var draw = function(){
     coords.attr("r", function(d){return  (d)});
 };
 
-draw()
+draw();
 
 var draw2 = function(){
     for (i = 0; i < cxcor.length; i++){
-	var ccoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
-	ccoord.setAttribute("fill", "blue");
-	ccoord.setAttribute("class","center");
-	canvas2.appendChild(ccoord);
+	     var ccoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
+	     ccoord.setAttribute("fill", "blue");
+	     ccoord.setAttribute("class","center");
+	     canvas2.appendChild(ccoord);
+
+       var fcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
+	     fcoord.setAttribute("fill", "red");
+	     fcoord.setAttribute("class", "forward");
+	     canvas2.appendChild(fcoord);
+
+       var gcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
+	     gcoord.setAttribute("fill", "black");
+	     gcoord.setAttribute("class", "guard");
+	     canvas2.appendChild(gcoord);
+
+       var lineFC = document.createElementNS("http://www.w3.org/2000/svg","line");
+       lineFC.setAttribute("stroke", "black");
+       lineFC.setAttribute("x1", fxcor[i]);
+       lineFC.setAttribute("y1", fycor[i]);
+       lineFC.setAttribute("x2", cxcor[i]);
+       lineFC.setAttribute("y2", cycor[i]);
+       canvas2.appendChild(lineFC);
+       
+       var lineGC = document.createElementNS("http://www.w3.org/2000/svg","line");
+       lineGC.setAttribute("stroke", "black");
+       lineGC.setAttribute("x1", gxcor[i]);
+       lineGC.setAttribute("y1", gycor[i]);
+       lineGC.setAttribute("x2", cxcor[i]);
+       lineGC.setAttribute("y2", cycor[i]);
+       canvas2.appendChild(lineGC);
     };
+
     var ccoords = d3.selectAll(".center");
     ccoords.data(cxcor);
     ccoords.attr("cx", function(d){return ((d-findminx)/(findmaxx-findminx)*450+70)});
@@ -86,34 +110,23 @@ var draw2 = function(){
     ccoords.attr("cy", function(d){return ((d-findminy)/(findmaxy-findminy)*450+80)});
     ccoords.data(csize);
     ccoords.attr("r", function(d){return  (d)});var i ;
-    
-    for (i = 0; i < fxcor.length; i++){
-	var fcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
-	fcoord.setAttribute("fill", "red");
-	fcoord.setAttribute("class", "forward");
-	canvas2.appendChild(fcoord);
-    };
+
     var fcoords = d3.selectAll(".forward");
     fcoords.data(fxcor);
     fcoords.attr("cx", function(d){return ((d-findminx)/(findmaxx-findminx)*450+70)});
     fcoords.data(fycor);
     fcoords.attr("cy", function(d){return ((d-findminy)/(findmaxy-findminy)*450+80)});
     fcoords.data(fsize);
-    fcoords.attr("r", function(d){return  (d)});
+    fcoords.attr("r", function(d){return  (d) * 10});
 
-    for (i = 0; i < gxcor.length; i++){
-	var gcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
-	gcoord.setAttribute("fill", "black");
-	gcoord.setAttribute("class", "guard");
-	canvas2.appendChild(gcoord);
-    };
     var gcoords = d3.selectAll(".guard");
     gcoords.data(gxcor);
     gcoords.attr("cx", function(d){return ((d-findminx)/(findmaxx-findminx)*450+70)});
     gcoords.data(gycor);
     gcoords.attr("cy", function(d){return ((d-findminy)/(findmaxy-findminy)*450+80)});
     gcoords.data(gsize);
-    gcoords.attr("r", function(d){return  (d)});
+    gcoords.attr("r", function(d){return (d) * 10});
+
 };
 
 draw2()
