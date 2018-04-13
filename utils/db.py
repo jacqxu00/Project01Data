@@ -1,6 +1,34 @@
 import sqlite3
 import os
+import base64
+import requests
+import json
 from flask import session
+
+def send_request():
+    # Request
+
+    try:
+        response = requests.get(
+            url='https://api.mysportsfeeds.com/v1.2/pull/nba/2017-2018-regular/daily_player_stats.json',
+            params={
+                "fordate": "20180411",
+                "playerstats": "2PA,2PM,3PA,3PM,FTA,FTM"
+            },
+            headers={
+                "Authorization": "Basic " + base64.b64encode('{}:{}'.format('awong21','tacocat').encode('utf-8')).decode('ascii')
+            }
+        )
+        print('Response HTTP Status Code: {status_code}'.format(
+            status_code=response.status_code))
+        print('Response HTTP Response Body: {content}'.format(
+            content=response.content))
+        return response.json()
+    except requests.exceptions.RequestException:
+        print('HTTP Request failed')
+playerData = send_request()
+
+print json.dumps(playerData)
 
 f = "sports.db"
 db = sqlite3.connect(f)
