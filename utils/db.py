@@ -4,32 +4,29 @@ import base64
 import requests
 import json
 from flask import session
-import account
+# import account
 
-def send_request():
+def send_player_request():
     # Request
 
     try:
         response = requests.get(
-            url='https://api.mysportsfeeds.com/v1.2/pull/nba/2017-2018-regular/daily_player_stats.json',
+            url='https://api.mysportsfeeds.com/v1.2/pull/nba/2017-2018-regular/roster_players.json',
             params={
-                "fordate": "20180411",
-                "playerstats": "2PA,2PM,3PA,3PM,FTA,FTM"
+                "fordate": "20180411"
             },
             headers={
-                "Authorization": "Basic " + base64.b64encode('{}:{}'.format(account.username,account.password).encode('utf-8')).decode('ascii')
+                "Authorization": "Basic " + base64.b64encode('{}:{}'.format('awong21','tacocat').encode('utf-8')).decode('ascii')
             }
         )
-        #print('Response HTTP Status Code: {status_code}'.format(
-        #    status_code=response.status_code))
-        #print('Response HTTP Response Body: {content}'.format(
+        print('Response HTTP Status Code: {status_code}'.format(
+            status_code=response.status_code))
+        # print('Response HTTP Response Body: {content}'.format(
         #    content=response.content))
         return response.json()
     except requests.exceptions.RequestException:
         print('HTTP Request failed')
-playerData = send_request()
-
-#print json.dumps(playerData)
+playerData = send_player_request()
 
 def send_team_request():
     # Request
@@ -41,7 +38,7 @@ def send_team_request():
                 "fordate": "20180411",
             },
             headers={
-                "Authorization": "Basic " + base64.b64encode('{}:{}'.format(account.username,account.password).encode('utf-8')).decode('ascii')
+                "Authorization": "Basic " + base64.b64encode('{}:{}'.format('awong21','tacocat').encode('utf-8')).decode('ascii')
             }
         )
         
@@ -61,28 +58,24 @@ def send_team_request():
 # if a item has 0 the user is not using the item. If it is 1 they user is using
 #c.execute('CREATE TABLE IF NOT EXISTS items (user TEXT, item TEXT, playing INTEGER);')
     
-
+def singlify(position):
+    if 'G' in position: 
+        return 'G'
+    if 'F' in position: 
+        return 'F'
+    if 'C' in position: 
+        return 'C'
+    else:
+        print 'ERROR'
+    
 # convert height in "ft, in" to inches
-def convertHeight():
-    f = "sports.db"
-    db = sqlite3.connect(f)
-    c = db.cursor()
-    height = "6'2\"" # needs code from api pull, wip
+def convertHeight(height):
     height = height.replace('"', "'").split("'")
-    db.commit()
-    db.close()
     return 12 * int(height[0]) + int(height[1])
     
 # calculate player's bmi
-def getBMI(player):
-    f = "sports.db"
-    db = sqlite3.connect(f)
-    c = db.cursor()
-    hgt = 0 # CHANGE
-    wgt = 1 # CHANGE
+def getBMI(hgt, wgt):
     bmi = 1.0 * wgt / (hgt**2) * 703
-    db.commit()
-    db.close()
     return bmi
 
 # calculate team average of a stat
@@ -163,11 +156,11 @@ def createTables():
     db = sqlite3.connect(f)
     c = db.cursor()
 
-    c.execute('CREATE TABLE IF NOT EXISTS nba(team TEXT, player TEXT, position TEXT, height INTEGER, weight INTEGER, bmi FLOAT);')
+    # creating team table
     c.execute('CREATE TABLE IF NOT EXISTS nbaTeams(team TEXT, games INTEGER, win INTEGER, lose INTEGER, points INTEGER, UNIQUE(team));')
     c.execute('SELECT count(*) from nbaTeams;')
     size = c.fetchall()[0][0]
-    print size
+    # print size
     if size == 0:
         counter = 0
         teamData = send_team_request()
@@ -178,9 +171,17 @@ def createTables():
             points = teamData["overallteamstandings"]["teamstandingsentry"][counter]["stats"]["Pts"]["#text"]
             city = teamData["overallteamstandings"]["teamstandingsentry"][counter]["team"]["City"]
             teamName = teamData["overallteamstandings"]["teamstandingsentry"][counter]["team"]["Name"]
-            print "INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points))
+            # print "INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points))
             c.execute("INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points)))
             counter = counter + 1
+    
+    # creating player table
+    c.execute('CREATE TABLE IF NOT EXISTS players(last_name TEXT, first_name TEXT, position TEXT, height INTEGER, weight INTEGER, bmi FLOAT);')
+    for player in playerData["rosterplayers"]["playerentry"]:
+        player = player['player']
+        if ('Height' in player.keys()):
+            height = convertHeight(player['Height'])
+            c.execute('INSERT INTO players VALUES("%s", "%s", "%s", %d, %d, %f);' % (player['LastName'], player['FirstName'], singlify(player['Position']), height, int(player['Weight']), getBMI(height, int(player['Weight']))))
     db.commit()
     db.close()
 
