@@ -10,3 +10,6 @@ xuJ -- 2018-04-12 00:02:39
 xuJ -- 2018-04-12 14:49:34
 	backend transferring database info to template
 
+leiG -- 2018-04-12 20:05:57
+	minor syntax fixes + debugging. revised index.html
+
