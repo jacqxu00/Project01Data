@@ -9,6 +9,7 @@ app.secret_key = os.urandom(64)
 @app.route('/')
 def root():
     db.createTables()
+    '''
     xstat = "bmi"
     ystat = "Fg3PtAtt"
     info = []
@@ -17,7 +18,10 @@ def root():
         info.append([])
         for eachLine in teams:
             info.append(db.completeInfo(xstat, ystat, each))
+
     return render_template("index.html", data = info)
+    '''
+    return render_template("index.html")
 
 if __name__ == '__main__':
     app.debug = True

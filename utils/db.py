@@ -41,7 +41,7 @@ def send_team_request():
                 "Authorization": "Basic " + base64.b64encode('{}:{}'.format('awong21','tacocat').encode('utf-8')).decode('ascii')
             }
         )
-        
+
         #print('Response HTTP Status Code: {status_code}'.format(
         #    status_code=response.status_code))
         #print('Response HTTP Response Body: {content}'.format(
@@ -57,22 +57,22 @@ def send_team_request():
 
 # if a item has 0 the user is not using the item. If it is 1 they user is using
 #c.execute('CREATE TABLE IF NOT EXISTS items (user TEXT, item TEXT, playing INTEGER);')
-    
+
 def singlify(position):
-    if 'G' in position: 
+    if 'G' in position:
         return 'G'
-    if 'F' in position: 
+    if 'F' in position:
         return 'F'
-    if 'C' in position: 
+    if 'C' in position:
         return 'C'
     else:
         print 'ERROR'
-    
+
 # convert height in "ft, in" to inches
 def convertHeight(height):
     height = height.replace('"', "'").split("'")
     return 12 * int(height[0]) + int(height[1])
-    
+
 # calculate player's bmi
 def getBMI(hgt, wgt):
     bmi = 1.0 * wgt / (hgt**2) * 703
@@ -84,7 +84,7 @@ def teamData(stat, team):
     db = sqlite3.connect(f)
     c = db.cursor()
     ans = []
-    c.execute("SELECT '%s' FROM nba WHERE team = '%s';" %(stat, team)) # CHANGE
+    c.execute("SELECT '%s' FROM players WHERE team = '%s';" %(stat, team)) # CHANGE
     data = c.fetchall()
     num = 0
     for each in data:
@@ -103,7 +103,7 @@ def positionData(stat, team, position):
     db = sqlite3.connect(f)
     c = db.cursor()
     ans = []
-    c.execute("SELECT '%s' FROM nba WHERE team = '%s' AND position = '%s';" %(stat, team, position)) # CHANGE
+    c.execute("SELECT '%s' FROM players WHERE team = '%s' AND position = '%s';" %(stat, team, position)) # CHANGE
     data = c.fetchall[0][0]
     num = 0
     for each in data:
@@ -174,11 +174,12 @@ def createTables():
             # print "INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points))
             c.execute("INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points)))
             counter = counter + 1
-    
+
     # creating player table
     c.execute('CREATE TABLE IF NOT EXISTS players(last_name TEXT, first_name TEXT, position TEXT, height INTEGER, weight INTEGER, bmi FLOAT);')
-    for player in playerData["rosterplayers"]["playerentry"]:
-        player = player['player']
+    for entry in playerData["rosterplayers"]["playerentry"]:
+        player = entry['player']
+        #team = entry['team']
         if ('Height' in player.keys()):
             height = convertHeight(player['Height'])
             c.execute('INSERT INTO players VALUES("%s", "%s", "%s", %d, %d, %f);' % (player['LastName'], player['FirstName'], singlify(player['Position']), height, int(player['Weight']), getBMI(height, int(player['Weight']))))
