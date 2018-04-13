@@ -176,13 +176,14 @@ def createTables():
             counter = counter + 1
 
     # creating player table
-    c.execute('CREATE TABLE IF NOT EXISTS players(last_name TEXT, first_name TEXT, position TEXT, height INTEGER, weight INTEGER, bmi FLOAT);')
+    c.execute('CREATE TABLE IF NOT EXISTS players(last_name TEXT, first_name TEXT, team TEXT, position TEXT, height INTEGER, weight INTEGER, bmi FLOAT);')
     for entry in playerData["rosterplayers"]["playerentry"]:
         player = entry['player']
-        #team = entry['team']
+        team = entry['team']
         if ('Height' in player.keys()):
             height = convertHeight(player['Height'])
-            c.execute('INSERT INTO players VALUES("%s", "%s", "%s", %d, %d, %f);' % (player['LastName'], player['FirstName'], singlify(player['Position']), height, int(player['Weight']), getBMI(height, int(player['Weight']))))
+            c.execute('INSERT INTO players VALUES("%s", "%s", "%s", "%s", %d, %d, %f);' % 
+		(player['LastName'], player['FirstName'], team['City'] + ' ' + team['Name'], singlify(player['Position']), height, int(player['Weight']), getBMI(height, int(player['Weight']))))
     db.commit()
     db.close()
 
