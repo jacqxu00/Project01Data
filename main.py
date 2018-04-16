@@ -6,13 +6,13 @@ import os, sqlite3, hashlib, json, requests, sys
 app = Flask(__name__)
 app.secret_key = os.urandom(64)
 
-@app.route('/', methods = ['POST'])
+@app.route('/', methods = ['GET', 'POST'])
 def root():
     db.createTables()
 
-    xstat = request.form('x')
-    ystat = request.form('y')
-    
+    xstat = request.form['x']
+    ystat = request.form['y']
+
     #info = []
     #teams = db.getTeams()
     #print teams
