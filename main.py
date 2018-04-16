@@ -9,18 +9,20 @@ app.secret_key = os.urandom(64)
 @app.route('/', methods = ['GET', 'POST'])
 def root():
     db.createTables()
-
-    xstat = request.form['x']
-    ystat = request.form['y']
-
-    #info = []
-    #teams = db.getTeams()
-    #print teams
-    #for each in teams:
-    #    info.append([])
-    #    for eachLine in teams:
-    #        info.append(db.completeInfo(xstat, ystat, each))
-    #*/
+    if ('x' in request.form) and ('y' in request.form) and ('graph' in request.form):
+        xstat = request.form['x']
+        ystat = request.form['y']
+        graph = request.form['graph']
+        print xStat, yStat, graph
+        info = []
+        teams = db.getTeams()
+        print teams
+        for each in teams:
+            info.append([])
+            for eachLine in teams:
+                info.append(db.getQuarry("nbaTeams", each, xstat, ystat))
+        print info
+        return render_template("index.html", data = info)
     return render_template("index.html")#, data = info)
 
 if __name__ == '__main__':
