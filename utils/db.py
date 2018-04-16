@@ -144,12 +144,49 @@ def getTeams():
     c = db.cursor()
     ans = []
     c.execute("SELECT team FROM nbaTeams") # CHANGE
-    data = c.fetchall()[0][0]
+    data = c.fetchall()
+    #print data
     for each in data:
-        ans.append(each[0])
+        ans.append(str(each[0]))
     db.commit()
     db.close()
     return ans
+
+#print getTeams()
+
+def getQuarry(database, name, xStat, yStat):
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    ans = []
+    c.execute("SELECT " + name + ", "+ xStat + ", " + yStat + " FROM " + database + ";")
+    data = c.fetchall()
+    for each in data:
+        temp = []
+        for each2 in each:
+            temp.append(each2)
+        ans.append(temp)
+    db.commit()
+    db.close()
+    return ans
+
+def getAllQuarry(database):
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    ans = []
+    c.execute("SELECT * FROM " + database + ";")
+    data = c.fetchall()
+    for each in data:
+        temp = []
+        for each2 in each:
+            temp.append(each2)
+        ans.append(temp)
+    db.commit()
+    db.close()
+    return ans
+
+print getQuarry("nbaTeams", "team", "games", "lose");
 
 def createTables():
     f = "sports.db"
@@ -160,7 +197,7 @@ def createTables():
     c.execute('CREATE TABLE IF NOT EXISTS nbaTeams(team TEXT, games INTEGER, win INTEGER, lose INTEGER, points INTEGER, UNIQUE(team));')
     c.execute('SELECT count(*) from nbaTeams;')
     size = c.fetchall()[0][0]
-    # print size
+    print size
     if size == 0:
         counter = 0
         teamData = send_team_request()
@@ -177,13 +214,20 @@ def createTables():
 
     # creating player table
     c.execute('CREATE TABLE IF NOT EXISTS players(last_name TEXT, first_name TEXT, team TEXT, position TEXT, height INTEGER, weight INTEGER, bmi FLOAT);')
-    for entry in playerData["rosterplayers"]["playerentry"]:
-        player = entry['player']
-        team = entry['team']
-        if ('Height' in player.keys()):
-            height = convertHeight(player['Height'])
-            c.execute('INSERT INTO players VALUES("%s", "%s", "%s", "%s", %d, %d, %f);' % 
-		(player['LastName'], player['FirstName'], team['City'] + ' ' + team['Name'], singlify(player['Position']), height, int(player['Weight']), getBMI(height, int(player['Weight']))))
+    c.execute('SELECT count(*) from players;')
+    size = c.fetchall()[0][0]
+    print size
+    if size == 0:
+        for entry in playerData["rosterplayers"]["playerentry"]:
+            #print entry
+            if ("Height" in entry['player'].keys()):
+                player = entry['player']
+            if ("team" in entry.keys()):
+                team = entry['team']
+            if ('Height' in player.keys()):
+                height = convertHeight(player['Height'])
+                c.execute('INSERT INTO players VALUES("%s", "%s", "%s", "%s", %d, %d, %f);' % 
+            (player['LastName'], player['FirstName'], team['City'] + ' ' + team['Name'], singlify(player['Position']), height, int(player['Weight']), getBMI(height, int(player['Weight']))))
     db.commit()
     db.close()
 
