@@ -1,19 +1,19 @@
 var canvas = document.getElementById("canvas");
-var xcoords = [200,400,300];
-var ycoords = [150,350,550];
-var teamsizes = [6,4,9];
-var teamnames = ["a","b","c"];
+var xcoords = [0,200,400,300];
+var ycoords = [0,150,350,550];
+var teamsizes = [10,6,4,9];
+var teamnames = ["a","b","c","d"];
 
 var canvas2 = document.getElementById("canvas2");
-var cxcor = [30,60,70];
-var fxcor = [75,27,47];
-var gxcor = [23,83,39];
-var cycor = [28,97,54];
-var fycor = [74,97,76];
-var gycor = [28,38,58];
-var csize = [5,8,9];
-var fsize = [7,3,7];
-var gsize = [9,12,8];
+var cxcor = [0,30,60,70];
+var fxcor = [0,75,27,47];
+var gxcor = [0,23,83,39];
+var cycor = [0,28,97,54];
+var fycor = [0,74,97,76];
+var gycor = [0,28,38,58];
+var csize = [15,5,8,9];
+var fsize = [10,7,3,7];
+var gsize = [5,9,12,8];
 
 var lowx = Math.min(...xcoords);
 var highx = Math.max(...xcoords);
@@ -26,30 +26,14 @@ var findmin = function(a,b,c){
     return Math.min(Math.min(...a),Math.min(...b),Math.min(...c));
 };
 var findminx = findmin(cxcor,fxcor,gxcor);
-
 var findminy = findmin(cycor,fycor,gycor);
 
 var findmax = function(a,b,c){
     return Math.max(Math.max(...a),Math.max(...b),Math.max(...c));
 };
-
 var findmaxx = findmax(cxcor,fxcor,gxcor);
-
 var findmaxy = findmax(cycor,fycor,gycor);
-/*
-$.ajax({
-    type: "POST",
-    url: '/',
-    data: jQuery.param({ newWPM: wpm,
-        current : "" + document.getElementById('user').innerHTML}) ,
-        success: function(data){
-            console.log("success");
-        },
-        error: function(data){
-            console.log("oof doesnt work");
-        }
-});
-*/
+
 var draw = function(){
     var i ;
     for (i = 0; i < xcoords.length; i++){
@@ -62,9 +46,48 @@ var draw = function(){
     coords.data(xcoords);
     coords.attr("cx", function(d){return ((d-lowx)/(highx-lowx)*450+70)});
     coords.data(ycoords);
-    coords.attr("cy", function(d){return ((d-lowy)/(highy-lowy)*450+80)});
+    coords.attr("cy", function(d){return (600-((d-lowy)/(highy-lowy)*450)-70)});
     coords.data(teamsizes);
-    coords.attr("r", function(d){return  (d)});
+    coords.attr("r", function(d){return (d)});
+
+    xval = (highx - lowx) / 10;
+    var i;
+    for (i = 0; i < xval; i++) {
+      var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
+      tick.setAttribute("stroke", "black");
+      tick.setAttribute("x1", 75);
+      tick.setAttribute("y1", 600-i*45-70);
+      tick.setAttribute("x2", 65);
+      tick.setAttribute("y2", 600-i*45-70);
+      canvas.appendChild(tick);
+      var label = document.createElementNS("http://www.w3.org/2000/svg","text");
+      label.setAttribute("x", 50);
+      label.setAttribute("y", 600-i*45-70+3);
+      label.setAttribute("font-size", "11px");
+      label.setAttribute("fill", "black");
+      label.innerHTML = i*10;
+      canvas.appendChild(label);
+    };
+
+    yval = (highy - lowy) / 10;
+    var i;
+    for (i = 0; i < yval; i++) {
+      var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
+      tick.setAttribute("stroke", "black");
+      tick.setAttribute("x1", i*45 + 70);
+      tick.setAttribute("y1", 600-65);
+      tick.setAttribute("x2", i*45 + 70);
+      tick.setAttribute("y2", 600-75);
+      canvas.appendChild(tick);
+      var label = document.createElementNS("http://www.w3.org/2000/svg","text");
+      label.setAttribute("x", i*45 + 70-4);
+      label.setAttribute("y", 600-50);
+      label.setAttribute("font-size", "11px");
+      label.setAttribute("fill", "black");
+      label.innerHTML = i*10;
+      canvas.appendChild(label);
+    };
+
 };
 
 draw();
@@ -89,17 +112,17 @@ var draw2 = function(){
        var lineFC = document.createElementNS("http://www.w3.org/2000/svg","line");
        lineFC.setAttribute("stroke", "black");
        lineFC.setAttribute("x1", (fxcor[i]-findminx)/(findmaxx-findminx)*450+70);
-       lineFC.setAttribute("y1", (fycor[i]-findminy)/(findmaxy-findminy)*450+80);
+       lineFC.setAttribute("y1", 600-((fycor[i]-findminy)/(findmaxy-findminy)*450+70));
        lineFC.setAttribute("x2", (cxcor[i]-findminx)/(findmaxx-findminx)*450+70);
-       lineFC.setAttribute("y2", (cycor[i]-findminy)/(findmaxy-findminy)*450+80);
+       lineFC.setAttribute("y2", 600-((cycor[i]-findminy)/(findmaxy-findminy)*450+70));
        canvas2.appendChild(lineFC);
 
        var lineGC = document.createElementNS("http://www.w3.org/2000/svg","line");
        lineGC.setAttribute("stroke", "black");
        lineGC.setAttribute("x1", (gxcor[i]-findminx)/(findmaxx-findminx)*450+70);
-       lineGC.setAttribute("y1", (gycor[i]-findminy)/(findmaxy-findminy)*450+80);
+       lineGC.setAttribute("y1", 600-((gycor[i]-findminy)/(findmaxy-findminy)*450+70));
        lineGC.setAttribute("x2", (cxcor[i]-findminx)/(findmaxx-findminx)*450+70);
-       lineGC.setAttribute("y2", (cycor[i]-findminy)/(findmaxy-findminy)*450+80);
+       lineGC.setAttribute("y2", 600-((cycor[i]-findminy)/(findmaxy-findminy)*450+70));
        canvas2.appendChild(lineGC);
     };
 
@@ -107,7 +130,7 @@ var draw2 = function(){
     ccoords.data(cxcor);
     ccoords.attr("cx", function(d){return ((d-findminx)/(findmaxx-findminx)*450+70)});
     ccoords.data(cycor);
-    ccoords.attr("cy", function(d){return ((d-findminy)/(findmaxy-findminy)*450+80)});
+    ccoords.attr("cy", function(d){return (600-((d-findminy)/(findmaxy-findminy)*450+70))});
     ccoords.data(csize);
     ccoords.attr("r", function(d){return (d)});
 
@@ -115,7 +138,7 @@ var draw2 = function(){
     fcoords.data(fxcor);
     fcoords.attr("cx", function(d){return ((d-findminx)/(findmaxx-findminx)*450+70)});
     fcoords.data(fycor);
-    fcoords.attr("cy", function(d){return ((d-findminy)/(findmaxy-findminy)*450+80)});
+    fcoords.attr("cy", function(d){return (600-((d-findminy)/(findmaxy-findminy)*450+70))});
     fcoords.data(fsize);
     fcoords.attr("r", function(d){return (d)});
 
@@ -123,9 +146,47 @@ var draw2 = function(){
     gcoords.data(gxcor);
     gcoords.attr("cx", function(d){return ((d-findminx)/(findmaxx-findminx)*450+70)});
     gcoords.data(gycor);
-    gcoords.attr("cy", function(d){return ((d-findminy)/(findmaxy-findminy)*450+80)});
+    gcoords.attr("cy", function(d){return (600-((d-findminy)/(findmaxy-findminy)*450+70))});
     gcoords.data(gsize);
     gcoords.attr("r", function(d){return (d)});
+
+    xval = (findmaxx - findminx) / 10;
+    var i;
+    for (i = 0; i < xval; i++) {
+      var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
+      tick.setAttribute("stroke", "black");
+      tick.setAttribute("x1", 75);
+      tick.setAttribute("y1", 600-i*45-70);
+      tick.setAttribute("x2", 65);
+      tick.setAttribute("y2", 600-i*45-70);
+      canvas2.appendChild(tick);
+      var label = document.createElementNS("http://www.w3.org/2000/svg","text");
+      label.setAttribute("x", 50);
+      label.setAttribute("y", 600-i*45-70+3);
+      label.setAttribute("font-size", "11px");
+      label.setAttribute("fill", "black");
+      label.innerHTML = i*10;
+      canvas2.appendChild(label);
+    };
+
+    yval = (findmaxy - findminy) / 10;
+    var i;
+    for (i = 0; i < yval; i++) {
+      var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
+      tick.setAttribute("stroke", "black");
+      tick.setAttribute("x1", i*45 + 70);
+      tick.setAttribute("y1", 600-65);
+      tick.setAttribute("x2", i*45 + 70);
+      tick.setAttribute("y2", 600-75);
+      canvas2.appendChild(tick);
+      var label = document.createElementNS("http://www.w3.org/2000/svg","text");
+      label.setAttribute("x", i*45 + 70-4);
+      label.setAttribute("y", 600-50);
+      label.setAttribute("font-size", "11px");
+      label.setAttribute("fill", "black");
+      label.innerHTML = i*10;
+      canvas2.appendChild(label);
+    };
 
 };
 
