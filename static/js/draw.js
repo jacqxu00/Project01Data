@@ -1,6 +1,6 @@
 var canvas = document.getElementById("canvas");
-var xcoords = [0,200,400,300];
-var ycoords = [0,150,350,550];
+var xcoords = [0,30,60,70];
+var ycoords = [0,75,27,47];
 var teamsizes = [10,6,4,9];
 var teamnames = ["a","b","c","d"];
 
