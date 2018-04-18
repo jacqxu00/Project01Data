@@ -23,11 +23,11 @@ xuJ -- 2018-04-13 12:19:20
 	make lines between dots
 
 wongA -- 2018-04-13 14:38:22
-		added team column to players table
+	added team column to players table
 
 xuJ -- 2018-04-13 14:50:29
-		form request values
-		
+	form request values
+
 leiG -- 2018-04-15 20:43:53
 	debugging + added python quarry functions
 
@@ -42,6 +42,9 @@ leiG -- 2018-04-17 22:05:51
 
 xuJ -- 2018-04-18 10:43:37
 	fixed axis labels and scales
+
+wongA -- 2018-04-18 14:33:52
+	added getAvgBMI(), streamlined createTables()
+
 xuJ -- 2018-04-18 14:49:20
 	transfer data to front-end
-
