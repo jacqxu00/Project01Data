@@ -6,28 +6,29 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/app.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
   </head>
   <body align="center">
     <form methods="POST">
       <div class="badge badge-info">
 	X-AXIS:
 	<select id="x">
-          <option value="bmi" selected="">BMI</option>
-          <option value="height">Height</option>
-          <option value="weight">Weight</option>
+      <option value="BMI" {% if x == 'BMI'%}selected=""{% endif %}>BMI</option>
+      <option value="Height" {% if x == 'Height'%}selected=""{% endif %}>Height</option>
+      <option value="Weight" {% if x == 'Weight'%}selected=""{% endif %}>Weight</option>
 	</select>
       </div>
       <div class="badge badge-info rotateText">
 	Y-AXIS:
 	<select id="y">
-          <option value="offense" selected="">Points</option>
-          <option value="assists">Assists</option>
-          <option value="rebounds">Rebounds</option>
-          <option value="blocks">Blocks</option>
-          <option value="steals">Steals</option>
+          <option value="Offense" {% if x == 'Offense'%}selected=""{% endif %}>Points</option>
+          <option value="Assists" {% if x == 'Assists'%}selected=""{% endif %}>Assists</option>
+          <option value="Rebounds" {% if x == 'Rebounds'%}selected=""{% endif %}>Rebounds</option>
+          <option value="Blocks" {% if x == 'Blocks'%}selected=""{% endif %}>Blocks</option>
+          <option value="Steals" {% if x == 'Steals'%}selected=""{% endif %}>Steals</option>
 	</select>
       </div>
-    <!--  
+    <!--
     <button type = "submit" class="btn btn-primary"> Submit </button>
     -->
     </form>
@@ -35,18 +36,18 @@
     <h1>NBA Teams: Average {{x}} vs Average {{y}}</h1>
     <h2>By Team</h2>
     <svg xmlns="http://www.w3.org/2000/svg" width = "600" height = "600" id = "canvas" style = "border:1px solid black;">
-      <text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black">BMI</text>
-      <text x="3" y="300" font-family="sans-serif" font-size="20px" fill="black">Points</text>
-      <line x1="40" y1="550" x2="560" y2="550" style="stroke:black;stroke-width:2" />
-      <line x1="60" y1="560" x2="60" y2="40" style="stroke:black;stroke-width:2" />
+      <text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black">{{x}}</text>
+      <text x="3" y="290" font-family="sans-serif" font-size="20px" fill="black">{{y}}</text>
+      <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" />
+      <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" />
     </svg>
     <br>
     <h2>By Position</h2>
     <svg xmlns="http://www.w3.org/2000/svg" width = "600" height = "600" id = "canvas2" style = "border:1px solid black;">
-      <text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black">BMI</text>
-      <text x="3" y="300" font-family="sans-serif" font-size="20px" fill="black">Points</text>
-      <line x1="40" y1="550" x2="560" y2="550" style="stroke:black;stroke-width:2" />
-      <line x1="60" y1="560" x2="60" y2="40" style="stroke:black;stroke-width:2" />
+      <text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black">{{x}}</text>
+      <text x="3" y="290" font-family="sans-serif" font-size="20px" fill="black">{{y}}</text>
+      <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" />
+      <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" />
     </svg>
     <p style="color:black;">guards</p>
     <p style="color:red;">forwards</p>
