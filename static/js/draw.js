@@ -50,38 +50,42 @@ var draw = function(){
     coords.data(teamsizes);
     coords.attr("r", function(d){return (d)});
 
-    xval = (highx - lowx) / 10;
+    xval = Math.ceil((highx - lowx) / 10);
+    //console.log("xval = "+xval);
     var i;
-    for (i = 0; i < xval; i++) {
+    for (i = 0; i <= xval; i++) {
       var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
       tick.setAttribute("stroke", "black");
-      tick.setAttribute("x1", 75);
-      tick.setAttribute("y1", 600-i*45-70);
-      tick.setAttribute("x2", 65);
-      tick.setAttribute("y2", 600-i*45-70);
+
+      tick.setAttribute("x1", (i*10-lowx)/(highx-lowx)*450+70);
+      tick.setAttribute("y1", 600-65);
+      tick.setAttribute("x2", (i*10-lowx)/(highx-lowx)*450+70);
+      tick.setAttribute("y2", 600-75);
       canvas.appendChild(tick);
       var label = document.createElementNS("http://www.w3.org/2000/svg","text");
-      label.setAttribute("x", 50);
-      label.setAttribute("y", 600-i*45-70+3);
+      label.setAttribute("x", (i*10-lowx)/(highx-lowx)*450+70-4);
+      label.setAttribute("y", 600-50);
       label.setAttribute("font-size", "11px");
       label.setAttribute("fill", "black");
       label.innerHTML = i*10;
       canvas.appendChild(label);
+
     };
 
-    yval = (highy - lowy) / 10;
+    yval = Math.ceil((highy - lowy) / 10);
+    //console.log("yval = "+yval);
     var i;
-    for (i = 0; i < yval; i++) {
+    for (i = 0; i <= yval; i++) {
       var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
       tick.setAttribute("stroke", "black");
-      tick.setAttribute("x1", i*45 + 70);
-      tick.setAttribute("y1", 600-65);
-      tick.setAttribute("x2", i*45 + 70);
-      tick.setAttribute("y2", 600-75);
+      tick.setAttribute("x1", 75);
+      tick.setAttribute("y1", 600-((i*10-lowy)/(highy-lowy)*450)-70);
+      tick.setAttribute("x2", 65);
+      tick.setAttribute("y2", 600-((i*10-lowy)/(highy-lowy)*450)-70);
       canvas.appendChild(tick);
       var label = document.createElementNS("http://www.w3.org/2000/svg","text");
-      label.setAttribute("x", i*45 + 70-4);
-      label.setAttribute("y", 600-50);
+      label.setAttribute("x", 50);
+      label.setAttribute("y", 600-((i*10-lowy)/(highy-lowy)*450)-70+3);
       label.setAttribute("font-size", "11px");
       label.setAttribute("fill", "black");
       label.innerHTML = i*10;
@@ -150,38 +154,38 @@ var draw2 = function(){
     gcoords.data(gsize);
     gcoords.attr("r", function(d){return (d)});
 
-    xval = (findmaxx - findminx) / 10;
+    xval = Math.ceil((findmaxx - findminx) / 10);
     var i;
-    for (i = 0; i < xval; i++) {
+    for (i = 0; i <= xval; i++) {
       var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
       tick.setAttribute("stroke", "black");
-      tick.setAttribute("x1", 75);
-      tick.setAttribute("y1", 600-i*45-70);
-      tick.setAttribute("x2", 65);
-      tick.setAttribute("y2", 600-i*45-70);
+      tick.setAttribute("x1", (i*10-findminx)/(findmaxx-findminx)*450+70);
+      tick.setAttribute("y1", 600-65);
+      tick.setAttribute("x2", (i*10-findminx)/(findmaxx-findminx)*450+70);
+      tick.setAttribute("y2", 600-75);
       canvas2.appendChild(tick);
       var label = document.createElementNS("http://www.w3.org/2000/svg","text");
-      label.setAttribute("x", 50);
-      label.setAttribute("y", 600-i*45-70+3);
+      label.setAttribute("x", (i*10-findminx)/(findmaxx-findminx)*450+70-4);
+      label.setAttribute("y", 600-50);
       label.setAttribute("font-size", "11px");
       label.setAttribute("fill", "black");
       label.innerHTML = i*10;
       canvas2.appendChild(label);
     };
 
-    yval = (findmaxy - findminy) / 10;
+    yval = Math.ceil((findmaxy - findminy) / 10);
     var i;
-    for (i = 0; i < yval; i++) {
+    for (i = 0; i <= yval; i++) {
       var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
       tick.setAttribute("stroke", "black");
-      tick.setAttribute("x1", i*45 + 70);
-      tick.setAttribute("y1", 600-65);
-      tick.setAttribute("x2", i*45 + 70);
-      tick.setAttribute("y2", 600-75);
+      tick.setAttribute("x1", 75);
+      tick.setAttribute("y1", 600-((i*10-findminy)/(findmaxy-findminy)*450)-70);
+      tick.setAttribute("x2", 65);
+      tick.setAttribute("y2", 600-((i*10-findminy)/(findmaxy-findminy)*450)-70);
       canvas2.appendChild(tick);
       var label = document.createElementNS("http://www.w3.org/2000/svg","text");
-      label.setAttribute("x", i*45 + 70-4);
-      label.setAttribute("y", 600-50);
+      label.setAttribute("x", 50);
+      label.setAttribute("y", 600-((i*10-findminy)/(findmaxy-findminy)*450)-70+3);
       label.setAttribute("font-size", "11px");
       label.setAttribute("fill", "black");
       label.innerHTML = i*10;
