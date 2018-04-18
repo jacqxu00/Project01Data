@@ -34,6 +34,7 @@ leiG -- 2018-04-16 14:12:49
 	debug
 
 xuJ -- 2018-04-16 23:06:14
-	ticks and labelsls for scaling graphleiG -- 2018-04-17 22:05:51
+	ticks and labelsls for scaling graph
+	
+leiG -- 2018-04-17 22:05:51
 	ajax call completed
-
