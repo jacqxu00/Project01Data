@@ -42,3 +42,6 @@ leiG -- 2018-04-17 22:05:51
 
 xuJ -- 2018-04-18 10:43:37
 	fixed axis labels and scales
+xuJ -- 2018-04-18 14:49:20
+	transfer data to front-end
+
