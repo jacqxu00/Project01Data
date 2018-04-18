@@ -208,6 +208,14 @@ def getAllQuery(database):
     db.close()
     return ans
 
+def getAvgBMI(team):
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    c.execute("SELECT bmi FROM players WHERE team = '%s';" % (team))
+    return sum(c.fetchall())
+    
+
 #print getQuery("nbaTeams", "team", "games", "lose");
 
 def createTables():
@@ -242,12 +250,9 @@ def createTables():
     #print size
     if size == 0:
         for entry in playerData["rosterplayers"]["playerentry"]:
-            #print entry
-            if ("Height" in entry['player'].keys()):
+            if ("Height" in entry['player'].keys() and "team" in entry.keys()):
                 player = entry['player']
-            if ("team" in entry.keys()):
                 team = entry['team']
-            if ('Height' in player.keys()):
                 height = convertHeight(player['Height'])
                 c.execute('INSERT INTO players VALUES("%s", "%s", "%s", "%s", %d, %d, %f);' % 
             (player['LastName'], player['FirstName'], team['City'] + ' ' + team['Name'], singlify(player['Position']), height, int(player['Weight']), getBMI(height, int(player['Weight']))))
