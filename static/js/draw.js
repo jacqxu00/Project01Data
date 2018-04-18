@@ -34,6 +34,41 @@ var findmax = function(a,b,c){
 var findmaxx = findmax(cxcor,fxcor,gxcor);
 var findmaxy = findmax(cycor,fycor,gycor);
 
+var ajaxCall = function(dbQuery, nameQuery, xStatQuery, yStatQuery){
+    $.ajax({
+        type: "POST",
+        url: '/query', //main.py put to a page that does the quaerry functions. link 
+        headers: {"Content-Type": "application/json"},
+        data: {db: dbQuery, name : nameQuery, xStat: xStatQuery, yStatQuery},
+        success: function(response) {
+            //response returns a 2d array
+            console.log("success");
+            console.log(response);
+            /*
+            PUT YOUR DRAW HELPER FUNCTION HERE?
+            */
+            //tester here
+            /*
+            data = response[0]
+            console.log(data)
+            var coord = document.createElementNS("http://www.w3.org/2000/svg","circle");
+            coord.setAttribute("fill", "orange");
+            coord.setAttribute("cx", data[1] + 200);
+            coord.setAttribute("cy", data[2] + 200);
+            coord.setAttribute("r", 10);
+            coord.setAttribute("class", "allPositions");
+            canvas.appendChild(coord);
+            */
+        },
+        error: function(response, error) {
+            console.log("ERROR")
+            console.log(response);
+            console.log(error);
+        }
+    });};
+
+ajaxCall("nbaTeams", "team", "games", "win");
+
 var draw = function(){
     var i ;
     for (i = 0; i < xcoords.length; i++){
@@ -195,35 +230,3 @@ var draw2 = function(){
 };
 
 draw2()
-/*
-["Houston Rockets",82,65,17,9213];
-["Toronto Raptors",82,59,23,9156];
-["Golden State Warriors",82,58,24,9302];
-["Boston Celtics",82,55,27,8529],
-["Philadelphia 76ers",82,52,30,9004],
-["Cleveland Cavaliers",82,50,32,9091],
-["Portland Trail Blazers",82,49,33,8661],
-["Utah Jazz",82,48,34,8540],
-["Oklahoma City Thunder",82,48,34,8844],
-["Indiana Pacers",82,48,34,8656],
-["New Orleans Pelicans",82,48,34,9161],
-["San Antonio Spurs",82,47,35,8424],
-["Minnesota Timberwolves",82,47,35,8980],
-["Denver Nuggets",82,46,36,9020],
-["Miami Heat",82,44,38,8480],
-["Milwaukee Bucks",82,44,38,8731],
-["Washington Wizards",82,43,39,8742],
-["Los Angeles Clippers",82,42,40,8937],
-["Detroit Pistons",82,39,43,8509],
-["Charlotte Hornets",82,36,46,8874],
-["Los Angeles Lakers",82,35,47,8862],
-["New York Knicks",82,29,53,8566],
-["Brooklyn Nets",82,28,54,8741],
-["Sacramento Kings",82,27,55,8104],
-["Chicago Bulls",82,27,55,8441],
-["Orlando Magic",82,25,57,8479],
-["Dallas Mavericks",82,24,58,8390],
-["Atlanta Hawks",82,24,58,8475],
-["Memphis Grizzlies",82,22,60,8145],
-["Phoenix Suns",82,21,61,8522]]
-*/

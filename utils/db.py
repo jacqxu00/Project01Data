@@ -19,9 +19,9 @@ def send_player_request():
                 "Authorization": "Basic " + base64.b64encode('{}:{}'.format('awong21','tacocat').encode('utf-8')).decode('ascii')
             }
         )
-        print('Response HTTP Status Code: {status_code}'.format(
-            status_code=response.status_code))
-        # print('Response HTTP Response Body: {content}'.format(
+        #print('Response HTTP Status Code: {status_code}'.format(
+        #    status_code=response.status_code))
+        #   ('Response HTTP Response Body: {content}'.format(
         #    content=response.content))
         return response.json()
     except requests.exceptions.RequestException:
@@ -116,7 +116,7 @@ def positionData(stat, team, position):
     db.close()
     return ans
 
-def completeInfo(xstat, ystat, team):
+''' def completeInfo(xstat, ystat, team):
     f = "sports.db"
     db = sqlite3.connect(f)
     c = db.cursor()
@@ -136,7 +136,7 @@ def completeInfo(xstat, ystat, team):
     ans.append(positionData(ystat, team, "G")[1])   #guard size
     db.commit()
     db.close()
-    return ans
+    return ans '''
 
 def getTeams():
     f = "sports.db"
@@ -152,9 +152,31 @@ def getTeams():
     db.close()
     return ans
 
-#print getTeams()
+def getArrayQuery(database, array):
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    ans = []
+    query = "SELECT "
+    for each in array:
+        #print "each: " + each
+        query = query + each + ", "
+    query = query[:len(query) - 2] + " FROM " + database + ";"
+    #print query
+    c.execute(query)
+    data = c.fetchall()
+    for each in data:
+        temp = []
+        for each2 in each:
+            temp.append(each2)
+        ans.append(temp)
+    db.commit()
+    db.close()
+    return ans
 
-def getQuarry(database, name, xStat, yStat):
+#getArrayQuery("nbaTeams", ["games", "win"])
+
+def getQuery(database, name, xStat, yStat):
     f = "sports.db"
     db = sqlite3.connect(f)
     c = db.cursor()
@@ -170,7 +192,7 @@ def getQuarry(database, name, xStat, yStat):
     db.close()
     return ans
 
-def getAllQuarry(database):
+def getAllQuery(database):
     f = "sports.db"
     db = sqlite3.connect(f)
     c = db.cursor()
@@ -186,7 +208,7 @@ def getAllQuarry(database):
     db.close()
     return ans
 
-print getQuarry("nbaTeams", "team", "games", "lose");
+#print getQuery("nbaTeams", "team", "games", "lose");
 
 def createTables():
     f = "sports.db"
@@ -197,26 +219,27 @@ def createTables():
     c.execute('CREATE TABLE IF NOT EXISTS nbaTeams(team TEXT, games INTEGER, win INTEGER, lose INTEGER, points INTEGER, UNIQUE(team));')
     c.execute('SELECT count(*) from nbaTeams;')
     size = c.fetchall()[0][0]
-    print size
+    #print size
     if size == 0:
-        counter = 0
+        #counter = 0
         teamData = send_team_request()
-        while counter < 30:
-            losses = teamData["overallteamstandings"]["teamstandingsentry"][counter]["stats"]["Losses"]["#text"]
-            wins = teamData["overallteamstandings"]["teamstandingsentry"][counter]["stats"]["Wins"]["#text"]
-            games = teamData["overallteamstandings"]["teamstandingsentry"][counter]["stats"]["GamesPlayed"]["#text"]
-            points = teamData["overallteamstandings"]["teamstandingsentry"][counter]["stats"]["Pts"]["#text"]
-            city = teamData["overallteamstandings"]["teamstandingsentry"][counter]["team"]["City"]
-            teamName = teamData["overallteamstandings"]["teamstandingsentry"][counter]["team"]["Name"]
+        #while counter < 30:
+        for each in teamData["overallteamstandings"]["teamstandingsentry"]:
+            losses = each["stats"]["Losses"]["#text"]
+            wins = each["stats"]["Wins"]["#text"]
+            games = each["stats"]["GamesPlayed"]["#text"]
+            points = each["stats"]["Pts"]["#text"]
+            city = each["team"]["City"]
+            teamName = each["team"]["Name"]
             # print "INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points))
             c.execute("INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points)))
-            counter = counter + 1
+            #counter = counter + 1
 
     # creating player table
     c.execute('CREATE TABLE IF NOT EXISTS players(last_name TEXT, first_name TEXT, team TEXT, position TEXT, height INTEGER, weight INTEGER, bmi FLOAT);')
     c.execute('SELECT count(*) from players;')
     size = c.fetchall()[0][0]
-    print size
+    #print size
     if size == 0:
         for entry in playerData["rosterplayers"]["playerentry"]:
             #print entry
@@ -231,4 +254,4 @@ def createTables():
     db.commit()
     db.close()
 
-createTables()
+#createTables()
