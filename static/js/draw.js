@@ -24,9 +24,15 @@ var ajaxCall = function(xStatQuery, yStatQuery){
             var xstat = response.map(function(elt) { return elt[1]; });
             lowx = Math.min.apply(null, xstat);
             highx = Math.max.apply(null, xstat);
+            var xrange = highx - lowx;
+            lowx = lowx - Math.ceil(xrange / 10);
+            highx = highx + Math.ceil(xrange / 10);
             var ystat = response.map(function(elt) { return elt[2]; });
             lowy = Math.min.apply(null, ystat);
             highy = Math.max.apply(null, ystat);
+            var yrange = highy - lowy;
+            lowy = lowy - Math.ceil(yrange / 10);
+            highy = highy + Math.ceil(yrange / 10);
             var sizes = response.map(function(elt) { return elt[3]; });
             sizelow = Math.min.apply(null, sizes);
             sizehigh = Math.max.apply(null, sizes);
@@ -58,12 +64,18 @@ var ajaxCall = function(xStatQuery, yStatQuery){
             var gsizes = response.map(function(elt) { return elt[12]; });
             var gzlow = Math.min.apply(null, gsizes);
             var gzhigh = Math.max.apply(null, gsizes);
-            findminx = findmin(cxcor, fxcor, gxcor);
-            findminy = findmin(cycor, fycor, gycor);
+            findminx = findmin(cxcor, fxcor, gxcor)-1;
+            findminy = findmin(cycor, fycor, gycor)-10;
             findminz = findmin(csizes, fsizes, gsizes);
-            findmaxx = findmax(cxcor, fxcor, gxcor);
-            findmaxy = findmax(cycor, fycor, gycor);
+            findmaxx = findmax(cxcor, fxcor, gxcor)+1;
+            findmaxy = findmax(cycor, fycor, gycor)+5;
             findmaxz = findmax(csizes, fsizes, gsizes);
+            var xrange2 = findmaxx - findminx;
+            findminx = findminx - Math.ceil(xrange2 / 10);
+            findmaxx = findmaxx + Math.ceil(xrange2 / 10);
+            var yrange2 = findmaxy - findminy;
+            findminy = findminy - Math.ceil(yrange2 / 10);
+            findmaxy = findmaxy + Math.ceil(yrange2 / 10);
             draw(response);
             draw2(response);
             /*
@@ -115,8 +127,8 @@ var draw = function(data){
 
   var xval = Math.ceil((xrange)/xscale);
   var i;
-  for (i = 0; i <= xval; i++) {
-    var val = Math.floor(lowx / xscale) * xscale + i * xscale;
+  for (i = 1; i <= xval; i++) {
+    var val = Math.ceil(lowx / xscale) * xscale + i * xscale;
     var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
     tick.setAttribute("stroke", "black");
     tick.setAttribute("x1", (val-lowx)/(xrange)*450+70);
@@ -145,8 +157,8 @@ var draw = function(data){
 
   var yval = Math.ceil((yrange)/yscale);
   var i;
-  for (i = 0; i <= yval; i++) {
-    var val = Math.floor(lowy / yscale) * yscale + i * yscale;
+  for (i = 1; i <= yval; i++) {
+    var val = Math.ceil(lowy / yscale) * yscale + i * yscale;
     var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
     tick.setAttribute("stroke", "black");
     tick.setAttribute("x1", 75);
@@ -219,8 +231,8 @@ var draw2 = function(data){
 
   var xval = Math.ceil((xrange)/xscale);
   var i;
-  for (i = 0; i <= xval; i++) {
-    var val = Math.floor(findminx / xscale) * xscale + i * xscale;
+  for (i = 1; i <= xval; i++) {
+    var val = Math.ceil(findminx / xscale) * xscale + i * xscale;
     var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
     tick.setAttribute("stroke", "black");
     tick.setAttribute("x1", (val-findminx)/(xrange)*450+70);
@@ -249,8 +261,8 @@ var draw2 = function(data){
 
   var yval = Math.ceil((yrange)/yscale);
   var i;
-  for (i = 0; i <= yval; i++) {
-    var val = Math.floor(findminy / yscale) * yscale + i * yscale;
+  for (i = 1; i <= yval; i++) {
+    var val = Math.ceil(findminy / yscale) * yscale + i * yscale;
     var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
     tick.setAttribute("stroke", "black");
     tick.setAttribute("x1", 75);
