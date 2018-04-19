@@ -223,8 +223,8 @@ def getAvgBMI(team):
         #print counter
     db.commit()
     db.close()
-    return int(sumScore / counter)
-    
+    return sumScore / counter
+
 #print getAvgBMI("Houston Rockets")
 #print getQuery("nbaTeams", "team", "games", "lose");
 
@@ -244,7 +244,7 @@ def getAvgHeight(team):
         #print counter
     db.commit()
     db.close()
-    return int(sumScore / counter)
+    return sumScore / counter
 
 def getAvgWeight(team):
     f = "sports.db"
@@ -261,7 +261,7 @@ def getAvgWeight(team):
         #print counter
     db.commit()
     db.close()
-    return int(sumScore / counter)
+    return sumScore / counter
 
 def getAvg(team, stat):
     f = "sports.db"
@@ -276,7 +276,7 @@ def getAvg(team, stat):
         sumScore = sumScore + float(each[0])
         counter = counter + 1
         #print counter
-    data = int(sumScore / counter)
+    data = sumScore / counter
     db.commit()
     db.close()
     return data
@@ -294,7 +294,7 @@ def getPostionAvg(team, pos, stat):
         sumScore = sumScore + float(each[0])
         counter = counter + 1
         #print counter
-    data = int(sumScore / counter)
+    data = sumScore / counter
     db.commit()
     db.close()
     return data
@@ -309,7 +309,7 @@ def getPlayerCount(team):
     data = c.fetchall()[0][0]
     db.commit()
     db.close()
-    return int(data)
+    return data
 
 
 #print getPlayerCount("Houston Rockets")
@@ -320,7 +320,7 @@ def getPositionCount(team, pos):
     db = sqlite3.connect(f)
     c = db.cursor()
     c.execute("SELECT count(*) FROM players WHERE team = '%s' AND position = '%s';" % (team, pos))
-    data = int(c.fetchall()[0][0])
+    data = c.fetchall()[0][0]
     db.commit()
     db.close()
     return data
@@ -363,7 +363,7 @@ def createTables():
                 player = entry['player']
                 team = entry['team']
                 height = convertHeight(player['Height'])
-                c.execute('INSERT INTO players VALUES("%s", "%s", "%s", "%s", %d, %d, %f);' % 
+                c.execute('INSERT INTO players VALUES("%s", "%s", "%s", "%s", %d, %d, %f);' %
             (player['LastName'], player['FirstName'], team['City'] + ' ' + team['Name'], singlify(player['Position']), height, int(player['Weight']), getBMI(height, int(player['Weight']))))
     db.commit()
     db.close()

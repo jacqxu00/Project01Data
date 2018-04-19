@@ -48,9 +48,12 @@ wongA -- 2018-04-18 14:33:52
 
 xuJ -- 2018-04-18 14:49:20
 	transfer data to front-end
-	
+
 leiG -- 2018-04-18 22:52:41
 	remade ajax call for new data format + minor debugging
-xuJ -- 2018-04-19 01:10:20
-	fixed axis and data visualizatioion
 
+xuJ -- 2018-04-19 01:10:20
+	fixed axis and data visualization
+
+xuJ -- 2018-04-19 14:39:07
+	fixed scaled axis labels
