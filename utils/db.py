@@ -213,10 +213,119 @@ def getAvgBMI(team):
     db = sqlite3.connect(f)
     c = db.cursor()
     c.execute("SELECT bmi FROM players WHERE team = '%s';" % (team))
-    return sum(c.fetchall())
+    #print c.fetchall()
+    sumScore = 0
+    counter = 0
+    for each in c.fetchall():
+        #print each
+        sumScore = sumScore + float(each[0])
+        counter = counter + 1
+        #print counter
+    db.commit()
+    db.close()
+    return int(sumScore / counter)
     
-
+#print getAvgBMI("Houston Rockets")
 #print getQuery("nbaTeams", "team", "games", "lose");
+
+
+def getAvgHeight(team):
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    c.execute("SELECT height FROM players WHERE team = '%s';" % (team))
+    #print c.fetchall()
+    sumScore = 0
+    counter = 0
+    for each in c.fetchall():
+        #print each
+        sumScore = sumScore + float(each[0])
+        counter = counter + 1
+        #print counter
+    db.commit()
+    db.close()
+    return int(sumScore / counter)
+
+def getAvgWeight(team):
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    c.execute("SELECT weight FROM players WHERE team = '%s';" % (team))
+    #print c.fetchall()
+    sumScore = 0
+    counter = 0
+    for each in c.fetchall():
+        #print each
+        sumScore = sumScore + float(each[0])
+        counter = counter + 1
+        #print counter
+    db.commit()
+    db.close()
+    return int(sumScore / counter)
+
+def getAvg(team, stat):
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    c.execute("SELECT " + str(stat) + " FROM players WHERE team = '%s';" % (team))
+    #print c.fetchall()
+    sumScore = 0
+    counter = 0
+    for each in c.fetchall():
+        #print each
+        sumScore = sumScore + float(each[0])
+        counter = counter + 1
+        #print counter
+    data = int(sumScore / counter)
+    db.commit()
+    db.close()
+    return data
+
+def getPostionAvg(team, pos, stat):
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    c.execute("SELECT " + str(stat) + " FROM players WHERE team = '%s' AND position = '%s';" % (team, pos))
+    #print c.fetchall()
+    sumScore = 0
+    counter = 0
+    for each in c.fetchall():
+        #print each
+        sumScore = sumScore + float(each[0])
+        counter = counter + 1
+        #print counter
+    data = int(sumScore / counter)
+    db.commit()
+    db.close()
+    return data
+
+#print getPostionAvg("Houston Rockets", "C", "weight")
+
+def getPlayerCount(team):
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    c.execute("SELECT count(*) FROM players WHERE team = '%s';" % (team))
+    data = c.fetchall()[0][0]
+    db.commit()
+    db.close()
+    return int(data)
+
+
+#print getPlayerCount("Houston Rockets")
+#print getAvg("Houston Rockets", "bmi")
+
+def getPositionCount(team, pos):
+    f = "sports.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    c.execute("SELECT count(*) FROM players WHERE team = '%s' AND position = '%s';" % (team, pos))
+    data = int(c.fetchall()[0][0])
+    db.commit()
+    db.close()
+    return data
+
+#print getPositionCount("Houston Rockets", "C")
 
 def createTables():
     f = "sports.db"

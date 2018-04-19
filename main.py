@@ -32,14 +32,49 @@ def root():
 def query():
     if request.method == 'POST':
         send_back = {"status": "failed"}
-        print request.data.split("&")
+        #print request.data.split("&")
         try:
             dataDump = request.data.split("&")
             tempArray = []
+            searchRes = []
             for each in dataDump:
                 tempArray.append(each[each.find("=") + 1 :])
-            searchRes = db.getQuery(tempArray[0], tempArray[1], tempArray[2], tempArray[3])
+            #searchRes = db.getQuery(tempArray[0], tempArray[1], tempArray[2], tempArray[3])
+            #0 --> db
+            #1 --> name
+            #2 --> xStat (now this is 0)
+            #3 --> yStat (now this is 1)
+            #db.getAvg()
+            # You want
+            #   team, teamXAvg, teamYAvg, teamSize
+            #   cXAvg, cYAvg, cSize
+            #   fXAvg, fYAvg, fSize
+            #   gXAvg, gYAvg, gSize
+            #print tempArray
+            #print db.getTeams()
+            for each in db.getTeams():
+                print each
+                dataArray = []
+                team = str(each)
+                xStat = str(tempArray[0])
+                yStat = str(tempArray[1])
+                teamXAvg = int(db.getAvg(team, xStat))
+                teamYAvg = int(db.getAvg(team, yStat))
+                teamSize = int(db.getPlayerCount(team))
+                cXAvg = int(db.getPostionAvg(team, "C", xStat))
+                cYAvg = int(db.getPostionAvg(team, "C", yStat))
+                cSize = int(db.getPositionCount(team, "C"))
+                fXAvg = int(db.getPostionAvg(team, "F", xStat))
+                fYAvg = int(db.getPostionAvg(team, "F", yStat))
+                fSize = int(db.getPositionCount(team, "F"))
+                gXAvg = int(db.getPostionAvg(team, "G", xStat))
+                gYAvg = int(db.getPostionAvg(team, "G", yStat))
+                gSize = int(db.getPositionCount(team, "G"))
+                dataArray.extend([team,teamXAvg,teamYAvg, teamSize, cXAvg, cYAvg, cSize, fXAvg, fYAvg, fSize, gXAvg, gYAvg, gSize])
+                searchRes.append(dataArray)
+                print searchRes
             send_back["status"] = "success"
+            print searchRes
             print jsonify(searchRes)
         except:
             return "failed AJAX call"
