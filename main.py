@@ -24,9 +24,9 @@ def root():
                 info.append(db.getQuarry("nbaTeams", each, xstat, ystat))
         #print info
         return render_template("index.html", x = xstat, y = ystat)
-    #xstat = 'BMI'
-    #ystat = 'Points'
-    return render_template("index.html")
+    xstat = 'BMI'
+    ystat = 'Points'
+    return render_template("index.html", x = xstat, y = ystat)
 
 @app.route('/query', methods = ['GET', 'POST'])
 def query():

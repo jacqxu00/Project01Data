@@ -57,45 +57,45 @@ var ajaxCall = function(xStatQuery, yStatQuery){
             console.log("success");
             console.log(response);
             var xstat = response.map(function(elt) { return elt[1]; });
-            lowx = Math.min.apply(null, xstat);
+            lowx = 0;//Math.min.apply(null, xstat);
             highx = Math.max.apply(null, xstat);
             var ystat = response.map(function(elt) { return elt[2]; });
-            lowy = Math.min.apply(null, ystat);
+            lowy = 0;//Math.min.apply(null, ystat);
             highy = Math.max.apply(null, ystat);
             var sizes = response.map(function(elt) { return elt[3]; });
-            sizelow = Math.min.apply(null, sizes);
+            sizelow = 0;//Math.min.apply(null, sizes);
             sizehigh = Math.max.apply(null, sizes);
 
             var cxcor = response.map(function(elt) { return elt[4]; });
-            var cxlow = Math.min.apply(null, cxcor);
+            var cxlow = 0;//Math.min.apply(null, cxcor);
             var cxhigh = Math.max.apply(null, cxcor);
             var cycor = response.map(function(elt) { return elt[5]; });
-            var cylow = Math.min.apply(null, cycor);
+            var cylow = 0;//Math.min.apply(null, cycor);
             var cyhigh = Math.max.apply(null, cycor);
             var csizes = response.map(function(elt) { return elt[6]; });
-            var czlow = Math.min.apply(null, csizes);
+            var czlow = 0;//Math.min.apply(null, csizes);
             var czhigh = Math.max.apply(null, csizes);
             var fxcor = response.map(function(elt) { return elt[7]; });
-            var fxlow = Math.min.apply(null, fxcor);
+            var fxlow = 0;//Math.min.apply(null, fxcor);
             var fxhigh = Math.max.apply(null, fxcor);
             var fycor = response.map(function(elt) { return elt[8]; });
-            var fylow = Math.min.apply(null, fycor);
+            var fylow = 0;//Math.min.apply(null, fycor);
             var fyhigh = Math.max.apply(null, fycor);
             var fsizes = response.map(function(elt) { return elt[9]; });
-            var fzlow = Math.min.apply(null, fsizes);
+            var fzlow = 0;//Math.min.apply(null, fsizes);
             var fzhigh = Math.max.apply(null, fsizes);
             var gxcor = response.map(function(elt) { return elt[10]; });
-            var gxlow = Math.min.apply(null, gxcor);
+            var gxlow = 0;//Math.min.apply(null, gxcor);
             var gxhigh = Math.max.apply(null, gxcor);
             var gycor = response.map(function(elt) { return elt[11]; });
-            var gylow = Math.min.apply(null, gycor);
+            var gylow = 0;//Math.min.apply(null, gycor);
             var gyhigh = Math.max.apply(null, gycor);
             var gsizes = response.map(function(elt) { return elt[12]; });
-            var gzlow = Math.min.apply(null, gsizes);
+            var gzlow = 0;//Math.min.apply(null, gsizes);
             var gzhigh = Math.max.apply(null, gsizes);
-            findminx = findmin(cxcor, fxcor, gxcor);
-            findminy = findmin(cycor, fycor, gycor);
-            findminz = findmin(csizes, fsizes, gsizes);
+            findminx = 0;//findmin(cxcor, fxcor, gxcor);
+            findminy = 0;//findmin(cycor, fycor, gycor);
+            findminz = 0;//findmin(csizes, fsizes, gsizes);
             findmaxx = findmax(cxcor, fxcor, gxcor);
             findmaxy = findmax(cycor, fycor, gycor);
             findmaxz = findmax(csizes, fsizes, gsizes);
@@ -128,26 +128,25 @@ ajaxCall("BMI", "weight");
 
 var draw = function(data){
   var i ;
-  for (i = 0; i < data.length; i++){
+  for (i = lowx; i < data.length; i++){
      var coord = document.createElementNS("http://www.w3.org/2000/svg","circle");
-     coord.setAttribute("fill", "blue");
+     coord.setAttribute("fill", "purple");
      coord.setAttribute("class", "allPositions");
+     coord.setAttribute("cx", (data[i][1]-lowx)/(highx-lowx)*450+70);
+     coord.setAttribute("cy", (600-((data[i][2]-lowy)/(highy-lowy)*450+70)));
+     coord.setAttribute("r", data[i][3]);
      canvas.appendChild(coord);
-     coords.data(data[i][1]);
-     coords.attr("cx", function(d){return ((d-lowx)/(highx-lowx)*450+70)});
-     coords.data(data[i][2]);
-     coords.attr("cy", function(d){return (600-((d-lowy)/(highy-lowy)*450)-70)});
-     coords.data(data[i][3]);
-     coords.attr("r", function(d){return (d)});
-  }
+  };
 
-  xval = Math.ceil((highx - lowx) / 10);
+  xval = Math.ceil((highx - lowx) / 10) + 1;
   //console.log("xval = "+xval);
   var i;
   for (i = 0; i <= xval; i++) {
+    //console.log("lowx "+lowx);
+    //console.log("highx "+highx);
+    //val = lowx / 10 * 10 + i * 10;
     var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
     tick.setAttribute("stroke", "black");
-
     tick.setAttribute("x1", (i*10-lowx)/(highx-lowx)*450+70);
     tick.setAttribute("y1", 600-65);
     tick.setAttribute("x2", (i*10-lowx)/(highx-lowx)*450+70);
@@ -160,26 +159,30 @@ var draw = function(data){
     label.setAttribute("fill", "black");
     label.innerHTML = i*10;
     canvas.appendChild(label);
+  };
 
-    yval = Math.ceil((highy - lowy) / 10);
-    //console.log("yval = "+yval);
-    var i;
-    for (i = 0; i <= yval; i++) {
-      var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
-      tick.setAttribute("stroke", "black");
-      tick.setAttribute("x1", 75);
-      tick.setAttribute("y1", 600-((i*10-lowy)/(highy-lowy)*450)-70);
-      tick.setAttribute("x2", 65);
-      tick.setAttribute("y2", 600-((i*10-lowy)/(highy-lowy)*450)-70);
-      canvas.appendChild(tick);
-      var label = document.createElementNS("http://www.w3.org/2000/svg","text");
-      label.setAttribute("x", 50);
-      label.setAttribute("y", 600-((i*10-lowy)/(highy-lowy)*450)-70+3);
-      label.setAttribute("font-size", "11px");
-      label.setAttribute("fill", "black");
-      label.innerHTML = i*10;
-      canvas.appendChild(label);
-    }};
+  yval = Math.ceil((highy - lowy) / 10) + 1;
+  //console.log("yval = "+yval);
+  var i;
+  for (i = 0; i <= yval; i++) {
+    //console.log("lowy "+lowy);
+    //console.log("highy "+highy);
+    //val = lowy / 10 * 10 + i * 10;
+    var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
+    tick.setAttribute("stroke", "black");
+    tick.setAttribute("x1", 75);
+    tick.setAttribute("y1", 600-((i*10-lowy)/(highy-lowy)*450)-70);
+    tick.setAttribute("x2", 65);
+    tick.setAttribute("y2", 600-((i*10-lowy)/(highy-lowy)*450)-70);
+    canvas.appendChild(tick);
+    var label = document.createElementNS("http://www.w3.org/2000/svg","text");
+    label.setAttribute("x", 50);
+    label.setAttribute("y", 600-((i*10-lowy)/(highy-lowy)*450)-70+3);
+    label.setAttribute("font-size", "11px");
+    label.setAttribute("fill", "black");
+    label.innerHTML = i*10;
+    canvas.appendChild(label);
+  };
     /*
     var i ;
     for (i = 0; i < xcoords.length; i++){
@@ -245,50 +248,41 @@ var draw2 = function(data){
      var ccoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
      ccoord.setAttribute("fill", "blue");
      ccoord.setAttribute("class","center");
+     ccoord.setAttribute("cx", (data[i][4]-findminx)/(findmaxx-findminx)*450+70);
+     ccoord.setAttribute("cy", (600-((data[i][5]-findminy)/(findmaxy-findminy)*450+70)));
+     ccoord.setAttribute("r", data[i][6]);
      canvas2.appendChild(ccoord);
-     ccoords.data(data[i][4]);
-     ccoords.attr("cx", function(d){return ((d-findminx)/(findmaxx-findminx)*450+70)});
-     ccoords.data(data[i][5]);
-     ccoords.attr("cy", function(d){return (600-((d-findminy)/(findmaxy-findminy)*450+70))});
-     ccoords.data(data[i][6]);
-     ccoords.attr("r", function(d){return (d)});
 
      var fcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
      fcoord.setAttribute("fill", "red");
      fcoord.setAttribute("class", "forward");
+     fcoord.setAttribute("cx", (data[i][7]-findminx)/(findmaxx-findminx)*450+70);
+     fcoord.setAttribute("cy", (600-((data[i][8]-findminy)/(findmaxy-findminy)*450+70)));
+     fcoord.setAttribute("r", data[i][9]);
      canvas2.appendChild(fcoord);
-     fcoords.data(data[i][7]);
-     fcoords.attr("cx", function(d){return ((d-findminx)/(findmaxx-findminx)*450+70)});
-     fcoords.data(data[i][8]);
-     fcoords.attr("cy", function(d){return (600-((d-findminy)/(findmaxy-findminy)*450+70))});
-     fcoords.data(data[i][9]);
-     fcoords.attr("r", function(d){return (d)});
 
      var gcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
      gcoord.setAttribute("fill", "green");
      gcoord.setAttribute("class", "guard");
+     gcoord.setAttribute("cx", (data[i][10]-findminx)/(findmaxx-findminx)*450+70);
+     gcoord.setAttribute("cy", (600-((data[i][11]-findminy)/(findmaxy-findminy)*450+70)));
+     gcoord.setAttribute("r", data[i][12]);
      canvas2.appendChild(gcoord);
-     gcoords.data(data[i][10]);
-     gcoords.attr("cx", function(d){return ((d-findminx)/(findmaxx-findminx)*450+70)});
-     gcoords.data(data[i][11]);
-     gcoords.attr("cy", function(d){return (600-((d-findminy)/(findmaxy-findminy)*450+70))});
-     gcoords.data(data[i][12]);
-     gcoords.attr("r", function(d){return (d)});
 
      var lineFC = document.createElementNS("http://www.w3.org/2000/svg","line");
      lineFC.setAttribute("stroke", "black");
-     lineFC.setAttribute("x1", (fxcor[i]-findminx)/(findmaxx-findminx)*450+70);
-     lineFC.setAttribute("y1", 600-((fycor[i]-findminy)/(findmaxy-findminy)*450+70));
-     lineFC.setAttribute("x2", (cxcor[i]-findminx)/(findmaxx-findminx)*450+70);
-     lineFC.setAttribute("y2", 600-((cycor[i]-findminy)/(findmaxy-findminy)*450+70));
+     lineFC.setAttribute("x1", (data[i][7]-findminx)/(findmaxx-findminx)*450+70);
+     lineFC.setAttribute("y1", 600-((data[i][8]-findminy)/(findmaxy-findminy)*450+70));
+     lineFC.setAttribute("x2", (data[i][4]-findminx)/(findmaxx-findminx)*450+70);
+     lineFC.setAttribute("y2", 600-((data[i][5]-findminy)/(findmaxy-findminy)*450+70));
      canvas2.appendChild(lineFC);
 
      var lineGC = document.createElementNS("http://www.w3.org/2000/svg","line");
      lineGC.setAttribute("stroke", "black");
-     lineGC.setAttribute("x1", (gxcor[i]-findminx)/(findmaxx-findminx)*450+70);
-     lineGC.setAttribute("y1", 600-((gycor[i]-findminy)/(findmaxy-findminy)*450+70));
-     lineGC.setAttribute("x2", (cxcor[i]-findminx)/(findmaxx-findminx)*450+70);
-     lineGC.setAttribute("y2", 600-((cycor[i]-findminy)/(findmaxy-findminy)*450+70));
+     lineGC.setAttribute("x1", (data[i][10]-findminx)/(findmaxx-findminx)*450+70);
+     lineGC.setAttribute("y1", 600-((data[i][11]-findminy)/(findmaxy-findminy)*450+70));
+     lineGC.setAttribute("x2", (data[i][4]-findminx)/(findmaxx-findminx)*450+70);
+     lineGC.setAttribute("y2", 600-((data[i][5]-findminy)/(findmaxy-findminy)*450+70));
      canvas2.appendChild(lineGC);
   };
 
