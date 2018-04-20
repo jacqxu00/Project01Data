@@ -28,6 +28,9 @@ var ajaxCall = function(xStatQuery, yStatQuery){
       yaxes[yi].innerHTML = yStatQuery;
     };
 
+    var head = document.getElementById("header");
+    head.innerHTML = "NBA Teams: Average "+xStatQuery+" vs Average "+yStatQuery
+
     $.ajax({
         type: "POST",
         url: '/query', //main.py put to a page that does the quaerry functions. link
