@@ -9,9 +9,25 @@ var findmax = function(a,b,c){
     return Math.max(Math.max(...a),Math.max(...b),Math.max(...c));
 };
 
+//var currentx = "BMI";
+//var currenty = "Weight";
+
 var lowx, highx, lowy, highy, sizelow, sizehigh, findminx, findmaxx, findminy, findmaxy, findminz, findmaxz;
 
 var ajaxCall = function(xStatQuery, yStatQuery){
+    //currentx = xStatQuery;
+    //currenty = yStatQuery;
+    var xaxes = document.getElementsByClassName("x");
+    var xi;
+    for (xi = 0; xi < xaxes.length; xi++) {
+      xaxes[xi].innerHTML = xStatQuery;
+    };
+    var yaxes = document.getElementsByClassName("y");
+    var yi;
+    for (yi = 0; yi < yaxes.length; yi++) {
+      yaxes[yi].innerHTML = yStatQuery;
+    };
+
     $.ajax({
         type: "POST",
         url: '/query', //main.py put to a page that does the quaerry functions. link
@@ -21,18 +37,19 @@ var ajaxCall = function(xStatQuery, yStatQuery){
             //response returns a 2d array
             console.log("success");
             console.log(response);
+
             var xstat = response.map(function(elt) { return elt[1]; });
             lowx = Math.min.apply(null, xstat);
             highx = Math.max.apply(null, xstat);
             var xrange = highx - lowx;
             lowx = lowx - Math.ceil(xrange / 10);
-            //highx = highx + Math.ceil(xrange / 10);
+            highx = highx + Math.ceil(xrange / 10);
             var ystat = response.map(function(elt) { return elt[2]; });
             lowy = Math.min.apply(null, ystat);
             highy = Math.max.apply(null, ystat);
             var yrange = highy - lowy;
             lowy = lowy - Math.ceil(yrange / 10);
-            //highy = highy + Math.ceil(yrange / 10);
+            highy = highy + Math.ceil(yrange / 10);
             var sizes = response.map(function(elt) { return elt[3]; });
             sizelow = Math.min.apply(null, sizes);
             sizehigh = Math.max.apply(null, sizes);
@@ -78,21 +95,6 @@ var ajaxCall = function(xStatQuery, yStatQuery){
             findmaxy = findmaxy + Math.ceil(yrange2 / 10);
             draw(response);
             draw2(response);
-            /*
-            PUT YOUR DRAW HELPER FUNCTION HERE?
-            */
-            //tester here
-            /*
-            data = response[0]
-            console.log(data)
-            var coord = document.createElementNS("http://www.w3.org/2000/svg","circle");
-            coord.setAttribute("fill", "orange");
-            coord.setAttribute("cx", data[1] + 200);
-            coord.setAttribute("cy", data[2] + 200);
-            coord.setAttribute("r", 10);
-            coord.setAttribute("class", "allPositions");
-            canvas.appendChild(coord);
-            */
         },
         error: function(response, error) {
             console.log("ERROR")
@@ -101,7 +103,7 @@ var ajaxCall = function(xStatQuery, yStatQuery){
         }
     });};
 
-ajaxCall("BMI", "weight");
+//ajaxCall("BMI", "Weight");
 
 var draw = function(data){
   var i ;
@@ -279,3 +281,16 @@ var draw2 = function(data){
     canvas2.appendChild(label);
   };
 };
+
+var xfunction = function() {
+  var x = document.getElementById("x").value;
+  return x;
+};
+var yfunction = function() {
+  var y = document.getElementById("y").value;
+  return y;
+};
+
+console.log("x :" +xfunction());
+console.log("y :" +yfunction());
+ajaxCall(xfunction(), yfunction());

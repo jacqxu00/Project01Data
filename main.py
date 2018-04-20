@@ -10,7 +10,7 @@ app.secret_key = os.urandom(64)
 @app.route('/', methods = ['GET', 'POST'])
 def root():
     db.createTables()
-    #if ('x' in request.form) and ('y' in request.form) and ('graph' in request.form):
+    '''
     if ('x' in request.form) and ('y' in request.form):
         xstat = request.form['x']
         ystat = request.form['y']
@@ -26,7 +26,8 @@ def root():
         return render_template("index.html", x = xstat, y = ystat)
     xstat = 'BMI'
     ystat = 'Points'
-    return render_template("index.html", x = xstat, y = ystat)
+    '''
+    return render_template("index.html")
 
 @app.route('/query', methods = ['GET', 'POST'])
 def query():

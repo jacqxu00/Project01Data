@@ -12,20 +12,20 @@
     <form methods="POST">
       <div class="badge badge-info">
 	X-AXIS:
-	<select id="x">
-      <option value="BMI" {% if x == 'BMI'%}selected=""{% endif %}>BMI</option>
-      <option value="Height" {% if x == 'Height'%}selected=""{% endif %}>Height</option>
-      <option value="Weight" {% if x == 'Weight'%}selected=""{% endif %}>Weight</option>
+	<select id="x" onchange="xfunction()">
+      <option value="BMI" >BMI</option>
+      <option value="Height">Height</option>
+      <option value="Weight">Weight</option>
 	</select>
       </div>
       <div class="badge badge-info rotateText">
 	Y-AXIS:
-	<select id="y">
-          <option value="Offense" {% if x == 'Offense'%}selected=""{% endif %}>Points</option>
-          <option value="Assists" {% if x == 'Assists'%}selected=""{% endif %}>Assists</option>
-          <option value="Rebounds" {% if x == 'Rebounds'%}selected=""{% endif %}>Rebounds</option>
-          <option value="Blocks" {% if x == 'Blocks'%}selected=""{% endif %}>Blocks</option>
-          <option value="Steals" {% if x == 'Steals'%}selected=""{% endif %}>Steals</option>
+	<select id="y" onchange="yfunction()">
+          <option value="Weight">Weight</option>
+          <option value="Assists">Assists</option>
+          <option value="Rebounds">Rebounds</option>
+          <option value="Blocks">Blocks</option>
+          <option value="Steals">Steals</option>
 	</select>
       </div>
     <!--
@@ -36,8 +36,8 @@
     <h1>NBA Teams: Average {{x}} vs Average {{y}}</h1>
     <h2>By Team</h2>
     <svg xmlns="http://www.w3.org/2000/svg" width = "600" height = "600" id = "canvas" style = "border:1px solid black;">
-      <text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black">{{x}}</text>
-      <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)">{{y}}</text>
+      <text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x"></text>
+      <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)" class="y"></text>
       <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" />
       <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" />
       <line x1="70" y1="527.5" x2="65" y2="526" style="stroke:black;stroke-width:1" />
@@ -54,8 +54,8 @@
     <br>
     <h2>By Position</h2>
     <svg xmlns="http://www.w3.org/2000/svg" width = "600" height = "600" id = "canvas2" style = "border:1px solid black;">
-      <text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black">{{x}}</text>
-      <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)">{{y}}</text>
+      <text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x"></text>
+      <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)" class="y"></text>
       <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" />
       <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" />
       <line x1="70" y1="527.5" x2="65" y2="526" style="stroke:black;stroke-width:1" />
