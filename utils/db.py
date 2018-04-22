@@ -26,7 +26,7 @@ def send_player_request():
         return response.json()
     except requests.exceptions.RequestException:
         print('HTTP Request failed')
-playerData = send_player_request()
+#playerData = send_player_request()
 
 def send_team_request():
     # Request
@@ -50,7 +50,29 @@ def send_team_request():
     except requests.exceptions.RequestException:
         print('HTTP Request failed')
 
+def send_stat_request():
+    # Request
 
+    try:
+        response = requests.get(
+            url="https://api.mysportsfeeds.com/v1.2/pull/nba/2017-2018-regular/daily_player_stats.json",
+            params={
+                "fordate": "20180411",
+            },
+            headers={
+                "Authorization": "Basic " + base64.b64encode('{}:{}'.format('awong21','tacocat').encode('utf-8')).decode('ascii')
+            }
+        )
+
+        #print('Response HTTP Status Code: {status_code}'.format(
+        #    status_code=response.status_code))
+        #print('Response HTTP Response Body: {content}'.format(
+        #    content=response.content))
+        return response.json()
+    except requests.exceptions.RequestException:
+        print('HTTP Request failed')
+
+#print send_stat_request()
 #teamData = send_team_request()
 #print json.dumps(teamData)
 
@@ -208,95 +230,91 @@ def getAllQuery(database):
     db.close()
     return ans
 
-def getAvgBMI(team):
-    f = "sports.db"
-    db = sqlite3.connect(f)
-    c = db.cursor()
-    c.execute("SELECT bmi FROM players WHERE team = '%s';" % (team))
-    #print c.fetchall()
-    sumScore = 0
-    counter = 0
-    for each in c.fetchall():
-        #print each
-        sumScore = sumScore + float(each[0])
-        counter = counter + 1
-        #print counter
-    db.commit()
-    db.close()
-    return sumScore / counter
-
-#print getAvgBMI("Houston Rockets")
-#print getQuery("nbaTeams", "team", "games", "lose");
-
-
-def getAvgHeight(team):
-    f = "sports.db"
-    db = sqlite3.connect(f)
-    c = db.cursor()
-    c.execute("SELECT height FROM players WHERE team = '%s';" % (team))
-    #print c.fetchall()
-    sumScore = 0
-    counter = 0
-    for each in c.fetchall():
-        #print each
-        sumScore = sumScore + float(each[0])
-        counter = counter + 1
-        #print counter
-    db.commit()
-    db.close()
-    return sumScore / counter
-
-def getAvgWeight(team):
-    f = "sports.db"
-    db = sqlite3.connect(f)
-    c = db.cursor()
-    c.execute("SELECT weight FROM players WHERE team = '%s';" % (team))
-    #print c.fetchall()
-    sumScore = 0
-    counter = 0
-    for each in c.fetchall():
-        #print each
-        sumScore = sumScore + float(each[0])
-        counter = counter + 1
-        #print counter
-    db.commit()
-    db.close()
-    return sumScore / counter
-
 def getAvg(team, stat):
     f = "sports.db"
     db = sqlite3.connect(f)
     c = db.cursor()
-    c.execute("SELECT " + str(stat) + " FROM players WHERE team = '%s';" % (team))
-    #print c.fetchall()
-    sumScore = 0
-    counter = 0
-    for each in c.fetchall():
-        #print each
-        sumScore = sumScore + float(each[0])
-        counter = counter + 1
-        #print counter
-    data = sumScore / counter
-    db.commit()
-    db.close()
+    #print stat
+    if ((stat == "BMI") or (stat == "Weight") or (stat == "Height")):
+        #print "doing if getAvg"
+        #print ("SELECT " + str(stat) + " FROM players WHERE team = '%s';" % (team))
+        c.execute("SELECT " + str(stat) + " FROM players WHERE team = '%s';" % (team))
+        #print c.fetchall()
+        sumScore = 0
+        counter = 0
+        for each in c.fetchall():
+            #print each
+            sumScore = sumScore + float(each[0])
+            #print sumScore
+            counter = counter + 1
+            #print counter
+        data = 0
+        if (counter != 0):
+            data = sumScore / counter
+        db.commit()
+        db.close()
+        #print data
+        return data
+    else:
+        #print "doing else for getAvg"
+        c.execute("SELECT " + str(stat) + " FROM playerStat WHERE team = '%s';" % (team))
+        #print "SELECT " + str(stat) + " FROM playerStat WHERE team = '%s';" % (team)
+        #print c.fetchall();
+        sumScore = 0
+        counter = 0
+        for each in c.fetchall():
+            #print each
+            sumScore = sumScore + float(each[0])
+            counter = counter + 1
+            #print counter
+        data = 0
+        if (counter != 0):
+            data = sumScore / counter
+        #print data
+        db.commit()
+        db.close()
+        return data
     return data
 
 def getPostionAvg(team, pos, stat):
     f = "sports.db"
     db = sqlite3.connect(f)
     c = db.cursor()
-    c.execute("SELECT " + str(stat) + " FROM players WHERE team = '%s' AND position = '%s';" % (team, pos))
-    #print c.fetchall()
-    sumScore = 0
-    counter = 0
-    for each in c.fetchall():
-        #print each
-        sumScore = sumScore + float(each[0])
-        counter = counter + 1
-        #print counter
-    data = sumScore / counter
-    db.commit()
-    db.close()
+    data = 0
+    if ((stat == "BMI") or (stat == "Weight") or (stat == "Height")):
+        #print "doing if for getPosAvg"
+        c.execute("SELECT " + str(stat) + " FROM players WHERE team = '%s' AND position = '%s';" % (team, pos))
+        #print c.fetchall()
+        sumScore = 0
+        counter = 0
+        for each in c.fetchall():
+            #print each
+            sumScore = sumScore + float(each[0])
+            counter = counter + 1
+            #print counter
+        data = 0
+        if (counter != 0):
+            data = sumScore / counter
+        db.commit()
+        db.close()
+        return data
+    else:
+        #print "doing else for getPosAvg"
+        c.execute("SELECT " + str(stat) + " FROM playerStat WHERE team = '%s' AND position = '%s';" % (team, pos))
+        #print c.fetchall()
+        sumScore = 0
+        counter = 0
+        for each in c.fetchall():
+            #print each, counter
+            sumScore = sumScore + float(each[0])
+            counter = counter + 1
+            #print counter
+        data = 0
+        if (counter != 0):
+            data = sumScore / counter
+        db.commit()
+        db.close()
+        return data
     return data
 
 #print getPostionAvg("Houston Rockets", "C", "weight")
@@ -352,12 +370,38 @@ def createTables():
             c.execute("INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points)))
             #counter = counter + 1
 
+    c.execute('CREATE TABLE IF NOT EXISTS playerStat(last_name TEXT, first_name TEXT, team TEXT, position TEXT, Assists FLOAT , Blocks FLOAT, Fouls FLOAT, Points FLOAT, Rebounds FLOAT, Steals FLOAT);')
+    c.execute('SELECT count(*) from playerStat;')
+    size = c.fetchall()[0][0]
+    if size == 0:
+        #counter = 0
+        statData = send_stat_request()
+        #while counter < 30:
+        for each in statData["dailyplayerstats"]["playerstatsentry"]:
+            if ("team" in each.keys()):
+                lastName = each["player"]["LastName"]
+                firstName = each["player"]["FirstName"]
+                position = singlify(each["player"]['Position'])
+                team = each["team"]["City"] + " " + each["team"]["Name"]
+                #print each["stats"]#["GamesPlayed"]["#text"]
+                #gamesPlayed = each["stats"]["GamesPlayed"]["#text"]
+                avgAssists = each["stats"]["AstPerGame"]["#text"]
+                avgPoints = each["stats"]["PtsPerGame"]["#text"]
+                avgSteals = each["stats"]["StlPerGame"]["#text"]
+                avgFouls = each["stats"]["FoulsPerGame"]["#text"]
+                avgBlocks = each["stats"]["BlkPerGame"]["#text"]
+                avgRebounds = each["stats"]["RebPerGame"]["#text"]
+                # print "INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points))
+                c.execute("INSERT OR REPLACE INTO playerStat VALUES (?,?,?,?,?,?,?,?,?,?)", (str(lastName), str(firstName), str(team), str(position), float(avgAssists), float(avgBlocks), float(avgFouls), float(avgPoints), float(avgRebounds), float(avgSteals)))
+                #counter = counter + 1
+
     # creating player table
-    c.execute('CREATE TABLE IF NOT EXISTS players(last_name TEXT, first_name TEXT, team TEXT, position TEXT, height INTEGER, weight INTEGER, bmi FLOAT);')
+    c.execute('CREATE TABLE IF NOT EXISTS players(last_name TEXT, first_name TEXT, team TEXT, Position TEXT, Height INTEGER, Weight INTEGER, BMI FLOAT);')
     c.execute('SELECT count(*) from players;')
     size = c.fetchall()[0][0]
     #print size
     if size == 0:
+        playerData = send_player_request()
         for entry in playerData["rosterplayers"]["playerentry"]:
             if ("Height" in entry['player'].keys() and "team" in entry.keys()):
                 player = entry['player']

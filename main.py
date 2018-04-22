@@ -54,29 +54,36 @@ def query():
             #print tempArray
             #print db.getTeams()
             for each in db.getTeams():
-                print each
+                #print each
+                #print tempArray[0], tempArray[1]
                 dataArray = []
                 team = str(each)
                 xStat = str(tempArray[0])
                 yStat = str(tempArray[1])
-                teamXAvg = int(db.getAvg(team, xStat))
-                teamYAvg = int(db.getAvg(team, yStat))
-                teamSize = int(db.getPlayerCount(team))
-                cXAvg = int(db.getPostionAvg(team, "C", xStat))
-                cYAvg = int(db.getPostionAvg(team, "C", yStat))
-                cSize = int(db.getPositionCount(team, "C"))
-                fXAvg = int(db.getPostionAvg(team, "F", xStat))
-                fYAvg = int(db.getPostionAvg(team, "F", yStat))
-                fSize = int(db.getPositionCount(team, "F"))
-                gXAvg = int(db.getPostionAvg(team, "G", xStat))
-                gYAvg = int(db.getPostionAvg(team, "G", yStat))
-                gSize = int(db.getPositionCount(team, "G"))
+                #print "..."
+                #print db.getAvg(team, xStat)
+                #print float(db.getAvg(team, xStat))
+                #print "...d"
+                #print float(db.getAvg(team, yStat))
+                #print "complete"
+                teamXAvg = float(db.getAvg(team, xStat))
+                teamYAvg = float(db.getAvg(team, yStat))
+                teamSize = float(db.getPlayerCount(team))
+                cXAvg = float(db.getPostionAvg(team, "C", xStat))
+                cYAvg = float(db.getPostionAvg(team, "C", yStat))
+                cSize = float(db.getPositionCount(team, "C"))
+                fXAvg = float(db.getPostionAvg(team, "F", xStat))
+                fYAvg = float(db.getPostionAvg(team, "F", yStat))
+                fSize = float(db.getPositionCount(team, "F"))
+                gXAvg = float(db.getPostionAvg(team, "G", xStat))
+                gYAvg = float(db.getPostionAvg(team, "G", yStat))
+                gSize = float(db.getPositionCount(team, "G"))
                 dataArray.extend([team,teamXAvg,teamYAvg, teamSize, cXAvg, cYAvg, cSize, fXAvg, fYAvg, fSize, gXAvg, gYAvg, gSize])
                 searchRes.append(dataArray)
-                print searchRes
+                #print searchRes
             send_back["status"] = "success"
-            print searchRes
-            print jsonify(searchRes)
+            #print searchRes
+            #print jsonify(searchRes)
         except:
             return "failed AJAX call"
     return jsonify(searchRes)

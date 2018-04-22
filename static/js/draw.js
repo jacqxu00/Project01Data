@@ -40,19 +40,18 @@ var ajaxCall = function(xStatQuery, yStatQuery){
             //response returns a 2d array
             console.log("success");
             console.log(response);
-
             var xstat = response.map(function(elt) { return elt[1]; });
             lowx = Math.min.apply(null, xstat);
             highx = Math.max.apply(null, xstat);
             var xrange = highx - lowx;
-            lowx = lowx - Math.ceil(xrange / 10);
-            highx = highx + Math.ceil(xrange / 10);
+            lowx = Math.floor(lowx - Math.ceil(xrange / 10));
+            highx = Math.floor(highx + Math.ceil(xrange / 10));
             var ystat = response.map(function(elt) { return elt[2]; });
             lowy = Math.min.apply(null, ystat);
             highy = Math.max.apply(null, ystat);
             var yrange = highy - lowy;
-            lowy = lowy - Math.ceil(yrange / 10);
-            highy = highy + Math.ceil(yrange / 10);
+            lowy = Math.floor(lowy - Math.ceil(yrange / 10));
+            highy = Math.floor(highy + Math.ceil(yrange / 10));
             var sizes = response.map(function(elt) { return elt[3]; });
             sizelow = Math.min.apply(null, sizes);
             sizehigh = Math.max.apply(null, sizes);
@@ -109,8 +108,25 @@ var ajaxCall = function(xStatQuery, yStatQuery){
 //ajaxCall("BMI", "Weight");
 
 var draw = function(data){
+  lowx = Math.floor(lowx)
+  lowy = Math.floor(lowy);
+  highx = Math.floor(highx);
+  highy = Math.floor(highy);
+  if (lowx < 0){
+    lowx = 0;
+  }
+  if (lowy < 0){
+    lowy = 0;
+  }
+  if (highx < 0){
+    highx = 0;
+  }
+  if (highy < 0){
+    highy= 0;
+  }
   var i ;
-  for (i = lowx; i < data.length; i++){
+  for (i = Math.floor(lowx); i < data.length; i++){
+     console.log(i)
      var coord = document.createElementNS("http://www.w3.org/2000/svg","circle");
      coord.setAttribute("fill", "purple");
      coord.setAttribute("class", "allPositions");
@@ -182,6 +198,22 @@ var draw = function(data){
 };
 
 var draw2 = function(data){
+  lowx = Math.floor(lowx);
+  lowy = Math.floor(lowy);
+  highx = Math.floor(highx);
+  highy = Math.floor(highy);
+  if (lowx < 0){
+    lowx = 0;
+  }
+  if (lowy < 0){
+    lowy = 0;
+  }
+  if (highx < 0){
+    highx = 0;
+  }
+  if (highy < 0){
+    highy= 0;
+  }
   for (i = 0; i < data.length; i++){
      var ccoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
      ccoord.setAttribute("fill", "blue");
