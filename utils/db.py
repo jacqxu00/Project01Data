@@ -26,7 +26,6 @@ def send_player_request():
         return response.json()
     except requests.exceptions.RequestException:
         print('HTTP Request failed')
-#playerData = send_player_request()
 
 def send_team_request():
     # Request
@@ -55,9 +54,10 @@ def send_stat_request():
 
     try:
         response = requests.get(
-            url="https://api.mysportsfeeds.com/v1.2/pull/nba/2017-2018-regular/daily_player_stats.json",
+            url="https://api.mysportsfeeds.com/v1.2/pull/nba/2017-2018-regular/daily_player_stats.json?playerstats=PTS/G,AST/G,REB/G,BS/G,STL/G,F/G",
             params={
                 "fordate": "20180411",
+                
             },
             headers={
                 "Authorization": "Basic " + base64.b64encode('{}:{}'.format('awong21','tacocat').encode('utf-8')).decode('ascii')
@@ -77,7 +77,6 @@ def send_stat_request():
 #print json.dumps(teamData)
 
 
-# if a item has 0 the user is not using the item. If it is 1 they user is using
 #c.execute('CREATE TABLE IF NOT EXISTS items (user TEXT, item TEXT, playing INTEGER);')
 
 def singlify(position):
@@ -329,10 +328,6 @@ def getPlayerCount(team):
     db.close()
     return data
 
-
-#print getPlayerCount("Houston Rockets")
-#print getAvg("Houston Rockets", "bmi")
-
 def getPositionCount(team, pos):
     f = "sports.db"
     db = sqlite3.connect(f)
@@ -342,8 +337,6 @@ def getPositionCount(team, pos):
     db.commit()
     db.close()
     return data
-
-#print getPositionCount("Houston Rockets", "C")
 
 def createTables():
     f = "sports.db"
@@ -385,15 +378,17 @@ def createTables():
                 team = each["team"]["City"] + " " + each["team"]["Name"]
                 #print each["stats"]#["GamesPlayed"]["#text"]
                 #gamesPlayed = each["stats"]["GamesPlayed"]["#text"]
-                avgAssists = each["stats"]["AstPerGame"]["#text"]
-                avgPoints = each["stats"]["PtsPerGame"]["#text"]
-                avgSteals = each["stats"]["StlPerGame"]["#text"]
-                avgFouls = each["stats"]["FoulsPerGame"]["#text"]
-                avgBlocks = each["stats"]["BlkPerGame"]["#text"]
-                avgRebounds = each["stats"]["RebPerGame"]["#text"]
-                # print "INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points))
-                c.execute("INSERT OR REPLACE INTO playerStat VALUES (?,?,?,?,?,?,?,?,?,?)", (str(lastName), str(firstName), str(team), str(position), float(avgAssists), float(avgBlocks), float(avgFouls), float(avgPoints), float(avgRebounds), float(avgSteals)))
-                #counter = counter + 1
+                playerStats = ["AstPerGame", "PtsPerGame", "StlPerGame", "FoulsPerGame",  "BlkPerGame", "RebPerGame"]
+                if all(stat in playerStats for stat in each['stats'].keys()):
+                    avgAssists = each["stats"]["AstPerGame"]["#text"]
+                    avgPoints = each["stats"]["PtsPerGame"]["#text"]
+                    avgSteals = each["stats"]["StlPerGame"]["#text"]
+                    avgFouls = each["stats"]["FoulsPerGame"]["#text"]
+                    avgBlocks = each["stats"]["BlkPerGame"]["#text"]
+                    avgRebounds = each["stats"]["RebPerGame"]["#text"]
+                    # print "INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points))
+                    c.execute("INSERT OR REPLACE INTO playerStat VALUES (?,?,?,?,?,?,?,?,?,?)", (str(lastName), str(firstName), str(team), str(position), float(avgAssists), float(avgBlocks), float(avgFouls), float(avgPoints), float(avgRebounds), float(avgSteals)))
+                    #counter = counter + 1
 
     # creating player table
     c.execute('CREATE TABLE IF NOT EXISTS players(last_name TEXT, first_name TEXT, team TEXT, Position TEXT, Height INTEGER, Weight INTEGER, BMI FLOAT);')
@@ -412,4 +407,4 @@ def createTables():
     db.commit()
     db.close()
 
-#createTables()
+createTables()
