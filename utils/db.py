@@ -407,4 +407,5 @@ def createTables():
     db.commit()
     db.close()
 
-createTables()
+#LEAVE THIS COMMENTED OUT OR IT WILL TRY TO MAKE THE TABLE AGAIN 
+#createTables()

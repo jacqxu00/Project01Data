@@ -5,39 +5,41 @@
     <title>NBA Statistics</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/app.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
   </head>
   <body align="center">
     <form methods="POST">
       <div class="badge badge-info">
-	X-AXIS:
-	<select id="x" onchange="xfunction()">
-      <option value="BMI" >BMI</option>2
-      <option value="Height">Height</option>
-      <option value="Weight">Weight</option>
-      <option value="Points">Points Per Game</option>
-      <option value="Assists">Assists Per Game</option>
-      <option value="Rebounds">Rebounds Per Game</option>
-      <option value="Fouls">Fouls Per Game</option>
-      <option value="Blocks">Blocks Per Game</option>
-      <option value="Steals">Steals Per Game</option>
-	</select>
+        X-AXIS:
+        <select id="x">
+            <option value="BMI" >BMI</option>2
+            <option value="Height">Height</option>
+            <option value="Weight">Weight</option>
+            <option value="Points">Points Per Game</option>
+            <option value="Assists">Assists Per Game</option>
+            <option value="Rebounds">Rebounds Per Game</option>
+            <option value="Fouls">Fouls Per Game</option>
+            <option value="Blocks">Blocks Per Game</option>
+            <option value="Steals">Steals Per Game</option>
+        </select>
       </div>
       <div class="badge badge-info rotateText">
-	Y-AXIS:
-	<select id="y" onchange="yfunction()">
-          <option value="BMI" >BMI</option>2
-          <option value="Height">Height</option>
-          <option value="Weight">Weight</option>
-          
-          <option value="Points">Points Per Game</option>
-          <option value="Assists">Assists Per Game</option>
-          <option value="Rebounds">Rebounds Per Game</option>
-          <option value="Fouls">Fouls Per Game</option>
-          <option value="Blocks">Blocks Per Game</option>
-          <option value="Steals">Steals Per Game</option>
-	</select>
+        Y-AXIS:
+        <select id="y">
+                <option value="BMI" >BMI</option>2
+                <option value="Height">Height</option>
+                <option value="Weight">Weight</option>
+                
+                <option value="Points">Points Per Game</option>
+                <option value="Assists">Assists Per Game</option>
+                <option value="Rebounds">Rebounds Per Game</option>
+                <option value="Fouls">Fouls Per Game</option>
+                <option value="Blocks">Blocks Per Game</option>
+                <option value="Steals">Steals Per Game</option>
+        </select>
       </div>
     <!--
     <button type = "submit" class="btn btn-primary"> Submit </button>
@@ -46,7 +48,7 @@
     <br>
     <h1 id="header"></h1>
     <h2>By Team</h2>
-    <svg xmlns="http://www.w3.org/2000/svg" width = "600" height = "600" id = "canvas" style = "border:1px solid black;">
+    <svg xmlns="http://www.w3.org/2000/svg" width = "600" height = "600" id = "canvas1" style = "border:1px solid black;">
       <text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x"></text>
       <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)" class="y"></text>
       <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" />
@@ -85,8 +87,6 @@
     <p style="color:blue;">center</p>
     <script src = "https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript" src = "static/js/draw.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
   </body>
 </html>

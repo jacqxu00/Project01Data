@@ -1,4 +1,4 @@
-var canvas = document.getElementById("canvas");
+var canvas1 = document.getElementById("canvas1");
 var canvas2 = document.getElementById("canvas2");
 
 var findmin = function(a,b,c){
@@ -38,8 +38,43 @@ var ajaxCall = function(xStatQuery, yStatQuery){
         data: {xStat: xStatQuery, yStat: yStatQuery},
         success: function(response) {
             //response returns a 2d array
-            console.log("success");
+            console.log("success. starting ajax call");
             console.log(response);
+            var svgContainer1 = document.getElementById("canvas1");
+            var svgContainer2 = document.getElementById("canvas2");
+            svgContainer1.innerhtml = '<text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x"></text> \
+              <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)" class="y"></text> \
+              <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" /> \
+              <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" /> \
+              <line x1="70" y1="527.5" x2="65" y2="526" style="stroke:black;stroke-width:1" /> \
+              <line x1="65" y1="526" x2="75" y2="523" style="stroke:black;stroke-width:1" /> \
+              <line x1="75" y1="523" x2="65" y2="520" style="stroke:black;stroke-width:1" /> \
+              <line x1="65" y1="520" x2="75" y2="516" style="stroke:black;stroke-width:1" /> \
+              <line x1="75" y1="516" x2="70" y2="514.5" style="stroke:black;stroke-width:1" /> \
+              <line x1="72.5" y1="530" x2="74" y2="535" style="stroke:black;stroke-width:1" /> \
+              <line x1="74" y1="535" x2="77" y2="525" style="stroke:black;stroke-width:1" /> \
+              <line x1="77" y1="525" x2="80" y2="535" style="stroke:black;stroke-width:1" /> \
+              <line x1="80" y1="535" x2="83" y2="525" style="stroke:black;stroke-width:1" /> \
+              <line x1="83" y1="525" x2="85.5" y2="530" style="stroke:black;stroke-width:1" />';
+            svgContainer2.innerHTML = '<text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x"></text> \
+            <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)" class="y"></text> \
+            <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" /> \
+            <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" /> \
+            <line x1="70" y1="527.5" x2="65" y2="526" style="stroke:black;stroke-width:1" /> \
+            <line x1="65" y1="526" x2="75" y2="523" style="stroke:black;stroke-width:1" /> \
+            <line x1="75" y1="523" x2="65" y2="520" style="stroke:black;stroke-width:1" /> \
+            <line x1="65" y1="520" x2="75" y2="516" style="stroke:black;stroke-width:1" /> \
+            <line x1="75" y1="516" x2="70" y2="514.5" style="stroke:black;stroke-width:1" /> \
+            <line x1="72.5" y1="530" x2="74" y2="535" style="stroke:black;stroke-width:1" /> \
+            <line x1="74" y1="535" x2="77" y2="525" style="stroke:black;stroke-width:1" /> \
+            <line x1="77" y1="525" x2="80" y2="535" style="stroke:black;stroke-width:1" /> \
+            <line x1="80" y1="535" x2="83" y2="525" style="stroke:black;stroke-width:1" /> \
+            <line x1="83" y1="525" x2="85.5" y2="530" style="stroke:black;stroke-width:1" />';
+
+            var xSelect = document.getElementById("x");
+            var ySelect = document.getElementById("y");
+            xSelect.addEventListener("change", function(){ajaxCall(xfunction(), yfunction())}, false);
+            ySelect.addEventListener("change", function(){ajaxCall(xfunction(), yfunction())}, false);
             var xstat = response.map(function(elt) { return elt[1]; });
             lowx = Math.min.apply(null, xstat);
             highx = Math.max.apply(null, xstat);
@@ -97,6 +132,7 @@ var ajaxCall = function(xStatQuery, yStatQuery){
             findmaxy = findmaxy + Math.ceil(yrange2 / 10);
             draw(response);
             draw2(response);
+            console.log("successful ajax call completed")
         },
         error: function(response, error) {
             console.log("ERROR")
@@ -133,7 +169,7 @@ var draw = function(data){
      coord.setAttribute("cx", (data[i][1]-lowx)/(highx-lowx)*450+70);
      coord.setAttribute("cy", (600-((data[i][2]-lowy)/(highy-lowy)*450+70)));
      coord.setAttribute("r", data[i][3]);
-     canvas.appendChild(coord);
+     canvas1.appendChild(coord);
   };
 
   var xrange = highx - lowx;
@@ -156,14 +192,14 @@ var draw = function(data){
     tick.setAttribute("y1", 600-65);
     tick.setAttribute("x2", (val-lowx)/(xrange)*450+70);
     tick.setAttribute("y2", 600-75);
-    canvas.appendChild(tick);
+    canvas1.appendChild(tick);
     var label = document.createElementNS("http://www.w3.org/2000/svg","text");
     label.setAttribute("x", (val-lowx)/(xrange)*450+70-4);
     label.setAttribute("y", 600-50);
     label.setAttribute("font-size", "11px");
     label.setAttribute("fill", "black");
     label.innerHTML = val;
-    canvas.appendChild(label);
+    canvas1.appendChild(label);
   };
 
   var yrange = highy - lowy;
@@ -186,14 +222,14 @@ var draw = function(data){
     tick.setAttribute("y1", 600-((val-lowy)/(yrange)*450)-70);
     tick.setAttribute("x2", 65);
     tick.setAttribute("y2", 600-((val-lowy)/(yrange)*450)-70);
-    canvas.appendChild(tick);
+    canvas1.appendChild(tick);
     var label = document.createElementNS("http://www.w3.org/2000/svg","text");
     label.setAttribute("x", 45);
     label.setAttribute("y", 600-((val-lowy)/(yrange)*450)-70+3);
     label.setAttribute("font-size", "11px");
     label.setAttribute("fill", "black");
     label.innerHTML = val;
-    canvas.appendChild(label);
+    canvas1.appendChild(label);
   };
 };
 
@@ -319,12 +355,21 @@ var draw2 = function(data){
 
 var xfunction = function() {
   var x = document.getElementById("x").value;
+  console.log("x :" +x);
   return x;
 };
 var yfunction = function() {
   var y = document.getElementById("y").value;
+  console.log("y :" +y);
   return y;
 };
+
+var xSelect = document.getElementById("x");
+var ySelect = document.getElementById("y");
+
+xSelect.addEventListener("change", function(){ajaxCall(xfunction(), yfunction())}, false);
+ySelect.addEventListener("change", function(){ajaxCall(xfunction(), yfunction())}, false);
+
 
 console.log("x :" +xfunction());
 console.log("y :" +yfunction());

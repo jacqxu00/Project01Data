@@ -69,3 +69,6 @@ leiG -- 2018-04-22 00:34:55
     
 wongA -- 2018-04-22 12:19:23
     finished playerStat table creation
+
+leiG -- 2018-04-22 17:28:51
+	can now change axis but circles dotn disappear
