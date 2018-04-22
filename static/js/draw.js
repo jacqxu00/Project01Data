@@ -41,35 +41,9 @@ var ajaxCall = function(xStatQuery, yStatQuery){
             console.log("success. starting ajax call");
             console.log(response);
             var svgContainer1 = document.getElementById("canvas1");
+            svgContainer1.innerHTML = "";
             var svgContainer2 = document.getElementById("canvas2");
-            svgContainer1.innerhtml = '<text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x"></text> \
-              <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)" class="y"></text> \
-              <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" /> \
-              <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" /> \
-              <line x1="70" y1="527.5" x2="65" y2="526" style="stroke:black;stroke-width:1" /> \
-              <line x1="65" y1="526" x2="75" y2="523" style="stroke:black;stroke-width:1" /> \
-              <line x1="75" y1="523" x2="65" y2="520" style="stroke:black;stroke-width:1" /> \
-              <line x1="65" y1="520" x2="75" y2="516" style="stroke:black;stroke-width:1" /> \
-              <line x1="75" y1="516" x2="70" y2="514.5" style="stroke:black;stroke-width:1" /> \
-              <line x1="72.5" y1="530" x2="74" y2="535" style="stroke:black;stroke-width:1" /> \
-              <line x1="74" y1="535" x2="77" y2="525" style="stroke:black;stroke-width:1" /> \
-              <line x1="77" y1="525" x2="80" y2="535" style="stroke:black;stroke-width:1" /> \
-              <line x1="80" y1="535" x2="83" y2="525" style="stroke:black;stroke-width:1" /> \
-              <line x1="83" y1="525" x2="85.5" y2="530" style="stroke:black;stroke-width:1" />';
-            svgContainer2.innerHTML = '<text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x"></text> \
-            <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)" class="y"></text> \
-            <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" /> \
-            <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" /> \
-            <line x1="70" y1="527.5" x2="65" y2="526" style="stroke:black;stroke-width:1" /> \
-            <line x1="65" y1="526" x2="75" y2="523" style="stroke:black;stroke-width:1" /> \
-            <line x1="75" y1="523" x2="65" y2="520" style="stroke:black;stroke-width:1" /> \
-            <line x1="65" y1="520" x2="75" y2="516" style="stroke:black;stroke-width:1" /> \
-            <line x1="75" y1="516" x2="70" y2="514.5" style="stroke:black;stroke-width:1" /> \
-            <line x1="72.5" y1="530" x2="74" y2="535" style="stroke:black;stroke-width:1" /> \
-            <line x1="74" y1="535" x2="77" y2="525" style="stroke:black;stroke-width:1" /> \
-            <line x1="77" y1="525" x2="80" y2="535" style="stroke:black;stroke-width:1" /> \
-            <line x1="80" y1="535" x2="83" y2="525" style="stroke:black;stroke-width:1" /> \
-            <line x1="83" y1="525" x2="85.5" y2="530" style="stroke:black;stroke-width:1" />';
+            svgContainer2.innerHTML = "";
 
             var xSelect = document.getElementById("x");
             var ySelect = document.getElementById("y");
@@ -160,9 +134,28 @@ var draw = function(data){
   if (highy < 0){
     highy= 0;
   }
+  var svgContainer1 = document.getElementById("canvas1");
+  svgContainer1.innerHTML += `<text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x">`+ xfunction() + `</text>
+  <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)" class="y">` + yfunction() + `</text>
+  <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" />
+  <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" />
+  <line x1="70" y1="527.5" x2="65" y2="526" style="stroke:black;stroke-width:1" /> 
+  <line x1="65" y1="526" x2="75" y2="523" style="stroke:black;stroke-width:1" />
+  <line x1="75" y1="523" x2="65" y2="520" style="stroke:black;stroke-width:1" />
+  <line x1="65" y1="520" x2="75" y2="516" style="stroke:black;stroke-width:1" />
+  <line x1="75" y1="516" x2="70" y2="514.5" style="stroke:black;stroke-width:1" />
+  <line x1="72.5" y1="530" x2="74" y2="535" style="stroke:black;stroke-width:1" />
+  <line x1="74" y1="535" x2="77" y2="525" style="stroke:black;stroke-width:1" />
+  <line x1="77" y1="525" x2="80" y2="535" style="stroke:black;stroke-width:1" />
+  <line x1="80" y1="535" x2="83" y2="525" style="stroke:black;stroke-width:1" />
+  <line x1="83" y1="525" x2="85.5" y2="530" style="stroke:black;stroke-width:1" />`
+  //#console.log("xcunftion = " + xfunction());
+  //svgContainer1.getElementsByClassName("x").innerHTML = xfunction();
+  //console.log(svgContainer1.getElementsByClassName("x").innerHTML);
   var i ;
-  for (i = Math.floor(lowx); i < data.length; i++){
-     console.log(i)
+  for (i = 0; i < data.length; i++){
+  //for (i = Math.floor(lowx); i < data.length; i++){
+     //console.log(i)
      var coord = document.createElementNS("http://www.w3.org/2000/svg","circle");
      coord.setAttribute("fill", "purple");
      coord.setAttribute("class", "allPositions");
@@ -231,6 +224,7 @@ var draw = function(data){
     label.innerHTML = val;
     canvas1.appendChild(label);
   };
+  
 };
 
 var draw2 = function(data){
@@ -250,46 +244,62 @@ var draw2 = function(data){
   if (highy < 0){
     highy= 0;
   }
+  
+  var svgContainer2 = document.getElementById("canvas2");
+  svgContainer2.innerHTML += `<text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x">`+ xfunction() + `</text>
+  <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)" class="y">` + yfunction() + `</text>
+  <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" />
+  <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" />
+  <line x1="70" y1="527.5" x2="65" y2="526" style="stroke:black;stroke-width:1" /> 
+  <line x1="65" y1="526" x2="75" y2="523" style="stroke:black;stroke-width:1" />
+  <line x1="75" y1="523" x2="65" y2="520" style="stroke:black;stroke-width:1" />
+  <line x1="65" y1="520" x2="75" y2="516" style="stroke:black;stroke-width:1" />
+  <line x1="75" y1="516" x2="70" y2="514.5" style="stroke:black;stroke-width:1" />
+  <line x1="72.5" y1="530" x2="74" y2="535" style="stroke:black;stroke-width:1" />
+  <line x1="74" y1="535" x2="77" y2="525" style="stroke:black;stroke-width:1" />
+  <line x1="77" y1="525" x2="80" y2="535" style="stroke:black;stroke-width:1" />
+  <line x1="80" y1="535" x2="83" y2="525" style="stroke:black;stroke-width:1" />
+  <line x1="83" y1="525" x2="85.5" y2="530" style="stroke:black;stroke-width:1" />`
   for (i = 0; i < data.length; i++){
-     var ccoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
-     ccoord.setAttribute("fill", "blue");
-     ccoord.setAttribute("class","center");
-     ccoord.setAttribute("cx", (data[i][4]-findminx)/(findmaxx-findminx)*450+70);
-     ccoord.setAttribute("cy", (600-((data[i][5]-findminy)/(findmaxy-findminy)*450+70)));
-     ccoord.setAttribute("r", data[i][6]);
-     canvas2.appendChild(ccoord);
+    var ccoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    ccoord.setAttribute("fill", "blue");
+    ccoord.setAttribute("class","center");
+    ccoord.setAttribute("cx", (data[i][4]-findminx)/(findmaxx-findminx)*450+70);
+    ccoord.setAttribute("cy", (600-((data[i][5]-findminy)/(findmaxy-findminy)*450+70)));
+    ccoord.setAttribute("r", data[i][6]);
+    canvas2.appendChild(ccoord);
 
-     var fcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
-     fcoord.setAttribute("fill", "red");
-     fcoord.setAttribute("class", "forward");
-     fcoord.setAttribute("cx", (data[i][7]-findminx)/(findmaxx-findminx)*450+70);
-     fcoord.setAttribute("cy", (600-((data[i][8]-findminy)/(findmaxy-findminy)*450+70)));
-     fcoord.setAttribute("r", data[i][9]);
-     canvas2.appendChild(fcoord);
+    var fcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    fcoord.setAttribute("fill", "red");
+    fcoord.setAttribute("class", "forward");
+    fcoord.setAttribute("cx", (data[i][7]-findminx)/(findmaxx-findminx)*450+70);
+    fcoord.setAttribute("cy", (600-((data[i][8]-findminy)/(findmaxy-findminy)*450+70)));
+    fcoord.setAttribute("r", data[i][9]);
+    canvas2.appendChild(fcoord);
 
-     var gcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
-     gcoord.setAttribute("fill", "green");
-     gcoord.setAttribute("class", "guard");
-     gcoord.setAttribute("cx", (data[i][10]-findminx)/(findmaxx-findminx)*450+70);
-     gcoord.setAttribute("cy", (600-((data[i][11]-findminy)/(findmaxy-findminy)*450+70)));
-     gcoord.setAttribute("r", data[i][12]);
-     canvas2.appendChild(gcoord);
+    var gcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    gcoord.setAttribute("fill", "green");
+    gcoord.setAttribute("class", "guard");
+    gcoord.setAttribute("cx", (data[i][10]-findminx)/(findmaxx-findminx)*450+70);
+    gcoord.setAttribute("cy", (600-((data[i][11]-findminy)/(findmaxy-findminy)*450+70)));
+    gcoord.setAttribute("r", data[i][12]);
+    canvas2.appendChild(gcoord);
 
-     var lineFC = document.createElementNS("http://www.w3.org/2000/svg","line");
-     lineFC.setAttribute("stroke", "black");
-     lineFC.setAttribute("x1", (data[i][7]-findminx)/(findmaxx-findminx)*450+70);
-     lineFC.setAttribute("y1", 600-((data[i][8]-findminy)/(findmaxy-findminy)*450+70));
-     lineFC.setAttribute("x2", (data[i][4]-findminx)/(findmaxx-findminx)*450+70);
-     lineFC.setAttribute("y2", 600-((data[i][5]-findminy)/(findmaxy-findminy)*450+70));
-     canvas2.appendChild(lineFC);
+    var lineFC = document.createElementNS("http://www.w3.org/2000/svg","line");
+    lineFC.setAttribute("stroke", "black");
+    lineFC.setAttribute("x1", (data[i][7]-findminx)/(findmaxx-findminx)*450+70);
+    lineFC.setAttribute("y1", 600-((data[i][8]-findminy)/(findmaxy-findminy)*450+70));
+    lineFC.setAttribute("x2", (data[i][4]-findminx)/(findmaxx-findminx)*450+70);
+    lineFC.setAttribute("y2", 600-((data[i][5]-findminy)/(findmaxy-findminy)*450+70));
+    canvas2.appendChild(lineFC);
 
-     var lineGC = document.createElementNS("http://www.w3.org/2000/svg","line");
-     lineGC.setAttribute("stroke", "black");
-     lineGC.setAttribute("x1", (data[i][10]-findminx)/(findmaxx-findminx)*450+70);
-     lineGC.setAttribute("y1", 600-((data[i][11]-findminy)/(findmaxy-findminy)*450+70));
-     lineGC.setAttribute("x2", (data[i][4]-findminx)/(findmaxx-findminx)*450+70);
-     lineGC.setAttribute("y2", 600-((data[i][5]-findminy)/(findmaxy-findminy)*450+70));
-     canvas2.appendChild(lineGC);
+    var lineGC = document.createElementNS("http://www.w3.org/2000/svg","line");
+    lineGC.setAttribute("stroke", "black");
+    lineGC.setAttribute("x1", (data[i][10]-findminx)/(findmaxx-findminx)*450+70);
+    lineGC.setAttribute("y1", 600-((data[i][11]-findminy)/(findmaxy-findminy)*450+70));
+    lineGC.setAttribute("x2", (data[i][4]-findminx)/(findmaxx-findminx)*450+70);
+    lineGC.setAttribute("y2", 600-((data[i][5]-findminy)/(findmaxy-findminy)*450+70));
+    canvas2.appendChild(lineGC);
   };
 
   var xrange = findmaxx - findminx;
@@ -355,12 +365,12 @@ var draw2 = function(data){
 
 var xfunction = function() {
   var x = document.getElementById("x").value;
-  console.log("x :" +x);
+  //console.log("x :" +x);
   return x;
 };
 var yfunction = function() {
   var y = document.getElementById("y").value;
-  console.log("y :" +y);
+  //console.log("y :" +y);
   return y;
 };
 
