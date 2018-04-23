@@ -4,7 +4,6 @@ import base64
 import requests
 import json
 from flask import session
-# import account
 
 def send_player_request():
     # Request
@@ -19,10 +18,7 @@ def send_player_request():
                 "Authorization": "Basic " + base64.b64encode('{}:{}'.format('awong21','tacocat').encode('utf-8')).decode('ascii')
             }
         )
-        #print('Response HTTP Status Code: {status_code}'.format(
-        #    status_code=response.status_code))
-        #   ('Response HTTP Response Body: {content}'.format(
-        #    content=response.content))
+
         return response.json()
     except requests.exceptions.RequestException:
         print('HTTP Request failed')
@@ -41,10 +37,6 @@ def send_team_request():
             }
         )
 
-        #print('Response HTTP Status Code: {status_code}'.format(
-        #    status_code=response.status_code))
-        #print('Response HTTP Response Body: {content}'.format(
-        #    content=response.content))
         return response.json()
     except requests.exceptions.RequestException:
         print('HTTP Request failed')
@@ -57,28 +49,18 @@ def send_stat_request():
             url="https://api.mysportsfeeds.com/v1.2/pull/nba/2017-2018-regular/daily_player_stats.json?playerstats=PTS/G,AST/G,REB/G,BS/G,STL/G,F/G",
             params={
                 "fordate": "20180411",
-                
+
             },
             headers={
                 "Authorization": "Basic " + base64.b64encode('{}:{}'.format('awong21','tacocat').encode('utf-8')).decode('ascii')
             }
         )
 
-        #print('Response HTTP Status Code: {status_code}'.format(
-        #    status_code=response.status_code))
-        #print('Response HTTP Response Body: {content}'.format(
-        #    content=response.content))
         return response.json()
     except requests.exceptions.RequestException:
         print('HTTP Request failed')
 
-#print send_stat_request()
-#teamData = send_team_request()
-#print json.dumps(teamData)
-
-
-#c.execute('CREATE TABLE IF NOT EXISTS items (user TEXT, item TEXT, playing INTEGER);')
-
+# condense 5 positions to 3 categories
 def singlify(position):
     if 'G' in position:
         return 'G'
@@ -137,34 +119,12 @@ def positionData(stat, team, position):
     db.close()
     return ans
 
-''' def completeInfo(xstat, ystat, team):
-    f = "sports.db"
-    db = sqlite3.connect(f)
-    c = db.cursor()
-    ans = []
-    ans.append(team)                                #team name
-    ans.append(teamData(xstat, team)[0])            #team x stat avg
-    ans.append(teamData(ystat, team)[0])            #team y stat avg
-    ans.append(teamData(ystat, team)[1])            #team size
-    ans.append(positionData(xstat, team, "C")[0])   #center x stat avg
-    ans.append(positionData(ystat, team, "C")[0])   #center y stat avg
-    ans.append(positionData(ystat, team, "C")[1])   #center size
-    ans.append(positionData(xstat, team, "F")[0])   #forward x stat avg
-    ans.append(positionData(ystat, team, "F")[0])   #forward y stat avg
-    ans.append(positionData(ystat, team, "F")[1])   #forward size
-    ans.append(positionData(xstat, team, "G")[0])   #guard x stat avg
-    ans.append(positionData(ystat, team, "G")[0])   #guard y stat avg
-    ans.append(positionData(ystat, team, "G")[1])   #guard size
-    db.commit()
-    db.close()
-    return ans '''
-
 def getTeams():
     f = "sports.db"
     db = sqlite3.connect(f)
     c = db.cursor()
     ans = []
-    c.execute("SELECT team FROM nbaTeams") # CHANGE
+    c.execute("SELECT team FROM nbaTeams")
     data = c.fetchall()
     #print data
     for each in data:
@@ -194,8 +154,6 @@ def getArrayQuery(database, array):
     db.commit()
     db.close()
     return ans
-
-#getArrayQuery("nbaTeams", ["games", "win"])
 
 def getQuery(database, name, xStat, yStat):
     f = "sports.db"
@@ -233,43 +191,29 @@ def getAvg(team, stat):
     f = "sports.db"
     db = sqlite3.connect(f)
     c = db.cursor()
-    #print stat
     if ((stat == "BMI") or (stat == "Weight") or (stat == "Height")):
-        #print "doing if getAvg"
-        #print ("SELECT " + str(stat) + " FROM players WHERE team = '%s';" % (team))
         c.execute("SELECT " + str(stat) + " FROM players WHERE team = '%s';" % (team))
-        #print c.fetchall()
         sumScore = 0
         counter = 0
         for each in c.fetchall():
-            #print each
             sumScore = sumScore + float(each[0])
-            #print sumScore
             counter = counter + 1
-            #print counter
         data = 0
         if (counter != 0):
             data = sumScore / counter
         db.commit()
         db.close()
-        #print data
         return data
     else:
-        #print "doing else for getAvg"
         c.execute("SELECT " + str(stat) + " FROM playerStat WHERE team = '%s';" % (team))
-        #print "SELECT " + str(stat) + " FROM playerStat WHERE team = '%s';" % (team)
-        #print c.fetchall();
         sumScore = 0
         counter = 0
         for each in c.fetchall():
-            #print each
             sumScore = sumScore + float(each[0])
             counter = counter + 1
-            #print counter
         data = 0
         if (counter != 0):
             data = sumScore / counter
-        #print data
         db.commit()
         db.close()
         return data
@@ -281,16 +225,12 @@ def getPostionAvg(team, pos, stat):
     c = db.cursor()
     data = 0
     if ((stat == "BMI") or (stat == "Weight") or (stat == "Height")):
-        #print "doing if for getPosAvg"
         c.execute("SELECT " + str(stat) + " FROM players WHERE team = '%s' AND position = '%s';" % (team, pos))
-        #print c.fetchall()
         sumScore = 0
         counter = 0
         for each in c.fetchall():
-            #print each
             sumScore = sumScore + float(each[0])
             counter = counter + 1
-            #print counter
         data = 0
         if (counter != 0):
             data = sumScore / counter
@@ -298,16 +238,12 @@ def getPostionAvg(team, pos, stat):
         db.close()
         return data
     else:
-        #print "doing else for getPosAvg"
         c.execute("SELECT " + str(stat) + " FROM playerStat WHERE team = '%s' AND position = '%s';" % (team, pos))
-        #print c.fetchall()
         sumScore = 0
         counter = 0
         for each in c.fetchall():
-            #print each, counter
             sumScore = sumScore + float(each[0])
             counter = counter + 1
-            #print counter
         data = 0
         if (counter != 0):
             data = sumScore / counter
@@ -316,7 +252,6 @@ def getPostionAvg(team, pos, stat):
         return data
     return data
 
-#print getPostionAvg("Houston Rockets", "C", "weight")
 
 def getPlayerCount(team):
     f = "sports.db"
@@ -347,11 +282,9 @@ def createTables():
     c.execute('CREATE TABLE IF NOT EXISTS nbaTeams(team TEXT, games INTEGER, win INTEGER, lose INTEGER, points INTEGER, UNIQUE(team));')
     c.execute('SELECT count(*) from nbaTeams;')
     size = c.fetchall()[0][0]
-    #print size
+
     if size == 0:
-        #counter = 0
         teamData = send_team_request()
-        #while counter < 30:
         for each in teamData["overallteamstandings"]["teamstandingsentry"]:
             losses = each["stats"]["Losses"]["#text"]
             wins = each["stats"]["Wins"]["#text"]
@@ -359,25 +292,19 @@ def createTables():
             points = each["stats"]["Pts"]["#text"]
             city = each["team"]["City"]
             teamName = each["team"]["Name"]
-            # print "INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points))
             c.execute("INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points)))
-            #counter = counter + 1
 
     c.execute('CREATE TABLE IF NOT EXISTS playerStat(last_name TEXT, first_name TEXT, team TEXT, position TEXT, Assists FLOAT , Blocks FLOAT, Fouls FLOAT, Points FLOAT, Rebounds FLOAT, Steals FLOAT);')
     c.execute('SELECT count(*) from playerStat;')
     size = c.fetchall()[0][0]
     if size == 0:
-        #counter = 0
         statData = send_stat_request()
-        #while counter < 30:
         for each in statData["dailyplayerstats"]["playerstatsentry"]:
             if ("team" in each.keys()):
                 lastName = each["player"]["LastName"]
                 firstName = each["player"]["FirstName"]
                 position = singlify(each["player"]['Position'])
                 team = each["team"]["City"] + " " + each["team"]["Name"]
-                #print each["stats"]#["GamesPlayed"]["#text"]
-                #gamesPlayed = each["stats"]["GamesPlayed"]["#text"]
                 playerStats = ["AstPerGame", "PtsPerGame", "StlPerGame", "FoulsPerGame",  "BlkPerGame", "RebPerGame"]
                 if all(stat in playerStats for stat in each['stats'].keys()):
                     avgAssists = each["stats"]["AstPerGame"]["#text"]
@@ -386,15 +313,12 @@ def createTables():
                     avgFouls = each["stats"]["FoulsPerGame"]["#text"]
                     avgBlocks = each["stats"]["BlkPerGame"]["#text"]
                     avgRebounds = each["stats"]["RebPerGame"]["#text"]
-                    # print "INSERT OR REPLACE INTO nbaTeams VALUES (?,?,?,?,?)", (str(city) + " " + str(teamName), int(games), int(wins), int(losses), int(points))
                     c.execute("INSERT OR REPLACE INTO playerStat VALUES (?,?,?,?,?,?,?,?,?,?)", (str(lastName), str(firstName), str(team), str(position), float(avgAssists), float(avgBlocks), float(avgFouls), float(avgPoints), float(avgRebounds), float(avgSteals)))
-                    #counter = counter + 1
 
     # creating player table
     c.execute('CREATE TABLE IF NOT EXISTS players(last_name TEXT, first_name TEXT, team TEXT, Position TEXT, Height INTEGER, Weight INTEGER, BMI FLOAT);')
     c.execute('SELECT count(*) from players;')
     size = c.fetchall()[0][0]
-    #print size
     if size == 0:
         playerData = send_player_request()
         for entry in playerData["rosterplayers"]["playerentry"]:
@@ -406,6 +330,3 @@ def createTables():
             (player['LastName'], player['FirstName'], team['City'] + ' ' + team['Name'], singlify(player['Position']), height, int(player['Weight']), getBMI(height, int(player['Weight']))))
     db.commit()
     db.close()
-
-#LEAVE THIS COMMENTED OUT OR IT WILL TRY TO MAKE THE TABLE AGAIN 
-#createTables()

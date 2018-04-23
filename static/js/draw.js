@@ -9,39 +9,31 @@ var findmax = function(a,b,c){
     return Math.max(Math.max(...a),Math.max(...b),Math.max(...c));
 };
 
-//var currentx = "BMI";
-//var currenty = "Weight";
-
+var currentx, currenty;
 var lowx, highx, lowy, highy, sizelow, sizehigh, findminx, findmaxx, findminy, findmaxy, findminz, findmaxz;
-var bigCircle;
-var thing1;
-var thing2;
-var thing3;
-var line1;
-var line2;
-var bigCircleX;
-var bigCircleY;
-var bigCircleSize;
-var bigCircleName;
-var thing1x;
-var thing1y;
-var thing1size;
-var thing1name;
-var thing2x;
-var thing2y;
-var thing2size;
-var thing2name;
-var thing3x;
-var thing3y;
-var thing3size;
-var thing3name;
+var bigCircle, thing1, thing2, thing3;
+var line1, line2;
+var bigCircleX, bigCircleY, bigCircleSize, bigCircleName;
+var thing1x, thing1y, thing1size, thing1name;
+var thing2x, thing2y, thing2size, thing2name;
+var thing3x, thing3y, thing3size, thing3name;
+
+var axisUnit = function(stat) {
+  if (stat == "Height") {
+    return "Height (in)";
+  } else if (stat == "Weight") {
+    return "Weight (lb)";
+  } else {
+    return "BMI";
+  }
+};
+
+// get data and call draw functions
 var ajaxCall = function(xStatQuery, yStatQuery){
-    //currentx = xStatQuery;
-    //currenty = yStatQuery;
     var xaxes = document.getElementsByClassName("x");
     var xi;
     for (xi = 0; xi < xaxes.length; xi++) {
-	xaxes[xi].innerHTML = xStatQuery;
+      xaxes[xi].innerHTML = axisUnit(xStatQuery);
     };
     var yaxes = document.getElementsByClassName("y");
     var yi;
@@ -59,8 +51,8 @@ var ajaxCall = function(xStatQuery, yStatQuery){
         data: {xStat: xStatQuery, yStat: yStatQuery},
         success: function(response) {
             //response returns a 2d array
-            console.log("success. starting ajax call");
-            //console.log(response);
+            currentx = xStatQuery;
+            currenty = yStatQuery;
             var svgContainer1 = document.getElementById("canvas1");
             svgContainer1.innerHTML = "";
             var svgContainer2 = document.getElementById("canvas2");
@@ -80,7 +72,6 @@ var ajaxCall = function(xStatQuery, yStatQuery){
             lowy = Math.min.apply(null, ystat);
             highy = Math.max.apply(null, ystat);
             var yrange = highy - lowy;
-            //lowy = Math.floor(lowy - Math.ceil(yrange / 10));
             highy = Math.floor(highy + Math.ceil(yrange / 10));
             var sizes = response.map(function(elt) { return elt[3]; });
             sizelow = Math.min.apply(null, sizes);
@@ -123,7 +114,6 @@ var ajaxCall = function(xStatQuery, yStatQuery){
             findminx = findminx - Math.ceil(xrange2 / 10);
             findmaxx = findmaxx + Math.ceil(xrange2 / 10);
             var yrange2 = findmaxy - findminy;
-            //findminy = findminy - Math.ceil(yrange2 / 10);
             findmaxy = findmaxy + Math.ceil(yrange2 / 10);
             draw(response);
             draw2(response);
@@ -136,7 +126,7 @@ var ajaxCall = function(xStatQuery, yStatQuery){
         }
     });};
 
-//ajaxCall("BMI", "Weight");
+// draws team graph
 var totalList = [];
 var draw = function(data){
     lowx = Math.floor(lowx)
@@ -156,7 +146,7 @@ var draw = function(data){
 	highy= 0;
     }
     var svgContainer1 = document.getElementById("canvas1");
-    svgContainer1.innerHTML += `<text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x">`+ xfunction() + `</text>
+    svgContainer1.innerHTML += `<text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x">`+ axisUnit(xfunction()) + `</text>
   <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)" class="y">` + yfunction() + `</text>
   <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" />
   <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" />
@@ -168,14 +158,9 @@ var draw = function(data){
   totalList = [];
   bigList = [];
   littleList = [];
-  
-    //#console.log("xcunftion = " + xfunction());
-    //svgContainer1.getElementsByClassName("x").innerHTML = xfunction();
-    //console.log(svgContainer1.getElementsByClassName("x").innerHTML);
+
     var i ;
     for (i = 0; i < data.length; i++){
-	//for (i = Math.floor(lowx); i < data.length; i++){
-	//console.log(i)
 	var coord = document.createElementNS("http://www.w3.org/2000/svg","circle");
 	coord.setAttribute("fill", "purple");
 	coord.setAttribute("fill-opacity", 0.4);
@@ -187,6 +172,7 @@ var draw = function(data){
 	totalList.push(coord);
     };
 
+    // create axes and labels
     var xrange = highx - lowx;
     var xscale;
     if (xrange < 20) {
@@ -246,9 +232,9 @@ var draw = function(data){
 	label.innerHTML = val;
 	canvas1.appendChild(label);
 	};
-	console.log("totalList= " + totalList.length);
+
+  // mouse hover
     for (i = 0; i < totalList.length; i++){
-		//console.log(data);
 	bigCircle = totalList[i];
 	bigCircleX = Math.round(data[i][1]);
 	bigCircleY = Math.round(data[i][2]);
@@ -267,33 +253,33 @@ var draw = function(data){
 		    box.setAttribute("y", (d3.select(bigCircle).attr("cy") - 60));
 		    box.setAttribute("class", "infobox");
 		    box.setAttribute("height", "50");
-		    box.setAttribute("width", "100");
+		    box.setAttribute("width", "150");
 		    box.setAttribute("stroke", "black")
 		    box.setAttribute("fill", "white");
 		    text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text.setAttribute("x", (d3.select(bigCircle).attr("cx") + 80));
-		    text.setAttribute("y", (d3.select(bigCircle).attr("cy") - 50));
-		    text.setAttribute("font-size", "11px");
-		    text.setAttribute("fill", "black");
+		    text.setAttribute("x", (d3.select(bigCircle).attr("cx") + 85));
+		    text.setAttribute("y", (d3.select(bigCircle).attr("cy") - 48));
+		    text.setAttribute("font-size", "13px");
+		    text.setAttribute("fill", "purple");
 		    text.innerHTML = bigCircleName;
 		    text1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text1.setAttribute("x", (d3.select(bigCircle).attr("cx") + 80));
-		    text1.setAttribute("y", (d3.select(bigCircle).attr("cy") - 40));
-		    text1.setAttribute("font-size", "11px");
+		    text1.setAttribute("x", (d3.select(bigCircle).attr("cx") + 85));
+		    text1.setAttribute("y", (d3.select(bigCircle).attr("cy") - 36));
+		    text1.setAttribute("font-size", "13px");
 		    text1.setAttribute("fill", "black");
 		    text1.innerHTML = "Team Size: " + bigCircleSize;
 		    text2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text2.setAttribute("x", (d3.select(bigCircle).attr("cx") + 80));
-		    text2.setAttribute("y", (d3.select(bigCircle).attr("cy") - 30));
-		    text2.setAttribute("font-size", "11px");
+		    text2.setAttribute("x", (d3.select(bigCircle).attr("cx") + 85));
+		    text2.setAttribute("y", (d3.select(bigCircle).attr("cy") - 24));
+		    text2.setAttribute("font-size", "13px");
 		    text2.setAttribute("fill", "black");
-		    text2.innerHTML = "X-axis data: " + bigCircleX;
+		    text2.innerHTML = "Average " + axisUnit(currentx) + ": " + bigCircleX;
 		    text3 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text3.setAttribute("x", (d3.select(bigCircle).attr("cx") + 80));
-		    text3.setAttribute("y", (d3.select(bigCircle).attr("cy") - 20));
-		    text3.setAttribute("font-size", "11px");
+		    text3.setAttribute("x", (d3.select(bigCircle).attr("cx") + 85));
+		    text3.setAttribute("y", (d3.select(bigCircle).attr("cy") - 12));
+		    text3.setAttribute("font-size", "13px");
 		    text3.setAttribute("fill", "black");
-		    text3.innerHTML =  "Y-axis data: " + bigCircleY;
+		    text3.innerHTML =  "Average # of " + currenty + ": " + bigCircleY;
 		    bigCircle.setAttribute("fill-opacity", 1);
 		    canvas1.appendChild(box);
 		    canvas1.appendChild(text);
@@ -388,6 +374,7 @@ var addListeners = function(){
 var bigList = [];
 var littleList = [];
 
+// draws position graph
 var draw2 = function(data){
     lowx = Math.floor(lowx);
     lowy = Math.floor(lowy);
@@ -407,7 +394,7 @@ var draw2 = function(data){
     }
 
     var svgContainer2 = document.getElementById("canvas2");
-    svgContainer2.innerHTML += `<text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x">`+ xfunction() + `</text>
+    svgContainer2.innerHTML += `<text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x">`+ axisUnit(xfunction()) + `</text>
   <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)" class="y">` + yfunction() + `</text>
   <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" />
   <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" />
@@ -419,7 +406,7 @@ var draw2 = function(data){
   totalList = [];
   bigList = [];
   littleList = [];
-  
+
     for (i = 0; i < data.length; i++){
 	var littleList = [];
 	var ccoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
@@ -477,6 +464,7 @@ var draw2 = function(data){
 	canvas2.appendChild(lineGC);
     };
 
+    // draws axes and labels
     var xrange = findmaxx - findminx;
     var xscale;
     if (xrange < 20) {
@@ -537,7 +525,7 @@ var draw2 = function(data){
 	canvas2.appendChild(label);
     };
 
-
+  // mouse hover
     for (ia = 0; ia < bigList.length; ia++){
 	var name1 = ".fc" + ia;
 	var name2 = ".gc" + ia;
@@ -570,33 +558,33 @@ var draw2 = function(data){
 		    box.setAttribute("y", (d3.select(thing1).attr("cy") - 60));
 		    box.setAttribute("class", "infobox");
 		    box.setAttribute("height", "50");
-		    box.setAttribute("width", "120");
+		    box.setAttribute("width", "150");
 		    box.setAttribute("stroke", "black")
 		    box.setAttribute("fill", "white");
 		    text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text.setAttribute("x", (d3.select(thing1).attr("cx") + 80));
-		    text.setAttribute("y", (d3.select(thing1).attr("cy") - 50));
-		    text.setAttribute("font-size", "11px");
+		    text.setAttribute("x", (d3.select(thing1).attr("cx") + 85));
+		    text.setAttribute("y", (d3.select(thing1).attr("cy") - 48));
+		    text.setAttribute("font-size", "13px");
 		    text.setAttribute("fill", "red");
 		    text.innerHTML = thingname + " Forwards";
 		    text1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text1.setAttribute("x", (d3.select(thing1).attr("cx") + 80));
-		    text1.setAttribute("y", (d3.select(thing1).attr("cy") - 40));
-		    text1.setAttribute("font-size", "11px");
+		    text1.setAttribute("x", (d3.select(thing1).attr("cx") + 85));
+		    text1.setAttribute("y", (d3.select(thing1).attr("cy") - 36));
+		    text1.setAttribute("font-size", "13px");
 		    text1.setAttribute("fill", "black");
-		    text1.innerHTML = "Size: " + thing1size;
+		    text1.innerHTML = "# of Forwards: " + thing1size;
 		    text2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text2.setAttribute("x", (d3.select(thing1).attr("cx") + 80));
-		    text2.setAttribute("y", (d3.select(thing1).attr("cy") - 30));
-		    text2.setAttribute("font-size", "11px");
+		    text2.setAttribute("x", (d3.select(thing1).attr("cx") + 85));
+		    text2.setAttribute("y", (d3.select(thing1).attr("cy") - 24));
+		    text2.setAttribute("font-size", "13px");
 		    text2.setAttribute("fill", "black");
-		    text2.innerHTML = "X-axis data: " + thing1x;
+		    text2.innerHTML = "Average " + axisUnit(currentx) + ": " + thing1x;
 		    text3 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text3.setAttribute("x", (d3.select(thing1).attr("cx") + 80));
-		    text3.setAttribute("y", (d3.select(thing1).attr("cy") - 20));
-		    text3.setAttribute("font-size", "11px");
+		    text3.setAttribute("x", (d3.select(thing1).attr("cx") + 85));
+		    text3.setAttribute("y", (d3.select(thing1).attr("cy") - 12));
+		    text3.setAttribute("font-size", "13px");
 		    text3.setAttribute("fill", "black");
-		    text3.innerHTML =  "Y-axis data: " + thing1y;
+		    text3.innerHTML =  "Average # of " + currenty + ": " + thing1y;
 		    canvas2.appendChild(box);
 		    canvas2.appendChild(text);
 		    canvas2.appendChild(text1);
@@ -612,33 +600,33 @@ var draw2 = function(data){
 		    box.setAttribute("y", (d3.select(thing2).attr("cy") - 60));
 		    box.setAttribute("class", "infobox");
 		    box.setAttribute("height", "50");
-		    box.setAttribute("width", "120");
+		    box.setAttribute("width", "150");
 		    box.setAttribute("stroke", "black")
 		    box.setAttribute("fill", "white");
 		    text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text.setAttribute("x", (d3.select(thing2).attr("cx") + 80));
-		    text.setAttribute("y", (d3.select(thing2).attr("cy") - 50));
-		    text.setAttribute("font-size", "11px");
+		    text.setAttribute("x", (d3.select(thing2).attr("cx") + 85));
+		    text.setAttribute("y", (d3.select(thing2).attr("cy") - 48));
+		    text.setAttribute("font-size", "13px");
 		    text.setAttribute("fill", "blue");
 		    text.innerHTML = thingname + " Centers" ;
 		    text1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text1.setAttribute("x", (d3.select(thing2).attr("cx") + 80));
-		    text1.setAttribute("y", (d3.select(thing2).attr("cy") - 40));
-		    text1.setAttribute("font-size", "11px");
+		    text1.setAttribute("x", (d3.select(thing2).attr("cx") + 85));
+		    text1.setAttribute("y", (d3.select(thing2).attr("cy") - 36));
+		    text1.setAttribute("font-size", "13px");
 		    text1.setAttribute("fill", "black");
-		    text1.innerHTML = "Size: " + thing2size;
+		    text1.innerHTML = "# of Centers: " + thing2size;
 		    text2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text2.setAttribute("x", (d3.select(thing2).attr("cx") + 80));
-		    text2.setAttribute("y", (d3.select(thing2).attr("cy") - 30));
-		    text2.setAttribute("font-size", "11px");
+		    text2.setAttribute("x", (d3.select(thing2).attr("cx") + 85));
+		    text2.setAttribute("y", (d3.select(thing2).attr("cy") - 24));
+		    text2.setAttribute("font-size", "13px");
 		    text2.setAttribute("fill", "black");
-		    text2.innerHTML = "X-axis data: " + thing2x;
+		    text2.innerHTML = "Average " + axisUnit(currentx) + ": " + thing2x;
 		    text3 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text3.setAttribute("x", (d3.select(thing2).attr("cx") + 80));
-		    text3.setAttribute("y", (d3.select(thing2).attr("cy") - 20));
-		    text3.setAttribute("font-size", "11px");
+		    text3.setAttribute("x", (d3.select(thing2).attr("cx") + 85));
+		    text3.setAttribute("y", (d3.select(thing2).attr("cy") - 12));
+		    text3.setAttribute("font-size", "13px");
 		    text3.setAttribute("fill", "black");
-		    text3.innerHTML =  "Y-axis data: " + thing2y;
+		    text3.innerHTML =  "Average # of " + currenty + ": " + thing2y;
 		    canvas2.appendChild(box);
 		    canvas2.appendChild(text);
 		    canvas2.appendChild(text1);
@@ -654,33 +642,33 @@ var draw2 = function(data){
 		    box.setAttribute("y", (d3.select(thing3).attr("cy") - 60));
 		    box.setAttribute("class", "infobox");
 		    box.setAttribute("height", "50");
-		    box.setAttribute("width", "120");
+		    box.setAttribute("width", "150");
 		    box.setAttribute("stroke", "black")
 		    box.setAttribute("fill", "white");
 		    text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text.setAttribute("x", (d3.select(thing3).attr("cx") + 80));
-		    text.setAttribute("y", (d3.select(thing3).attr("cy") - 50));
-		    text.setAttribute("font-size", "11px");
+		    text.setAttribute("x", (d3.select(thing3).attr("cx") + 85));
+		    text.setAttribute("y", (d3.select(thing3).attr("cy") - 48));
+		    text.setAttribute("font-size", "13px");
 		    text.setAttribute("fill", "green");
 		    text.innerHTML = thingname + " Guards";
 		    text1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text1.setAttribute("x", (d3.select(thing3).attr("cx") + 80));
-		    text1.setAttribute("y", (d3.select(thing3).attr("cy") - 40));
-		    text1.setAttribute("font-size", "11px");
+		    text1.setAttribute("x", (d3.select(thing3).attr("cx") + 85));
+		    text1.setAttribute("y", (d3.select(thing3).attr("cy") - 36));
+		    text1.setAttribute("font-size", "13px");
 		    text1.setAttribute("fill", "black");
-		    text1.innerHTML = "Size: " + thing3size;
+		    text1.innerHTML = "# of Guards: " + thing3size;
 		    text2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text2.setAttribute("x", (d3.select(thing3).attr("cx") + 80));
-		    text2.setAttribute("y", (d3.select(thing3).attr("cy") - 30));
-		    text2.setAttribute("font-size", "11px");
+		    text2.setAttribute("x", (d3.select(thing3).attr("cx") + 85));
+		    text2.setAttribute("y", (d3.select(thing3).attr("cy") - 24));
+		    text2.setAttribute("font-size", "13px");
 		    text2.setAttribute("fill", "black");
-		    text2.innerHTML = "X-axis data: " + thing3x;
+		    text2.innerHTML = "Average " + axisUnit(currentx) + ": " + thing3x;
 		    text3 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-		    text3.setAttribute("x", (d3.select(thing3).attr("cx") + 80));
-		    text3.setAttribute("y", (d3.select(thing3).attr("cy") - 20));
-		    text3.setAttribute("font-size", "11px");
+		    text3.setAttribute("x", (d3.select(thing3).attr("cx") + 85));
+		    text3.setAttribute("y", (d3.select(thing3).attr("cy") - 12));
+		    text3.setAttribute("font-size", "13px");
 		    text3.setAttribute("fill", "black");
-		    text3.innerHTML =  "Y-axis data: " + thing3y;
+		    text3.innerHTML =  "Average # of " + currenty + ": " + thing3y;
 		    thing1.setAttribute("fill-opacity", 1);
 		    thing2.setAttribute("fill-opacity", 1);
 		    thing3.setAttribute("fill-opacity", 1);
@@ -725,6 +713,8 @@ var draw2 = function(data){
 	}
     }
 };
+
+// update axes
 
 var xfunction = function() {
     var x = document.getElementById("x").value;
