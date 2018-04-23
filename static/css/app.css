@@ -1,0 +1,92 @@
+/* Background */
+body{
+    background-image: url("../images/mountain.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+/* Padding */
+.badgePad{
+    padding: 10px;
+    margin: 4px 4px 4px 4px;
+    font-size: 20px;
+}
+
+/* TOOLTIP */
+.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 60px;					
+    height: 28px;					
+    padding: 2px;				
+    font-family: OpenSans-Light;
+    font-size: 12px;		
+    background: rgba(176, 196, 222, 0.4);	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+}
+
+/* DIVS */
+
+#key{
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0px 0px 3px;
+    border-radius: 2px;
+    margin: auto auto;
+    font-family: OpenSans-Light;
+    border:5px solid lightgreen;
+    text-align:center;
+    transition: .75s ease;
+    padding: 10px;
+    display: inline-block;
+}
+
+#key:hover{
+    border: 5px solid green;
+    background-color: white;
+}
+
+#svg1{
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0px 0px 3px;
+    border-radius: 2px;
+    margin: auto auto;
+    font-family: OpenSans-Light;
+    border:5px solid rgb(250,128,114);
+    text-align:center;
+    transition: .75s ease;
+    padding: 10px;
+    display: inline-block;
+}
+
+#svg1:hover{
+    border: 5px solid rgb(218, 21, 60);
+    background-color: white;
+}
+
+#svg2{
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0px 0px 3px;
+    border-radius: 2px;
+    margin: auto auto;
+    font-family: OpenSans-Light;
+    border:5px solid rgb(255,222,173);
+    text-align:center;
+    transition: .75s ease;
+    padding: 10px;
+    display: inline-block;
+}
+
+#svg2:hover{
+    border: 5px solid  	rgb(222,184,135);
+    background-color: white;
+}
+
+.centered{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto auto;
+}

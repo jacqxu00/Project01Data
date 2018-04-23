@@ -75,3 +75,6 @@ leiG -- 2018-04-22 17:28:51
 
 leiG -- 2018-04-22 19:40:18
 	graphs now fully functional without hover
+
+leiG -- 2018-04-22 22:39:29
+	css-ified
