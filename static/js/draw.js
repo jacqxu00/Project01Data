@@ -60,7 +60,7 @@ var ajaxCall = function(xStatQuery, yStatQuery){
         success: function(response) {
             //response returns a 2d array
             console.log("success. starting ajax call");
-            console.log(response);
+            //console.log(response);
             var svgContainer1 = document.getElementById("canvas1");
             svgContainer1.innerHTML = "";
             var svgContainer2 = document.getElementById("canvas2");
@@ -165,6 +165,10 @@ var draw = function(data){
   <line x1="77" y1="525" x2="80" y2="535" style="stroke:black;stroke-width:1" />
   <line x1="80" y1="535" x2="83" y2="525" style="stroke:black;stroke-width:1" />
   <line x1="83" y1="525" x2="85.5" y2="530" style="stroke:black;stroke-width:1" />`
+  totalList = [];
+  bigList = [];
+  littleList = [];
+  
     //#console.log("xcunftion = " + xfunction());
     //svgContainer1.getElementsByClassName("x").innerHTML = xfunction();
     //console.log(svgContainer1.getElementsByClassName("x").innerHTML);
@@ -241,8 +245,10 @@ var draw = function(data){
 	label.setAttribute("fill", "black");
 	label.innerHTML = val;
 	canvas1.appendChild(label);
-    };
+	};
+	console.log("totalList= " + totalList.length);
     for (i = 0; i < totalList.length; i++){
+		//console.log(data);
 	bigCircle = totalList[i];
 	bigCircleX = Math.round(data[i][1]);
 	bigCircleY = Math.round(data[i][2]);
@@ -338,7 +344,7 @@ var addListeners = function(){
 	thing3 = bigList[ia][2];
 	line1 = d3.selectAll(name1);
 	line2 = d3.selectAll(name2);
-	console.log(line1);
+	//console.log(line1);
 	if (typeof window.addEventListener === 'function'){
 	    (function (line1,line2,thing1,thing2,thing3){
 		thing1.addEventListener("mouseover", function(){
@@ -410,6 +416,10 @@ var draw2 = function(data){
   <line x1="77" y1="525" x2="80" y2="535" style="stroke:black;stroke-width:1" />
   <line x1="80" y1="535" x2="83" y2="525" style="stroke:black;stroke-width:1" />
   <line x1="83" y1="525" x2="85.5" y2="530" style="stroke:black;stroke-width:1" />`
+  totalList = [];
+  bigList = [];
+  littleList = [];
+  
     for (i = 0; i < data.length; i++){
 	var littleList = [];
 	var ccoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
@@ -546,7 +556,7 @@ var draw2 = function(data){
 	thing3y = Math.round(data[ia][11]);
 	thing3size = data[ia][11]/2;
 	thingname = data[ia][0]
-	console.log(line1);
+	//console.log(line1);
 	var box;
 	var text;
 	var text1;
