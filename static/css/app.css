@@ -36,7 +36,7 @@ body{
     border-radius: 2px;
     margin: auto auto;
     font-family: OpenSans-Light;
-    border:5px solid lightgreen;
+    border:5px solid #00CED1;
     text-align:center;
     transition: .75s ease;
     padding: 10px;
@@ -44,7 +44,7 @@ body{
 }
 
 #key:hover{
-    border: 5px solid green;
+    border: 5px solid #008080;
     background-color: white;
 }
 
@@ -72,7 +72,7 @@ body{
     border-radius: 2px;
     margin: auto auto;
     font-family: OpenSans-Light;
-    border:5px solid rgb(255,222,173);
+    border:5px solid rgb(250,128,114);
     text-align:center;
     transition: .75s ease;
     padding: 10px;
@@ -80,7 +80,7 @@ body{
 }
 
 #svg2:hover{
-    border: 5px solid  	rgb(222,184,135);
+    border: 5px solid  	rgb(218, 21, 60);
     background-color: white;
 }
 
