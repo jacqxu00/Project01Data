@@ -19,6 +19,10 @@ var thing2;
 var thing3;
 var line1;
 var line2;
+var bigCircleX;
+var bigCircleY;
+var bigCircleSize;
+var bigCircleName;
 var ajaxCall = function(xStatQuery, yStatQuery){
     //currentx = xStatQuery;
     //currenty = yStatQuery;
@@ -228,17 +232,67 @@ var draw = function(data){
     };
     for (i = 0; i < totalList.length; i++){
 	bigCircle = totalList[i];
+	bigCircleX = Math.round(data[i][1]);
+	bigCircleY = Math.round(data[i][2]);
+	bigCircleSize = data[i][3];
+	bigCircleName = data[i][0];
+	var box;
+	var text;
+	var text1;
+	var text2;
+	var text3;
 	if (typeof window.addEventListener === 'function'){
-	    (function (bigCircle){
+	    (function (bigCircle,bigCircleX, bigCircleY,bigCircleSize,bigCircleName){
 		bigCircle.addEventListener("mouseover", function(){
-		    console.log("work");
+		    box = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+		    box.setAttribute("x", (d3.select(bigCircle).attr("cx") + 79));
+		    box.setAttribute("y", (d3.select(bigCircle).attr("cy") - 60));
+		    box.setAttribute("class", "infobox");
+		    box.setAttribute("height", "50");
+		    box.setAttribute("width", "100");
+		    box.setAttribute("stroke", "black")
+		    box.setAttribute("fill", "white");
+		    text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		    text.setAttribute("x", (d3.select(bigCircle).attr("cx") + 80));
+		    text.setAttribute("y", (d3.select(bigCircle).attr("cy") - 50));
+		    text.setAttribute("font-size", "11px");
+		    text.setAttribute("fill", "black");
+		    text.innerHTML = bigCircleName;
+		    text1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		    text1.setAttribute("x", (d3.select(bigCircle).attr("cx") + 80));
+		    text1.setAttribute("y", (d3.select(bigCircle).attr("cy") - 40));
+		    text1.setAttribute("font-size", "11px");
+		    text1.setAttribute("fill", "black");
+		    text1.innerHTML = "Team Size: " + bigCircleSize;
+		    text2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		    text2.setAttribute("x", (d3.select(bigCircle).attr("cx") + 80));
+		    text2.setAttribute("y", (d3.select(bigCircle).attr("cy") - 30));
+		    text2.setAttribute("font-size", "11px");
+		    text2.setAttribute("fill", "black");
+		    text2.innerHTML = "X-axis data: " + bigCircleX;
+		    text3 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		    text3.setAttribute("x", (d3.select(bigCircle).attr("cx") + 80));
+		    text3.setAttribute("y", (d3.select(bigCircle).attr("cy") - 20));
+		    text3.setAttribute("font-size", "11px");
+		    text3.setAttribute("fill", "black");
+		    text3.innerHTML =  "Y-axis data: " + bigCircleY;
 		    bigCircle.setAttribute("fill-opacity", 1);
+		    canvas1.appendChild(box);
+		    canvas1.appendChild(text);
+		    canvas1.appendChild(text1);
+		    canvas1.appendChild(text2);
+		    canvas1.appendChild(text3);
 		});
 		bigCircle.addEventListener("mouseout", function(){
+		    canvas1.removeChild(box);
+		    canvas1.removeChild(text);
+		    canvas1.removeChild(text1);
+		    canvas1.removeChild(text2);
+		    canvas1.removeChild(text3);
 		    console.log("work");
 		    bigCircle.setAttribute("fill-opacity", 0.4);
 		});
-	    })(bigCircle);
+	    })(bigCircle,bigCircleX,bigCircleY,bigCircleSize,bigCircleName);
 	}
     }
 
@@ -470,15 +524,15 @@ var draw2 = function(data){
 	thing3 = bigList[ia][2];
 	line1 = d3.selectAll(name1);
 	line2 = d3.selectAll(name2);
-  var thing1x = data[ai][7];
-  var thing1y = data[ai][8];
-  var thing1size = data[ai][9]/2;
-  var thing2x = data[ai][4];
-  var thing2y = data[ai][5];
-  var thing2size = data[ai][6]/2;
-  var thing3x = data[ai][10];
-  var thing3y = data[ai][11];
-  var thing3size = data[ai][11]/2;
+	var thing1x = data[ia][7];
+	var thing1y = data[ia][8];
+	var thing1size = data[ia][9]/2;
+	var thing2x = data[ia][4];
+	var thing2y = data[ia][5];
+	var thing2size = data[ia][6]/2;
+	var thing3x = data[ia][10];
+	var thing3y = data[ia][11];
+	var thing3size = data[ia][11]/2;
 	console.log(line1);
 	if (typeof window.addEventListener === 'function'){
 	    (function (line1,line2,thing1,thing2,thing3){
