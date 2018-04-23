@@ -117,7 +117,7 @@ var ajaxCall = function(xStatQuery, yStatQuery){
     });};
 
 //ajaxCall("BMI", "Weight");
-
+var totalList = [];
 var draw = function(data){
     lowx = Math.floor(lowx)
     lowy = Math.floor(lowy);
@@ -154,11 +154,13 @@ var draw = function(data){
 	//console.log(i)
 	var coord = document.createElementNS("http://www.w3.org/2000/svg","circle");
 	coord.setAttribute("fill", "purple");
+	coord.setAttribute("fill-opacity", 0.4);
 	coord.setAttribute("class", "allPositions");
 	coord.setAttribute("cx", (data[i][1]-lowx)/(highx-lowx)*450+70);
 	coord.setAttribute("cy", (600-((data[i][2]-lowy)/(highy-lowy)*450+70)));
 	coord.setAttribute("r", data[i][3]);
 	canvas1.appendChild(coord);
+	totalList.push(coord);
     };
 
     var xrange = highx - lowx;
@@ -222,6 +224,7 @@ var draw = function(data){
     };
 
 };
+var bigCircle;
 var thing1;
 var thing2;
 var thing3;
@@ -229,6 +232,21 @@ var line1;
 var line2;
 var datacolor = ["black"]
 var addListeners = function(){
+    for (i = 0; i < totalList.length; i++){
+	bigCircle = totalList[i];
+	if (typeof window.addEventListener === 'function'){
+	    (function (bigCircle){
+		bigCircle.addEventListener("mouseover", function(){
+		    console.log("work");
+		    bigCircle.setAttribute("fill-opacity", 1);
+		});
+		bigCircle.addEventListener("mouseout", function(){
+		    console.log("work");
+		    bigCircle.setAttribute("fill-opacity", 0.4);
+		});
+	    })(bigCircle);
+	}
+    }
     for (ia = 0; ia < bigList.length; ia++){
 	var name1 = ".fc" + ia;
 	var name2 = ".gc" + ia;
