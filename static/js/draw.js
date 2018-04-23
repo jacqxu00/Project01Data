@@ -248,6 +248,9 @@ var datacolor = ["black"]
 var addListeners = function(){
     for (i = 0; i < totalList.length; i++){
 	bigCircle = totalList[i];
+  var bigCircleX = data[i][1];
+  var bigCircleY = data[i][2];
+  var bigCircleSize = data[i][3];
 	if (typeof window.addEventListener === 'function'){
 	    (function (bigCircle){
 		bigCircle.addEventListener("mouseover", function(){
@@ -457,6 +460,8 @@ var draw2 = function(data){
 	label.innerHTML = val;
 	canvas2.appendChild(label);
     };
+
+
     for (ia = 0; ia < bigList.length; ia++){
 	var name1 = ".fc" + ia;
 	var name2 = ".gc" + ia;
@@ -465,11 +470,19 @@ var draw2 = function(data){
 	thing3 = bigList[ia][2];
 	line1 = d3.selectAll(name1);
 	line2 = d3.selectAll(name2);
+  var thing1x = data[ai][7];
+  var thing1y = data[ai][8];
+  var thing1size = data[ai][9]/2;
+  var thing2x = data[ai][4];
+  var thing2y = data[ai][5];
+  var thing2size = data[ai][6]/2;
+  var thing3x = data[ai][10];
+  var thing3y = data[ai][11];
+  var thing3size = data[ai][11]/2;
 	console.log(line1);
 	if (typeof window.addEventListener === 'function'){
 	    (function (line1,line2,thing1,thing2,thing3){
 		thing1.addEventListener("mouseover", function(){
-		    console.log("work");
 		    thing1.setAttribute("fill-opacity", 1);
 		    thing2.setAttribute("fill-opacity", 1);
 		    thing3.setAttribute("fill-opacity", 1);
