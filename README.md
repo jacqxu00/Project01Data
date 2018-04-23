@@ -11,7 +11,7 @@ We will be using data from these data sets:
 
 * [My Sports Feed](https://www.mysportsfeeds.com/)
 
-* API that can return JSON of team data (their standings, active players, roster, etc.)
+    * API that can return JSON of team data (their standings, active players, roster, etc.)
 
 ## But Why? - Relevance/significance
 
@@ -23,13 +23,12 @@ We will be using data from these data sets:
 
 * Basically this an adjusted scatter plot.
 
-* There will be 2 graphs at a time, one for data based on the whole team and another that depicts player's personal data based on their positions.
+* There will be 2 graphs at a time, one for data based on the whole team and another that depicts the data pertaining to specific positions on the team. 
 
-* The position graph will basically split the team data into the individual player statistics.
+    * Positions of the teams will be connected by a line to represent one whole team whereas individual circles represent the specific position of the team
 
-* Data points will be separated by whatever characteristics you choose for the axises. However, data point that represent people with the same positions will have the same colors.
+    * Data points will be separated by whatever characteristics you choose for the axises. However, data point that represent people with the same positions will have the same colors.
 
-  
 
 ![alt text](https://raw.githubusercontent.com/jacqxu00/Project01Data/master/markup.png)
 
@@ -59,10 +58,7 @@ We will be using data from these data sets:
 
 ## Explanation of D3 feature utilization.
 
-* D3 will be used to visually "animate the graph".
+* D3 will be used to visually display the information. It makes it easier to display data within svgs' plot system. 
 
-* d3 chords can be used to connect the circles (basically can help us create the overall structure of the graphs and their data points)
+* d3 lines can be used to connect the circles (basically can help us create the overall structure of the graphs and their data points)
 
-* d3 can help change opacity and brightness of colors in case we want to make intensities of colors represent something.
-
-* d3 has a "zoom behavior" that can help facilitate looking at large amounts of data points.
