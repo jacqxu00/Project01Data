@@ -42,8 +42,8 @@ var ajaxCall = function(dbQuery, nameQuery, xStatQuery, yStatQuery){
         data: {db: dbQuery, name : nameQuery, xStat: xStatQuery, yStatQuery},
         success: function(response) {
             //response returns a 2d array
-            console.log("success");
-            console.log(response);
+            //console.log("success");
+            //console.log(response);
             /*
             PUT YOUR DRAW HELPER FUNCTION HERE?
             */
@@ -152,15 +152,32 @@ var drawLines = function(element1, element2, element3){
 var listener = function(thing1,thing2,thing3){
     drawLines(thing1,thing2,thing3);
 }
+
+var thing1;
+var thing2;
+var thing3;
 var addListeners = function(){
     for (ia = 0; ia < bigList.length; ia++){
-	var tempList = bigList[ia];
-	var thing1 = tempList[0];
-	var thing2 = tempList[1];
-	var thing3 = tempList[2];
-	console.log(tempList);
+	thing1 = bigList[ia][0];
+	thing2 = bigList[ia][1];
+	thing3 = bigList[ia][2];
+	console.log(thing1);
+	if (typeof window.addEventListener === 'function'){
+	    (function (thing1,thing2,thing3){
+		thing1.addEventListener("mouseover", function(){
+		    drawLines(thing1,thing2,thing3);
+		});
+		thing2.addEventListener("mouseover", function(){
+		    drawLines(thing1,thing2,thing3);
+		});
+		thing3.addEventListener("mouseover", function(){
+		    drawLines(thing1,thing2,thing3);
+		});
+	    })(thing1,thing2,thing3);
+	}
+	//drawLines(tempList[ia][0],bigList[ia][1],bigList[ia][2]);
 	//bigList[ia][0].addEventListener("mouseover", drawLines(bigList[ia][0],bigList[ia][1], bigList[ia][2]), false);
-	thing2.addEventListener("mouseover", function(){drawLines(tempList[0],tempList[1],tempList[2])}, false);
+	
 
 	bigList[ia][2].addEventListener("mouseover", function(){listener(bigList[ia][0],bigList[ia][1],bigList[ia][2])}, false);
 
