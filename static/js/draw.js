@@ -548,13 +548,13 @@ var draw2 = function(data){
 	line2 = d3.selectAll(name2);
 	thing1x = Math.round(data[ia][7]);
 	thing1y = Math.round(data[ia][8]);
-	thing1size = data[ia][9]/2;
+	thing1size = data[ia][9];
 	thing2x = Math.round(data[ia][4]);
 	thing2y = Math.round(data[ia][5]);
-	thing2size = data[ia][6]/2;
+	thing2size = data[ia][6];
 	thing3x = Math.round(data[ia][10]);
 	thing3y = Math.round(data[ia][11]);
-	thing3size = data[ia][11]/2;
+	thing3size = data[ia][11];
 	thingname = data[ia][0]
 	//console.log(line1);
 	var box;
@@ -638,7 +638,7 @@ var draw2 = function(data){
 		    text3.setAttribute("y", (d3.select(thing2).attr("cy") - 20));
 		    text3.setAttribute("font-size", "11px");
 		    text3.setAttribute("fill", "black");
-		    text3.innerHTML =  "Y-axis data: " + thing2x;
+		    text3.innerHTML =  "Y-axis data: " + thing2y;
 		    canvas2.appendChild(box);
 		    canvas2.appendChild(text);
 		    canvas2.appendChild(text1);
