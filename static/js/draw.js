@@ -13,7 +13,12 @@ var findmax = function(a,b,c){
 //var currenty = "Weight";
 
 var lowx, highx, lowy, highy, sizelow, sizehigh, findminx, findmaxx, findminy, findmaxy, findminz, findmaxz;
-
+var bigCircle;
+var thing1;
+var thing2;
+var thing3;
+var line1;
+var line2;
 var ajaxCall = function(xStatQuery, yStatQuery){
     //currentx = xStatQuery;
     //currenty = yStatQuery;
@@ -106,7 +111,6 @@ var ajaxCall = function(xStatQuery, yStatQuery){
             findmaxy = findmaxy + Math.ceil(yrange2 / 10);
             draw(response);
             draw2(response);
-	    addListeners();
             console.log("successful ajax call completed")
         },
         error: function(response, error) {
@@ -222,14 +226,24 @@ var draw = function(data){
 	label.innerHTML = val;
 	canvas1.appendChild(label);
     };
+    for (i = 0; i < totalList.length; i++){
+	bigCircle = totalList[i];
+	if (typeof window.addEventListener === 'function'){
+	    (function (bigCircle){
+		bigCircle.addEventListener("mouseover", function(){
+		    console.log("work");
+		    bigCircle.setAttribute("fill-opacity", 1);
+		});
+		bigCircle.addEventListener("mouseout", function(){
+		    console.log("work");
+		    bigCircle.setAttribute("fill-opacity", 0.4);
+		});
+	    })(bigCircle);
+	}
+    }
 
 };
-var bigCircle;
-var thing1;
-var thing2;
-var thing3;
-var line1;
-var line2;
+
 var datacolor = ["black"]
 var addListeners = function(){
     for (i = 0; i < totalList.length; i++){
@@ -443,6 +457,52 @@ var draw2 = function(data){
 	label.innerHTML = val;
 	canvas2.appendChild(label);
     };
+    for (ia = 0; ia < bigList.length; ia++){
+	var name1 = ".fc" + ia;
+	var name2 = ".gc" + ia;
+	thing1 = bigList[ia][0];
+	thing2 = bigList[ia][1];
+	thing3 = bigList[ia][2];
+	line1 = d3.selectAll(name1);
+	line2 = d3.selectAll(name2);
+	console.log(line1);
+	if (typeof window.addEventListener === 'function'){
+	    (function (line1,line2,thing1,thing2,thing3){
+		thing1.addEventListener("mouseover", function(){
+		    console.log("work");
+		    thing1.setAttribute("fill-opacity", 1);
+		    thing2.setAttribute("fill-opacity", 1);
+		    thing3.setAttribute("fill-opacity", 1);
+		});
+		thing2.addEventListener("mouseover", function(){
+		    thing1.setAttribute("fill-opacity", 1);
+		    thing2.setAttribute("fill-opacity", 1);
+		    thing3.setAttribute("fill-opacity", 1);
+		});
+		thing3.addEventListener("mouseover", function(){
+		    thing1.setAttribute("fill-opacity", 1);
+		    thing2.setAttribute("fill-opacity", 1);
+		    thing3.setAttribute("fill-opacity", 1);
+		});
+		thing1.addEventListener("mouseout", function(){
+		    console.log("work");
+		    thing1.setAttribute("fill-opacity", 0.4);
+		    thing2.setAttribute("fill-opacity", 0.4);
+		    thing3.setAttribute("fill-opacity", 0.4);
+		});
+		thing2.addEventListener("mouseout", function(){
+		    thing1.setAttribute("fill-opacity", 0.4);
+		    thing2.setAttribute("fill-opacity", 0.4);
+		    thing3.setAttribute("fill-opacity", 0.4);
+		});
+		thing3.addEventListener("mouseout", function(){
+		    thing1.setAttribute("fill-opacity", 0.4);
+		    thing2.setAttribute("fill-opacity", 0.4);
+		    thing3.setAttribute("fill-opacity", 0.4);
+		});
+	    })(line1,line2,thing1,thing2,thing3);
+	}
+    }
 };
 
 var xfunction = function() {
