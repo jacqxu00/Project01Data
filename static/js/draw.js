@@ -56,7 +56,7 @@ var ajaxCall = function(xStatQuery, yStatQuery){
             lowx = Math.floor(lowx - Math.ceil(xrange / 10));
             highx = Math.floor(highx + Math.ceil(xrange / 10));
             var ystat = response.map(function(elt) { return elt[2]; });
-            lowy = Math.min.apply(null, ystat);
+            //lowy = Math.min.apply(null, ystat);
             highy = Math.max.apply(null, ystat);
             var yrange = highy - lowy;
             lowy = Math.floor(lowy - Math.ceil(yrange / 10));
@@ -102,7 +102,7 @@ var ajaxCall = function(xStatQuery, yStatQuery){
             findminx = findminx - Math.ceil(xrange2 / 10);
             findmaxx = findmaxx + Math.ceil(xrange2 / 10);
             var yrange2 = findmaxy - findminy;
-            findminy = findminy - Math.ceil(yrange2 / 10);
+            //findminy = findminy - Math.ceil(yrange2 / 10);
             findmaxy = findmaxy + Math.ceil(yrange2 / 10);
             draw(response);
             draw2(response);
@@ -140,11 +140,6 @@ var draw = function(data){
   <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)" class="y">` + yfunction() + `</text>
   <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" />
   <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" />
-  <line x1="70" y1="527.5" x2="65" y2="526" style="stroke:black;stroke-width:1" /> 
-  <line x1="65" y1="526" x2="75" y2="523" style="stroke:black;stroke-width:1" />
-  <line x1="75" y1="523" x2="65" y2="520" style="stroke:black;stroke-width:1" />
-  <line x1="65" y1="520" x2="75" y2="516" style="stroke:black;stroke-width:1" />
-  <line x1="75" y1="516" x2="70" y2="514.5" style="stroke:black;stroke-width:1" />
   <line x1="72.5" y1="530" x2="74" y2="535" style="stroke:black;stroke-width:1" />
   <line x1="74" y1="535" x2="77" y2="525" style="stroke:black;stroke-width:1" />
   <line x1="77" y1="525" x2="80" y2="535" style="stroke:black;stroke-width:1" />
@@ -208,7 +203,7 @@ var draw = function(data){
 
     var yval = Math.ceil((yrange)/yscale);
     var i;
-    for (i = 1; i <= yval; i++) {
+    for (i = 0; i <= yval; i++) {
 	var val = Math.floor(lowy / yscale) * yscale + i * yscale;
 	var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
 	tick.setAttribute("stroke", "black");
@@ -225,7 +220,7 @@ var draw = function(data){
 	label.innerHTML = val;
 	canvas1.appendChild(label);
     };
-    
+
 };
 var thing1;
 var thing2;
@@ -285,17 +280,12 @@ var draw2 = function(data){
     if (highy < 0){
 	highy= 0;
     }
-    
+
     var svgContainer2 = document.getElementById("canvas2");
     svgContainer2.innerHTML += `<text x="300" y="580" font-family="sans-serif" font-size="20px" fill="black" class="x">`+ xfunction() + `</text>
   <text font-family="sans-serif" font-size="20px" fill="black" transform="translate(30,320)rotate(270)" class="y">` + yfunction() + `</text>
   <line x1="70" y1="530" x2="570" y2="530" style="stroke:black;stroke-width:2" />
   <line x1="70" y1="530" x2="70" y2="30" style="stroke:black;stroke-width:2" />
-  <line x1="70" y1="527.5" x2="65" y2="526" style="stroke:black;stroke-width:1" /> 
-  <line x1="65" y1="526" x2="75" y2="523" style="stroke:black;stroke-width:1" />
-  <line x1="75" y1="523" x2="65" y2="520" style="stroke:black;stroke-width:1" />
-  <line x1="65" y1="520" x2="75" y2="516" style="stroke:black;stroke-width:1" />
-  <line x1="75" y1="516" x2="70" y2="514.5" style="stroke:black;stroke-width:1" />
   <line x1="72.5" y1="530" x2="74" y2="535" style="stroke:black;stroke-width:1" />
   <line x1="74" y1="535" x2="77" y2="525" style="stroke:black;stroke-width:1" />
   <line x1="77" y1="525" x2="80" y2="535" style="stroke:black;stroke-width:1" />
@@ -319,7 +309,7 @@ var draw2 = function(data){
 	fcoord.setAttribute("r", data[i][9]);
 	canvas2.appendChild(fcoord);
 
-	
+
 	var gcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
 	gcoord.setAttribute("fill", "green");
 	gcoord.setAttribute("class", "guard");
@@ -397,7 +387,7 @@ var draw2 = function(data){
 
     var yval = Math.ceil((yrange)/yscale);
     var i;
-    for (i = 1; i <= yval; i++) {
+    for (i = 0; i <= yval; i++) {
 	var val = Math.floor(findminy / yscale) * yscale + i * yscale;
 	var tick = document.createElementNS("http://www.w3.org/2000/svg","line");
 	tick.setAttribute("stroke", "black");
@@ -437,4 +427,3 @@ ySelect.addEventListener("change", function(){ajaxCall(xfunction(), yfunction())
 console.log("x :" +xfunction());
 console.log("y :" +yfunction());
 ajaxCall(xfunction(), yfunction());
-
