@@ -239,22 +239,40 @@ var addListeners = function(){
 	line2 = d3.selectAll(name2);
 	console.log(line1);
 	if (typeof window.addEventListener === 'function'){
-	    (function (line1,line2){
+	    (function (line1,line2,thing1,thing2,thing3){
 		thing1.addEventListener("mouseover", function(){
 		    console.log("work");
-		    line1.data(datacolor);
-		    line1.attr("fill", function(d){return d});
-		    line2.data(datacolor);
-		    line2.attr("fill", "black");
+		    thing1.setAttribute("fill-opacity", 1);
+		    thing2.setAttribute("fill-opacity", 1);
+		    thing3.setAttribute("fill-opacity", 1);
 		});
 		thing2.addEventListener("mouseover", function(){
-		    line1.setAttribute("fill", "black");
-		    line2.setAttribute("fill", "black");
+		    thing1.setAttribute("fill-opacity", 1);
+		    thing2.setAttribute("fill-opacity", 1);
+		    thing3.setAttribute("fill-opacity", 1);
 		});
 		thing3.addEventListener("mouseover", function(){
-		    line1.setAttribute("fill", "black");
-		    line2.setAttribute("fill", "black");		});
-	    })(line1,line2);
+		    thing1.setAttribute("fill-opacity", 1);
+		    thing2.setAttribute("fill-opacity", 1);
+		    thing3.setAttribute("fill-opacity", 1);
+		});
+		thing1.addEventListener("mouseout", function(){
+		    console.log("work");
+		    thing1.setAttribute("fill-opacity", 0.4);
+		    thing2.setAttribute("fill-opacity", 0.4);
+		    thing3.setAttribute("fill-opacity", 0.4);
+		});
+		thing2.addEventListener("mouseout", function(){
+		    thing1.setAttribute("fill-opacity", 0.4);
+		    thing2.setAttribute("fill-opacity", 0.4);
+		    thing3.setAttribute("fill-opacity", 0.4);
+		});
+		thing3.addEventListener("mouseout", function(){
+		    thing1.setAttribute("fill-opacity", 0.4);
+		    thing2.setAttribute("fill-opacity", 0.4);
+		    thing3.setAttribute("fill-opacity", 0.4);
+		});
+	    })(line1,line2,thing1,thing2,thing3);
 	}
     }
 }
@@ -295,6 +313,7 @@ var draw2 = function(data){
 	var littleList = [];
 	var ccoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
 	ccoord.setAttribute("fill", "blue");
+	ccoord.setAttribute("fill-opacity", 0.4);
 	ccoord.setAttribute("class","center");
 	ccoord.setAttribute("cx", (data[i][4]-findminx)/(findmaxx-findminx)*450+70);
 	ccoord.setAttribute("cy", (600-((data[i][5]-findminy)/(findmaxy-findminy)*450+70)));
@@ -303,6 +322,7 @@ var draw2 = function(data){
 
 	var fcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
 	fcoord.setAttribute("fill", "red");
+	fcoord.setAttribute("fill-opacity", 0.4);
 	fcoord.setAttribute("class", "forward");
 	fcoord.setAttribute("cx", (data[i][7]-findminx)/(findmaxx-findminx)*450+70);
 	fcoord.setAttribute("cy", (600-((data[i][8]-findminy)/(findmaxy-findminy)*450+70)));
@@ -312,6 +332,7 @@ var draw2 = function(data){
 
 	var gcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
 	gcoord.setAttribute("fill", "green");
+	gcoord.setAttribute("fill-opacity", 0.4);
 	gcoord.setAttribute("class", "guard");
 	gcoord.setAttribute("cx", (data[i][10]-findminx)/(findmaxx-findminx)*450+70);
 	gcoord.setAttribute("cy", (600-((data[i][11]-findminy)/(findmaxy-findminy)*450+70)));
