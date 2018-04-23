@@ -60,5 +60,7 @@ We will be using data from these data sets:
 
 * D3 will be used to visually display the information. It makes it easier to display data within svgs' plot system. 
 
-* d3 lines can be used to connect the circles (basically can help us create the overall structure of the graphs and their data points)
+* D3 lines can be used to connect the circles (basically can help us create the overall structure of the graphs and their data points)
+
+* D3 allows gives us a neat tooltip feature that we can use to display data when we hover over svg circles
 
