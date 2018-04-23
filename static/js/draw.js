@@ -352,7 +352,7 @@ var draw2 = function(data){
 	ccoord.setAttribute("class","center");
 	ccoord.setAttribute("cx", (data[i][4]-findminx)/(findmaxx-findminx)*450+70);
 	ccoord.setAttribute("cy", (600-((data[i][5]-findminy)/(findmaxy-findminy)*450+70)));
-	ccoord.setAttribute("r", data[i][6]);
+	ccoord.setAttribute("r", data[i][6] * 2);
 	canvas2.appendChild(ccoord);
 
 	var fcoord = document.createElementNS("http://www.w3.org/2000/svg","circle");
@@ -361,7 +361,7 @@ var draw2 = function(data){
 	fcoord.setAttribute("class", "forward");
 	fcoord.setAttribute("cx", (data[i][7]-findminx)/(findmaxx-findminx)*450+70);
 	fcoord.setAttribute("cy", (600-((data[i][8]-findminy)/(findmaxy-findminy)*450+70)));
-	fcoord.setAttribute("r", data[i][9]);
+	fcoord.setAttribute("r", data[i][9] * 2);
 	canvas2.appendChild(fcoord);
 
 
@@ -371,7 +371,7 @@ var draw2 = function(data){
 	gcoord.setAttribute("class", "guard");
 	gcoord.setAttribute("cx", (data[i][10]-findminx)/(findmaxx-findminx)*450+70);
 	gcoord.setAttribute("cy", (600-((data[i][11]-findminy)/(findmaxy-findminy)*450+70)));
-	gcoord.setAttribute("r", data[i][12]);
+	gcoord.setAttribute("r", data[i][12] * 2);
 	canvas2.appendChild(gcoord);
 
 	littleList.push(fcoord);
